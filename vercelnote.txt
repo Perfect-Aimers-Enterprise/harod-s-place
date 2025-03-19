@@ -1,0 +1,7 @@
+1. vercel login
+2. vercel
+or
+2. cd server
+    vercel
+3. cd client
+    vercel

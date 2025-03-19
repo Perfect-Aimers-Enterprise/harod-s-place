@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    scroll-behavior: smooth;
+  }
+
+  li a .activeNav {
+    color: orange;
+    text-decoration: underline;
+  }
+
+  input, option, textarea, select {
+    background: white;
+    color: black;
+  }
+  

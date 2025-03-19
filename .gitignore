@@ -1,0 +1,16 @@
+node_modules/
+package-lock.json
+.DS_Store
+*.log
+*.cache
+*.env
+
+
+.env
+.githubDirection.txt
+.OldTrialStorage.js
+.package-lock.json
+.testnote.txt
+.vercel.note
+.courseHide.txt
+.note.txt
