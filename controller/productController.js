@@ -4,9 +4,15 @@ const cloudinary = require('cloudinary').v2;
 const createMenuProduct = async (req, res) => {
 
     try {
+
         const { menuProductName, menuDescription, menuPrice, variationSize, variationPrice } = req.body
         // menuImageUrl = req.file.filename
+        if(!req.file){
+            throw new Error ('No Image was uploaded')
+        }
         menuImageUrl = req.file.path
+
+
 
          // Create a new menu product
          const menuProduct = await productModel.create({
@@ -19,8 +25,6 @@ const createMenuProduct = async (req, res) => {
                 price: variationPrice[index]
             }))
         });
-
-        console.log(menuProduct);
         
 
         if (!menuProduct) {

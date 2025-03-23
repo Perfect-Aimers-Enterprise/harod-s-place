@@ -4,6 +4,8 @@ const config = {
     : `${window.location.protocol}//${window.location.hostname}`
 };
 
+    const alertSuccess = document.getElementById('alert_menu_upload_success')
+    const alertFailure = document.getElementById('alert_menu_upload_failure')
 
 document.addEventListener('DOMContentLoaded', () => {
     getMenuProductFunc()
@@ -22,12 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // All Api URL Testing
 // 
-const getMenuProductFuncUrl = `${config.apiUrl}/doveeysKitchen/product/getMenuProducts`
-const menuProductFormUrl = `${config.apiUrl}/doveeysKitchen/product/createMenuProduct`
+const getMenuProductFuncUrl = `${config.apiUrl}/harolds/product/getMenuProducts`
+const menuProductFormUrl = `${config.apiUrl}/harolds/product/createMenuProduct`
 
 // All Api URL Development
-// const menuProductFormUrl = '/doveeysKitchen/product/createMenuProduct'
-// const getMenuProductFuncUrl = '/doveeysKitchen/product/getMenuProducts'
+// const menuProductFormUrl = '/harolds/product/createMenuProduct'
+// const getMenuProductFuncUrl = '/harolds/product/getMenuProducts'
 
 const menuProductForm = document.getElementById('menuProductForm')
 const menuProductList = document.getElementById('menuProductList')
@@ -37,33 +39,36 @@ menuProductForm.addEventListener('submit', async (e) => {
     let menuProductTarget = e.target
 
     const formData = new FormData(menuProductTarget)
+    const menuUploadBtn = document.getElementById('menuUploadBtn')
+
 
     formData.forEach((value, key) => {
-        console.log(key, value);
     });
-    console.log(formData);
     
     try {
-        const createMenuProduct = await fetch(`${config.apiUrl}/doveeysKitchen/product/createMenuProduct`, {
+
+        putButtonInLoadingState(menuUploadBtn)
+
+        const createMenuProduct = await fetch(`${config.apiUrl}/harolds/product/createMenuProduct`, {
             method: 'POST',
             body: formData
-        })
+        })        
 
-        console.log(createMenuProduct);
-        
         if (createMenuProduct.ok) {
-          alert('Product created successfully!');
+          showAlertOrder(alertSuccess, "Product Uploaded Successfully")
+          
           getMenuProductFunc(); // Refresh product list
         } else {
-          alert('Failed to create product.');
+          throw new Error('Unable to upload product')
         }
 
-        const data = await createMenuProduct.json()
-        console.log(data);
-        
+        const data = await createMenuProduct.json()        
     } catch (error) {
-        console.log(error);
-        
+        showAlertOrder(alertFailure, 'Unable to Upload Product');        
+    }
+    finally{
+      removeBtnFromLoadingState(menuUploadBtn)
+
     }
 })
 
@@ -73,19 +78,11 @@ const getMenuProductFunc = async (e) => {
   try {
     const getMenuProductsResponse = await fetch(getMenuProductFuncUrl);
 
-    console.log(getMenuProductsResponse);
-
     const data = await getMenuProductsResponse.json();
-    console.log(data);
-
     menuProductList.innerHTML = '';
 
     data.forEach((eachData) => {
-      console.log('Data eachdata',eachData);
-
       const menuProductId = eachData._id;
-      console.log(menuProductId);
-
       let productContent = '';
 
       // Check if product has price or variations
@@ -157,7 +154,7 @@ const getMenuProductFunc = async (e) => {
     attachEditEventListeners();
     
   } catch (error) {
-    console.log(error);
+    showAlertOrder(alertFailure, 'Unable to Fetch Product List');
   }
 };
 
@@ -197,23 +194,14 @@ const attachEditEventListeners = () => {
 
 const fetchSingleProductFunc = async (menuProductId) => {
 
-  // console.log('fetch', eachData);
-  console.log('id', menuProductId);
-
   try {
-    const fetchSingleProductResponse = await fetch(`${config.apiUrl}/doveeysKitchen/product/getSingleMenuProduct/${menuProductId}`)
-
-  // console.log(fetchSingleProductResponse);
+    const fetchSingleProductResponse = await fetch(`${config.apiUrl}/harolds/product/getSingleMenuProduct/${menuProductId}`)
 
     const data = await fetchSingleProductResponse.json()
     console.log(data);
 
     const menuPopUpSection = document.getElementById('menuPopUpSection')
     menuPopUpSection.classList.remove('hidden')
-
-    // menuPopUpSection.addEventListener('click', () => {
-    //   menuPopUpSection.classList.add('hidden')
-    // })
 
     const menuPopUpDiv = document.getElementById('menuPopUpDiv')
     menuPopUpDiv.innerHTML = ""
@@ -230,6 +218,7 @@ const fetchSingleProductFunc = async (menuProductId) => {
                 <div class="eachEditMenuProductDiv">
                   <label for="menuName" class="block text-sm font-medium ">${data.menuProductName}</label>
                   <input
+                    required
                     type="text"
                     id="menuName"
                     value="${data.menuProductName}"
@@ -253,6 +242,7 @@ const fetchSingleProductFunc = async (menuProductId) => {
                 <div>
                   <label for="menuProductPrice" class="block text-sm font-medium ">₦${data.menuPrice}</label>
                   <input
+                    required
                     type="number"
                     id="menuProductPrice"
                     name="menuProductPrice"
@@ -264,7 +254,7 @@ const fetchSingleProductFunc = async (menuProductId) => {
             
                 <button
                   type="submit"
-                  class="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 w-full"
+                  class="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 w-full submit"
                 >
                   Upload Product
                 </button>
@@ -283,25 +273,35 @@ const fetchSingleProductFunc = async (menuProductId) => {
     const editMenuProductForm = document.getElementById('editMenuProductForm')
     editMenuProductForm.addEventListener('submit', async (e) => {
       e.preventDefault()
-      
+      const editBtn = document.querySelector('form#editMenuProductForm button.submit');
       const menuName = document.getElementById('menuName').value;
       const menuProductDescription = document.getElementById('menuProductDescription').value;
-      const menuProductPrice = document.getElementById('menuProductPrice').value;
-    
-      console.log('Menu Product Name:', menuName);
-      console.log('Menu Description:', menuProductDescription);
-      console.log('Menu Price:', menuProductPrice);
-    
+      const menuProductPrice = document.getElementById('menuProductPrice').value;  
+      editBtn
+      
+
       const formData = {
         menuProductName: menuName,
         menuDescription: menuProductDescription,
         menuPrice: menuProductPrice,
       };
     
-      console.log('FormData:', formData);
       
-      await updateMenuProductFunc(menuProductId, formData)
-      menuPopUpSection.classList.add('hidden')
+      try{
+
+        putButtonInLoadingState(editBtn)
+
+        await updateMenuProductFunc(menuProductId, formData);
+        menuPopUpSection.classList.add('hidden');
+        showAlertOrder(alertSuccess, "Product Edited Successfully");
+
+    }
+      catch(err){
+          showAlertOrder(alertFailure, 'Unable to Edit Product')
+      }
+      finally{
+        removeBtnFromLoadingState(editBtn)
+      }
     })
 
   } catch (error) {
@@ -312,9 +312,7 @@ const fetchSingleProductFunc = async (menuProductId) => {
   const updateMenuProductFunc = async (menuProductId, formData) => {
 
     console.log(formData);
-    
-    try {
-      const updateMenuProductResponse = await fetch(`${config.apiUrl}/doveeysKitchen/product/updateMenuProduct/${menuProductId}`, {
+          const updateMenuProductResponse = await fetch(`${config.apiUrl}/harolds/product/updateMenuProduct/${menuProductId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
@@ -325,37 +323,39 @@ const fetchSingleProductFunc = async (menuProductId) => {
       console.log(updateMenuProductResponse);
       
 
-      if (updateMenuProductResponse.ok) {
-        alert('Product updated successfully!');
-        getMenuProductFunc(); // Refresh product list
-      } else {
-        alert('Failed to update product.');
-      }
+      if (!updateMenuProductResponse.ok)
+          throw new Error('Unable to Update Product')
 
-      // alert('successful')
-    } catch (error) {
-      
-    }
+
+        alert('Product updated successfully!');
+        
+        getMenuProductFunc(); // Refresh product list
+
   }
 
 
   const deleteSingleProductFunc = async (menuProductId) => {
     try {
-      const deleteSingleProductResponse = await fetch(`${config.apiUrl}/doveeysKitchen/product/deleteMenuProduct/${menuProductId}`, {
+      const delBtn = document.querySelector('.menuProductEach button.deleteButton')
+
+      putButtonInLoadingState(delBtn);
+      const deleteSingleProductResponse = await fetch(`${config.apiUrl}/harolds/product/deleteMenuProduct/${menuProductId}`, {
         method: 'DELETE',
       })
 
-      // console.log(deleteSingleProductResponse);
-
       if (deleteSingleProductResponse.ok) {
-        alert('Product Deleted successfully!');
+        showAlertOrder(alertSuccess, "Product Deleted Successfully")
         getMenuProductFunc(); // Refresh product list
       } else {
-        alert('Failed to delete product.');
+        throw new Error("Unable to Delete Product");
       }
       
     } catch (error) {
-      
+      showAlertOrder(alertFailure, 'Unable to Delete Product')
+    }
+    finally{
+      removeBtnFromLoadingState(delBtn);
+
     }
   }
 
@@ -386,7 +386,7 @@ const fetchAllOrders = async () => {
   adminOrdersList.innerHTML = '';
 
   try {
-    const response = await fetch(`${config.apiUrl}/doveeysKitchen/adminGetOrder/adminGetAllProceedOrder`);
+    const response = await fetch(`${config.apiUrl}/harolds/adminGetOrder/adminGetAllProceedOrder`);
 
     const data = await response.json();
     console.log('admin Data', data.orderProceed);
@@ -483,7 +483,7 @@ const fetchAllOrders = async () => {
 
 const cancleUserOrders = async (menuOrderId) => {
   try {
-    const response = await fetch(`${config.apiUrl}/doveeysKitchen/order/adminCancleOrder/${menuOrderId}`, {
+    const response = await fetch(`${config.apiUrl}/harolds/order/adminCancleOrder/${menuOrderId}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -502,7 +502,7 @@ const cancleUserOrders = async (menuOrderId) => {
 
 const confirmUserOrders = async (menuOrderId) => {
   try {
-    const response = await fetch(`${config.apiUrl}/doveeysKitchen/order/adminConfirmOrder/${menuOrderId}`, {
+    const response = await fetch(`${config.apiUrl}/harolds/order/adminConfirmOrder/${menuOrderId}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -525,7 +525,7 @@ const confirmUserOrders = async (menuOrderId) => {
 
 const fetTotalOrderIncome = async () => {
   try {
-    const response = await fetch(`${config.apiUrl}/doveeysKitchen/adminGetOrder/adminGetAllConfirmedOrdersPrice`)
+    const response = await fetch(`${config.apiUrl}/harolds/adminGetOrder/adminGetAllConfirmedOrdersPrice`)
 
     console.log('Total Price',response);
     
@@ -544,7 +544,7 @@ const fetTotalOrderIncome = async () => {
 
 const countPendingOrdersFunc = async () => {
   try {
-    const response = await fetch(`${config.apiUrl}/doveeysKitchen/adminGetOrder/adminGetAllProceedOrder`);
+    const response = await fetch(`${config.apiUrl}/harolds/adminGetOrder/adminGetAllProceedOrder`);
 
     const data = await response.json()
     console.log(data);
@@ -559,7 +559,7 @@ const countPendingOrdersFunc = async () => {
 
 const countRegisteredUsers = async () => {
   try {
-    const response = await fetch(`${config.apiUrl}/doveeysKitchen/api/getRegisteredUser`)
+    const response = await fetch(`${config.apiUrl}/harolds/api/getRegisteredUser`)
 
     console.log(response);
     
@@ -576,7 +576,7 @@ const countRegisteredUsers = async () => {
 
 const getWeeklyGrowthFunc = async () => {
   try {
-    const response = await fetch(`${config.apiUrl}/doveeysKitchen/adminGetOrder/getWeeklyGrowth`)
+    const response = await fetch(`${config.apiUrl}/harolds/adminGetOrder/getWeeklyGrowth`)
 
     const data = await response.json()
     console.log('adminChart',data);
@@ -608,7 +608,7 @@ weeklyGrowthElem.className = `text-2xl font-bold ${
 const getAllUserMessageFunc = async () => {
   try {
   
-    const response = await fetch(`${config.apiUrl}/doveeysKitchen/message/getAllUserMessage`);
+    const response = await fetch(`${config.apiUrl}/harolds/message/getAllUserMessage`);
 
     const data = await response.json();
 
@@ -662,7 +662,7 @@ const getAllUserMessageFunc = async () => {
 
 const getSingleUserMessageFunc = async (messageId) => {
   try {
-    const response = await fetch(`${config.apiUrl}/doveeysKitchen/message/getSingleUserMessage/${messageId}`)
+    const response = await fetch(`${config.apiUrl}/harolds/message/getSingleUserMessage/${messageId}`)
 
     const data = await response.json()
 
@@ -735,12 +735,14 @@ addVariationBtn.addEventListener("click", () => {
 
   newVariation.innerHTML = `
     <input
+      required
       type="text"
       name="variationSize[]"
       class="mt-1 p-2 block w-1/2 border border-gray-300 rounded"
       placeholder="Enter variation size (e.g., 1L)"
     />
     <input
+      required
       type="number"
       name="variationPrice[]"
       class="mt-1 p-2 block w-1/2 border border-gray-300 rounded"
@@ -754,38 +756,41 @@ addVariationBtn.addEventListener("click", () => {
 
 
 // Generic function to handle form submissions
-async function handleFormSubmit(event, endpoint) {
+async function handleFormSubmit(event, endpoint, formBtn) {
   event.preventDefault();
   const form = event.target;
   const formData = new FormData(form);
+  console.log(formBtn);
+  const initialBtnText = formBtn.innerHTML;
 
   try {
+    putButtonInLoadingState(formBtn);
     const response = await fetch(`${config.apiUrl}${endpoint}`, {
       method: "PATCH",
       body: formData,
     });
-    const result = await response.json();
+    await response.json();
 
-    if (response.ok) {
-      alert(result.message);
-      form.reset();
-    } else {
-      alert(result.message || "An error occurred.");
-    }
+    if (!response.ok) throw new Error("Unable to Upload")
+      
+    form.reset();
+    showAlertOrder(alertSuccess, "Failed to upload. Please try again.");
   } catch (error) {
-    console.error("Error:", error);
-    alert("Failed to upload. Please try again.");
+    showAlertOrder(alertFailure, "Unable to upload. Please try again.");
+  }
+  finally{
+    removeBtnFromLoadingState(formBtn, initialBtnText)
   }
 }
 
 
 
 // Attach event listeners to forms
-document.getElementById("heroImageForm").addEventListener("submit", (e) => handleFormSubmit(e, "/doveeysLanding/updateHeroImageSchema"));
+document.getElementById("heroImageForm").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/updateHeroImageSchema", document.querySelector('form#heroImageForm button')));
 
-document.getElementById("flyer1Form").addEventListener("submit", (e) => handleFormSubmit(e, "/doveeysLanding/uploadFlyer1Schema"));
+document.getElementById("flyer1Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer1Schema", document.querySelector('form#flyer1Form button')));
 
-document.getElementById("flyer2Form").addEventListener("submit", (e) => handleFormSubmit(e, "/doveeysLanding/uploadFlyer2Schema"));
+document.getElementById("flyer2Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer2Schema", document.querySelector('form#flyer2Form button')));
 
 
 async function handleCreateFormSubmit(event, endpoint) {
@@ -815,9 +820,12 @@ async function handleCreateFormSubmit(event, endpoint) {
 
 const galleryForm = document.getElementById('galleryForm')
 const createGalleryFunc = async () => {
+  const createBtn = document.querySelector('#galleryForm button.upload')
   const formData = new FormData(galleryForm);
   try {
-    
+
+    putButtonInLoadingState(createBtn);
+
     const response = await fetch(`${config.apiUrl}/galleryDisplay/createGallery`, {
       method: 'POST',
       body: formData
@@ -825,15 +833,17 @@ const createGalleryFunc = async () => {
 
     const result = await response.json();
         if (response.ok) {
-          alert("File uploaded successfully!");
+          showAlertOrder(alertSuccess, "File uploaded successfully!");
           // fetchGallery(); 
           fetchGallery()
         } else {
-          alert(result.error || "Failed to upload file.");
+          throw new Error("Unable to Upload File.");
         }
   } catch (error) {
-    console.error(err);
-    alert("An error occurred while uploading the file.");
+    showAlertOrder(alertFailure, 'Unable to Upload File')
+  }
+  finally{
+    removeBtnFromLoadingState(createBtn, 'Upload Gallery')
   }
 }
 
@@ -955,7 +965,7 @@ async function fetchGallery() {
       
     });
   } catch (err) {
-    console.error("Failed to fetch gallery items:", err); // Log the error
+    showAlert(alertFailure, "Unable to Fatch Gallery"); // Alert the error
   }
 }
 
@@ -983,25 +993,32 @@ async function deleteGalleryFunc(galleryDeleteId) {
 
   dailyMenuForm.addEventListener('submit', async (e) => {
     e.preventDefault()
-    let menuProductTarget = e.target
+    let menuProductTarget = e.target;
+    const dailyMenuSubmitBtn = dailyMenuForm.querySelector('button.upload')
 
     const formData = new FormData(menuProductTarget)
     try {
+
+        putButtonInLoadingState(dailyMenuSubmitBtn)
         const response = await fetch(`${config.apiUrl}/dailyMenuDisplay/createDailyMenu`, {
             method: "POST",
             body: formData, // FormData should contain the image and price
         });
 
-        if (response.ok) {
-          return alert('Daily Menu added successfully')
-        } else{
-          return alert('Failed to create Daily Menu')
+        if (!response.ok) {
+          throw new Error("Unable to Add to Daily Menu")
         }
         // const data = await response.json();
         // console.log("Menu Created:", data);
+        showAlertOrder(alertSuccess, 'Daily Menu Added Successfully');
         
-    } catch (error) {
+      } catch (error) {
         console.error("Error creating daily menu:", error);
+        showAlertOrder(alertFailure, 'Daily Menu Added Successfully');
+
+    }
+    finally{
+      removeBtnFromLoadingState(dailyMenuSubmitBtn)
     }
   })
 
@@ -1049,7 +1066,7 @@ async function getAllDailyMenus() {
 
           deleteDailydisplayDivv.forEach((eachDataDelete) => {
             eachDataDelete.addEventListener('click', (e) => {
-              const deleteEachData = e.target.closest('#dailydisplayDivv').dataset.id
+              const deleteEachData = e.target.closest('#dailydisplayDivv').dataset.id;
               deleteDailyMenu(deleteEachData)
             })
           })
@@ -1104,6 +1121,7 @@ async function getSingleDailyMenu(editEachData) {
           <div>
             <label class="block text-sm font-medium "> Existing Product Price (₦)</label>
             <input
+              required
               type="number"
               name="price"
               value="${data.price}"
@@ -1115,6 +1133,7 @@ async function getSingleDailyMenu(editEachData) {
           <div>
             <label class="block text-sm font-medium text-gray-700">Daily Menu Image</label>
             <input
+              required
               type="file"
               name="menuImage"
               class="mt-1 p-2 block w-full border border-gray-300 rounded"
@@ -1269,4 +1288,34 @@ const formatTimeAgo = (timestamp) => {
   }
   return 'just now'
 
+}
+
+
+function showAlertOrder(alert, alertText){
+  alert.classList.remove('show1');
+  alert.firstChild.innerHTML = alertText;
+  const btnClose = alert.querySelector('.btn-close');
+  btnClose.addEventListener('click', ()=>{
+    alert.classList.add('show');
+
+  })
+  alert.classList.add('bring_down')
+  setTimeout(() => {
+    alert.classList.remove('bring_down');
+    // triggerBtn.disabled = false;
+    // alert.classList.add('show')
+    
+  }, 2500);
+
+}
+
+const putButtonInLoadingState = (btn)=>{
+          btn.innerHTML = `<span class="spinner-grow spinner-grow-sm">
+          </span> Loading`
+        btn.disabled = true
+}
+
+const removeBtnFromLoadingState = (btn, btn_text)=>{
+  btn.innerHTML = btn_text;
+  btn.disabled = false;
 }

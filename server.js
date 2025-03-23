@@ -48,7 +48,7 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/htmlFolder/perpetualTaste.html');
 });
 
-app.get('/perpetualtaste', (req, res) => {
+app.get('/haroldsplaceadmin', (req, res) => {
   res.sendFile(__dirname + '/public/htmlFolder/adminDashboard.html');
 });
 
@@ -57,17 +57,17 @@ app.get('/reset-password', (req, res) => {
 });
 
 // MiddleWares 
-app.use('/doveeysKitchen/api', userRoute)
-app.use('/doveeysKitchen/product', productRoute)
-app.use('/doveeysKitchen/order', authentication, orderRoute)
-app.use('/doveeysKitchen/adminGetOrder', adminGetOrderRoute)
-app.use('/doveeysKitchen/message', userMessageRoute)
-app.use('/doveeysLanding', landingSectionRoute)
+app.use('/harolds/api', userRoute)
+app.use('/harolds/product', productRoute)
+app.use('/harolds/order', authentication, orderRoute)
+app.use('/harolds/adminGetOrder', adminGetOrderRoute)
+app.use('/harolds/message', userMessageRoute)
+app.use('/haroldsLanding', landingSectionRoute)
 app.use('/galleryDisplay', galleryRoute)
 app.use('/dailyMenuDisplay', dailyMenuRoute)
-app.use('/perpetualtaste', adminBookingRoute)
-app.use('/perpetualtasteuser', bookingLoungeRoute)
-app.use('/perpetualtaste', bakeryRoute)
+app.use('/harolds', adminBookingRoute)
+app.use('/haroldsuser', bookingLoungeRoute)
+app.use('/harolds', bakeryRoute)
 
 // Console logging instead
 app.use((req, res, next) => {
@@ -89,7 +89,7 @@ const start = async () => {
         useUnifiedTopology: true
     })
       app.listen(port, () => {
-          console.log(`Perpetual Taste server is listening on port ${port}`);
+          console.log(`Harolds server is listening on port ${port}`);
           
       })
   } catch (error) {

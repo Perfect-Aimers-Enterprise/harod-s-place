@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../src/output.css">
     <link rel="shortcut icon" href="../image/perpetualTasteImg/logo.png" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -187,6 +188,7 @@
           <div>
             <label for="menuDescription" class="block text-sm font-medium text-gray-700">Description</label>
             <textarea
+            required
               id="menuDescription"
               name="menuDescription"
               class="mt-1 p-2 block w-full border border-gray-300 rounded"
@@ -240,6 +242,7 @@
           <div>
             <label for="menuImage" class="block text-sm font-medium text-gray-700">Product Image</label>
             <input
+            required
               type="file"
               id="menuImage"
               name="menuImage"
@@ -251,9 +254,10 @@
           id="menuUploadBtn"
             type="submit"
             class="mt-4 bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 w-full"
-          >
-            Upload Product
+          >   
+              Upload Product 
           </button>
+
         </form>
       
         <!-- Product List -->
@@ -341,57 +345,52 @@
         <h2 class="text-xl font-bold mb-4">Manage Lounge Bookings</h2>
       
         <!-- Upload Product Form -->
-        <form id="loungeProductForm" class="space-y-4 border-b pb-6 mb-6">
+        <form  id="loungeProductForm" class="space-y-4 border-b pb-6 mb-6">
           <div>
-            <label for="loungeType" class="block text-sm font-medium text-gray-700">Lounge Type and Price</label>
+            <label for="loungeType" class="block text-sm font-medium text-gray-700">Lounge Types and Prices</label>
             
-            <div>
+            <div id="loungeContainer">
               <!-- shared values  -->
+              <!-- -----------------------------------------------------  -->
 
               <div>
                   <div class="flex items-center justify-between gap-2">
-                    <div class="w-full mt-1 border border-gray-300 rounded"><input type="text" class="p-2 block w-full border border-gray-300 rounded" placeholder="Enter Lounge Type 1" name="loungeType1" id="loungeType1"></div>
+                    <div class="w-full mt-1 border border-gray-300 rounded"><input required type="text" class="p-2 block w-full border border-gray-300 rounded" placeholder="Enter Lounge Type 1" name="loungeTypes[]" id="loungeType1"></div>
 
-                    <div class="w-full mt-1 border border-gray-300 rounded"><input type="number" class="p-2 block w-full border border-gray-300 rounded" placeholder="Enter Lounge Price 1" name="loungeTypePrice1", id="loungeTypePrice1"></div>
+                    <div class="w-full mt-1 border border-gray-300 rounded"><input required type="number" class="p-2 block w-full border border-gray-300 rounded" placeholder="Enter Lounge Price 1" name="loungeTypesPrices[]", id="loungeTypePrice1"></div>
                 </div>
               </div>
+
+              <!-- -----------------------------------------------------  -->
+
               
-              <div>
-                <div class="flex items-center justify-between gap-2">
-                  <div class="w-full mt-1 border border-gray-300 rounded"><input type="text" class="p-2 block w-full border border-gray-300 rounded" placeholder="Enter Lounge Type 2" name="loungeType2" id="loungeType2"></div>
-
-                  <div class="w-full mt-1 border border-gray-300 rounded"><input type="number" class="p-2 block w-full border border-gray-300 rounded" placeholder="Enter Lounge Price 2" name="loungeTypePrice2" id="loungeTypePrice2"></div>
-              </div>
+              
             </div>
+            <div class=" text-end pt-4 btn-md">
+              <button id="loungeAdderBtn" type="button" class=" btn btn-outline-primary text-uppercase fw-medium"> Add More Lounges</button>
 
-
-             <div>
-                  <div class="flex items-center justify-between gap-2">
-                    <div class="w-full mt-1 border border-gray-300 rounded"><input type="text" class="p-2 block w-full border border-gray-300 rounded" placeholder="Enter Lounge Type 3" name="loungeType3" id="loungeType3"></div>
-
-                    <div class="w-full mt-1 border border-gray-300 rounded"><input type="number" class="p-2 block w-full border border-gray-300 rounded" placeholder="Enter Lounge Price 3" name="loungeTypePrice3" id="loungeTypePrice3"></div>
-                </div>
-              </div>
             </div>
           </div>
       
           <div>
-            <label for="perpetualFeatures" class="block text-sm font-medium text-gray-700">Perpetual Special Features</label>
+            <label for="perpetualFeatures" class="block text-sm font-medium text-gray-700">Harold's Special Features</label>
             <textarea
-              id="perpetualFeatures"
-              name="perpetualFeatures"
+            required
+              id="haroldsFeatures"
+              name="haroldsFeatures"
               class="mt-1 p-2 block w-full border border-gray-300 rounded"
               rows="3"
-              placeholder="Enter perpetual special Features"
+              placeholder="Enter Harold's special Features"
             ></textarea>
           </div>
       
           <button
             type="submit"
             class="mt-4 bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 w-full"
+            id="uploadLoungeBtn"
           >
             Upload Data
-          </button>
+          </button> 
         </form>
 
         <!-- Booked Lounge Listings -->
@@ -591,7 +590,7 @@
       <form id="galleryForm" enctype="multipart/form-data" class="space-y-4 bg-white p-4 rounded shadow">
         <div>
           <label for="galleryTitle" class="block text-sm font-medium">GalleryTitle</label>
-          <input type="text" id="galleryTitle" name="galleryTitle" class="w-full p-2 border rounded" required>
+          <input required type="text" id="galleryTitle" name="galleryTitle" class="w-full p-2 border rounded" required>
         </div>
 
         <div>
@@ -606,7 +605,7 @@
           <label for="galleryMedia" class="block text-sm font-medium">Select File</label>
           <input type="file" id="galleryMedia" name="galleryMedia" accept="image/*,video/*" required>
         </div>
-        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Upload Gallery</button>
+        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded upload">Upload Gallery</button>
       </form>
 
       <!-- Gallery List -->
@@ -648,6 +647,7 @@
           <div>
             <label for="menuTitle" class="block text-sm font-medium text-gray-700">Daily Menu Title</label>
             <input
+            required
               type="text"
               id="menuTitle"
               name="menuTitle"
@@ -659,6 +659,7 @@
           <div id="dailyMenuPrice">
             <label for="price2" class="block text-sm font-medium text-gray-700">Price (₦)</label>
             <input
+              required
               type="number"
               id="price2"
               name="price"
@@ -670,6 +671,7 @@
           <div>
             <label for="menuImage2" class="block text-sm font-medium text-gray-700">Daily Menu Image</label>
             <input
+              required
               type="file"
               id="menuImage2"
               name="menuImage"
@@ -679,7 +681,7 @@
       
           <button
             type="submit"
-            class="mt-4 bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 w-full"
+            class="mt-4 bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 w-full upload"
           >
             Upload Product
           </button>
@@ -745,6 +747,7 @@
               <div>
                 <label for="menuDescription" class="block text-sm font-medium ">Existing Product Description</label>
                 <textarea
+                required
                   id="menuDescription"
                   name="menuDescription"
                   class="mt-1 p-2 block w-full border border-gray-300 rounded"
@@ -833,6 +836,15 @@
       </div>
    </section>
 
+             <div id="alert_menu_upload_success" class=" d-flex align-items-center alert alert-success alert-dismissible fade show m-0 beyond_top" role="alert">
+            <div>Product upload successful</div> 
+            <button type="button" class="btn-close border p-2" aria-label="Close"></button>
+        </div>
+
+          <div id="alert_menu_upload_failure" class="d-flex align-items-center alert alert-danger alert-dismissible fade show m-0 beyond_top" role="alert">
+            <div>Unable to upload product</div> 
+            <button type="button" class="btn-close border p-2" aria-label="Close"></button>
+        </div>
 
 
 
@@ -908,7 +920,8 @@
   </script>
   <script src="../jsFolder/order.js"></script>
   <!-- <script src="../jsFolder/specialOrder.js"></script> -->
-  <script src="../jsFolder/userMessage.js"></script>
+  <!-- <script src="../jsFolder/userMessage.js"></script> -->
   <script src="../jsFolder/bookalounge.js"></script>
+  <!-- <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script> -->
 </body>
 </html>

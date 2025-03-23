@@ -9,55 +9,90 @@ const configg = {
   })
 
   const loungeProductForm = document.getElementById('loungeProductForm')
-
+  
   loungeProductForm.addEventListener('submit', (e) => {
-    e.preventDefault()
-
-    const loungeType1 = document.getElementById('loungeType1').value
-    const loungeType2 = document.getElementById('loungeType2').value
-    const loungeType3 = document.getElementById('loungeType3').value
-    const loungeTypePrice1 = document.getElementById('loungeTypePrice1').value
-    const loungeTypePrice2 = document.getElementById('loungeTypePrice2').value
-    const loungeTypePrice3 = document.getElementById('loungeTypePrice3').value
-    const perpetualFeatures = document.getElementById('perpetualFeatures').value
-    const formData = {
-        loungeType1,
-        loungeType2,
-        loungeType3,
-        loungeTypePrice1,
-        loungeTypePrice2,
-        loungeTypePrice3,
-        perpetualFeatures
-    }
-    updateLoungeBookingFunc(formData)
+      console.log('Hello1')
+      e.preventDefault()
+      console.log('Hello2')
+    
+    // const loungeType1 = document.getElementById('loungeType1').value
+    // const loungeType2 = document.getElementById('loungeType2').value
+    // const loungeType3 = document.getElementById('loungeType3').value
+    // const loungeTypePrice1 = document.getElementById('loungeTypePrice1').value
+    // const loungeTypePrice2 = document.getElementById('loungeTypePrice2').value
+    // const loungeTypePrice3 = document.getElementById('loungeTypePrice3').value
+    // const perpetualFeatures = document.getElementById('perpetualFeatures').value
+    // const formData = {
+    //     loungeType1,
+    //     loungeType2,
+    //     loungeType3,
+    //     loungeTypePrice1,
+    //     loungeTypePrice2,
+    //     loungeTypePrice3,
+    //     perpetualFeatures
+    // }
+    
+    updateLoungeBookingFunc();
+    // alert('Done with validation 3')
 
   })
-const updateLoungeBookingFunc = async (formData) => {
+const updateLoungeBookingFunc = async () => {
+    let formData = {};
+
+    new FormData(loungeProductForm).forEach((value, key)=>{
+            formData[key] = value;
+        });
+
+        const types = formData['loungeTypes[]'];
+        const prices = formData['loungeTypesPrices[]'];
+        const haroldsFeatures = formData['haroldsFeatures']
+
+        let loungeDetails = [];
+
+        for (let index = 0; index < types.length; index++) {
+            loungeDetails[index] = {loungeType:types, loungeTypesPrices:prices}
+            
+        }
+
+        const body = {
+            loungeTypesAndPrices : loungeDetails,
+            haroldsFeatures
+        }
+
+        const btnCreateLounge = document.getElementById('uploadLoungeBtn') 
+        const alertSuccess = document.getElementById('alert_menu_upload_success')
+        const alertFailure = document.getElementById('alert_menu_upload_failure')
+
+        btnCreateLounge.innerHTML = `<span class="spinner-grow spinner-grow-sm">
+          </span> Loading`
+        btnCreateLounge.disabled = true
     try {
-        const response = await fetch(`${configg.apiUrl}/perpetualtaste/updateLoungeBookings`, {
+        const response = await fetch(`${configg.apiUrl}/harolds/updateLoungeBookings`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(body)
         })
-
-        console.log('Lounge FormData', formData);
-        console.log('Lounge Response', response);
+                
         
-        
-
         if(!response.ok) {
-            alert('Failed to Create Lounge Booking Data')
+            throw new Error("Unable to create lounge");
         } 
+        showAlertLounge(alertSuccess, 'Lounge Created Sucessfully', btnCreateLounge)
 
         const data = await response.json()
 
-        alert(data.message)
         
     } catch (error) {
-        console.log(error);
+        console.error(error);
+        showAlertLounge(alertFailure, 'Unable to Create Lounge', btnCreateLounge)
+
         
+    }
+    finally{
+        btnCreateLounge.innerHTML = 'Upload Data'
+
     }
 }
 
@@ -66,7 +101,7 @@ const loungBookingPopulateId = document.getElementById('loungBookingPopulateId')
 const adminGetUserBookingFunc = async () => {
     loungBookingPopulateId.innerHTML = ''
     try {
-        const response = await fetch(`${configg.apiUrl}/perpetualtasteuser/getUserBookedLounge`)
+        const response = await fetch(`${configg.apiUrl}/haroldsuser/getUserBookedLounge`)
 
         console.log(response);
         
@@ -122,4 +157,64 @@ const adminGetUserBookingFunc = async () => {
         console.log(error);
         
     }
+}
+
+const BtnLoungeAdder = document.getElementById('loungeAdderBtn');
+
+
+let loungeCounter = 2;
+BtnLoungeAdder.addEventListener('click', ()=>{
+    const loungeContainer = document.getElementById('loungeContainer');
+    const loungeMarkup = `
+                  <div class="flex items-center justify-between gap-2">
+                    <div class="w-full mt-1 border border-gray-300 rounded"><input required type="text" class="p-2 block w-full border border-gray-300 rounded" placeholder="Enter Lounge Type 1" name="loungeTypes[]" id="loungeType${loungeCounter}"></div>
+
+                    <div class="w-full mt-1 border border-gray-300 rounded"><input required type="number" class="p-2 block w-full border border-gray-300 rounded" placeholder="Enter Lounge Price 1" name="loungeTypesPrices[]", id="loungeTypePrice${loungeCounter}"></div>
+                </div>`
+    ++loungeCounter;
+
+    const containingLoungeDiv = document.createElement('div')
+    containingLoungeDiv.innerHTML = loungeMarkup;
+    loungeContainer.append(containingLoungeDiv);
+
+})
+
+function showAlertLounge(alert, alertText, triggerBtn){
+    alert.classList.remove('show1');
+    alert.firstChild.innerHTML = alertText;
+    const btnClose = alert.querySelector('.btn-close');
+    btnClose.addEventListener('click', ()=>{
+        alert.classList.add('show1');
+    })
+    alert.classList.add('bring_down')
+    setTimeout(() => {
+        alert.classList.remove('bring_down');
+        triggerBtn.disabled = false;
+        // alert.classList.add('show')
+        // alert.classList.add('show')
+        
+    }, 2500);
+
+}
+
+const validateFormElements = (form)=>{
+    const elements = form.querySelectorAll('input, textarea');
+    elements.forEach((element)=>{
+        // alert('Done with validation 1')
+        console.log(element)
+        // console.log(!(element.value.length))
+        // console.log(!element.value.length>1)
+        if(!(element.value.length>1)){
+            console.log(element.value.length)
+            element.setCustomValidity('This field can not be empty')
+        }
+        else{
+            element.setCustomValidity('')
+        }
+        console.log(element.validationMessage);
+        setTimeout(() => {
+            element.reportValidity();
+            
+        }, 50);
+    })
 }

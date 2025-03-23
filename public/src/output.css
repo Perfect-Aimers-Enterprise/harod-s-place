@@ -792,7 +792,7 @@ html {
   }
 }
 
-.alert {
+/* .alert {
   display: grid;
   width: 100%;
   grid-auto-flow: row;
@@ -811,7 +811,7 @@ html {
   --alert-bg: var(--fallback-b2,oklch(var(--b2)/1));
   --alert-bg-mix: var(--fallback-b1,oklch(var(--b1)/1));
   background-color: var(--alert-bg);
-}
+} */
 
 @media (min-width: 640px) {
   .alert {
@@ -854,7 +854,7 @@ html {
   }
 }
 
-.btn {
+/* .btn {
   display: inline-flex;
   height: 3rem;
   min-height: 3rem;
@@ -890,7 +890,7 @@ html {
   background-color: oklch(var(--btn-color, var(--b2)) / var(--tw-bg-opacity));
   --tw-bg-opacity: 1;
   --tw-border-opacity: 1;
-}
+} */
 
 .btn-disabled,
   .btn[disabled],
@@ -1025,14 +1025,14 @@ html {
     --tw-text-opacity: 0.2;
   }
 
-  .btn:hover {
+  /* .btn:hover {
     --tw-border-opacity: 1;
     border-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-border-opacity)));
     --tw-bg-opacity: 1;
     background-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity)));
-  }
+  } */
 
-  @supports (color: color-mix(in oklab, black, black)) {
+  /* @supports (color: color-mix(in oklab, black, black)) {
     .btn:hover {
       background-color: color-mix(
             in oklab,
@@ -1045,14 +1045,14 @@ html {
             black
           );
     }
-  }
+  } */
 
-  @supports not (color: oklch(0% 0 0)) {
+  /* @supports not (color: oklch(0% 0 0)) {
     .btn:hover {
       background-color: var(--btn-color, var(--fallback-b2));
       border-color: var(--btn-color, var(--fallback-b2));
     }
-  }
+  } */
 
   .btn.glass:hover {
     --glass-opacity: 25%;
@@ -1523,17 +1523,17 @@ html {
   line-height: 1.5rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
+/* @media (prefers-reduced-motion: no-preference) {
   .btn {
     animation: button-pop var(--animation-btn, 0.25s) ease-out;
   }
-}
+} */
 
-.btn:active:hover,
+/* .btn:active:hover,
   .btn:active:focus {
   animation: button-pop 0s ease-out;
   transform: scale(var(--btn-focus-scale, 0.97));
-}
+} */
 
 @supports not (color: oklch(0% 0 0)) {
   .btn {
@@ -1542,11 +1542,11 @@ html {
   }
 }
 
-.btn:focus-visible {
+/* .btn:focus-visible {
   outline-style: solid;
   outline-width: 2px;
   outline-offset: 2px;
-}
+} */
 
 .btn.glass {
   --tw-shadow: 0 0 #0000;
