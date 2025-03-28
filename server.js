@@ -45,7 +45,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // });
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/htmlFolder/perpetualTaste.html');
+  res.sendFile(__dirname + '/public/htmlFolder/haroldsPlace.html');
 });
 
 app.get('/haroldsplaceadmin', (req, res) => {
