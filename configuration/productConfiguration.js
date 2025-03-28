@@ -13,7 +13,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-        folder: 'menuImages', // Folder name in Cloudinary
+        folder: 'Harolds', // Folder name in Cloudinary
         format: async (req, file) => 'png', // Convert to PNG
         public_id: (req, file) => Date.now() + '-' + file.originalname
     }

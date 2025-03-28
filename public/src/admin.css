@@ -792,7 +792,7 @@ html {
   }
 }
 
-.alert {
+/* .alert {
   display: grid;
   width: 100%;
   grid-auto-flow: row;
@@ -811,7 +811,7 @@ html {
   --alert-bg: var(--fallback-b2,oklch(var(--b2)/1));
   --alert-bg-mix: var(--fallback-b1,oklch(var(--b1)/1));
   background-color: var(--alert-bg);
-}
+} */
 
 @media (min-width: 640px) {
   .alert {
@@ -854,7 +854,7 @@ html {
   }
 }
 
-.btn {
+/* .btn {
   display: inline-flex;
   height: 3rem;
   min-height: 3rem;
@@ -890,7 +890,7 @@ html {
   background-color: oklch(var(--btn-color, var(--b2)) / var(--tw-bg-opacity));
   --tw-bg-opacity: 1;
   --tw-border-opacity: 1;
-}
+} */
 
 .btn-disabled,
   .btn[disabled],
@@ -1025,14 +1025,14 @@ html {
     --tw-text-opacity: 0.2;
   }
 
-  .btn:hover {
+  /* .btn:hover {
     --tw-border-opacity: 1;
     border-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-border-opacity)));
     --tw-bg-opacity: 1;
     background-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity)));
-  }
+  } */
 
-  @supports (color: color-mix(in oklab, black, black)) {
+  /* @supports (color: color-mix(in oklab, black, black)) {
     .btn:hover {
       background-color: color-mix(
             in oklab,
@@ -1045,14 +1045,14 @@ html {
             black
           );
     }
-  }
+  } */
 
-  @supports not (color: oklch(0% 0 0)) {
+  /* @supports not (color: oklch(0% 0 0)) {
     .btn:hover {
       background-color: var(--btn-color, var(--fallback-b2));
       border-color: var(--btn-color, var(--fallback-b2));
     }
-  }
+  } */
 
   .btn.glass:hover {
     --glass-opacity: 25%;
@@ -1502,14 +1502,6 @@ html {
     var(--togglehandleborder);
 }
 
-.alert-success {
-  border-color: var(--fallback-su,oklch(var(--su)/0.2));
-  --tw-text-opacity: 1;
-  color: var(--fallback-suc,oklch(var(--suc)/var(--tw-text-opacity)));
-  --alert-bg: var(--fallback-su,oklch(var(--su)/1));
-  --alert-bg-mix: var(--fallback-b1,oklch(var(--b1)/1));
-}
-
 .btm-nav > *:where(.active) {
   border-top-width: 2px;
   --tw-bg-opacity: 1;
@@ -1531,17 +1523,17 @@ html {
   line-height: 1.5rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
+/* @media (prefers-reduced-motion: no-preference) {
   .btn {
     animation: button-pop var(--animation-btn, 0.25s) ease-out;
   }
-}
+} */
 
-.btn:active:hover,
+/* .btn:active:hover,
   .btn:active:focus {
   animation: button-pop 0s ease-out;
   transform: scale(var(--btn-focus-scale, 0.97));
-}
+} */
 
 @supports not (color: oklch(0% 0 0)) {
   .btn {
@@ -1550,11 +1542,11 @@ html {
   }
 }
 
-.btn:focus-visible {
+/* .btn:focus-visible {
   outline-style: solid;
   outline-width: 2px;
   outline-offset: 2px;
-}
+} */
 
 .btn.glass {
   --tw-shadow: 0 0 #0000;
@@ -2586,20 +2578,6 @@ html {
   border-top-width: 4px;
 }
 
-.btn-md {
-  height: 3rem;
-  min-height: 3rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  font-size: 0.875rem;
-}
-
-.btn-square:where(.btn-md) {
-  height: 3rem;
-  width: 3rem;
-  padding: 0px;
-}
-
 .btn-circle:where(.btn-xs) {
   height: 1.5rem;
   width: 1.5rem;
@@ -2812,14 +2790,6 @@ html {
   z-index: 50;
 }
 
-.order-\[1\] {
-  order: 1;
-}
-
-.m-0 {
-  margin: 0px;
-}
-
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -2841,12 +2811,12 @@ html {
   margin-bottom: 1rem;
 }
 
-.mb-5 {
-  margin-bottom: 1.25rem;
-}
-
 .mb-6 {
   margin-bottom: 1.5rem;
+}
+
+.mb-8 {
+  margin-bottom: 2rem;
 }
 
 .mb-\[10px\] {
@@ -2921,6 +2891,10 @@ html {
   margin-top: 30px;
 }
 
+.mt-\[40px\] {
+  margin-top: 40px;
+}
+
 .mt-\[5px\] {
   margin-top: 5px;
 }
@@ -2991,10 +2965,6 @@ html {
 
 .h-\[200px\] {
   height: 200px;
-}
-
-.h-\[300px\] {
-  height: 300px;
 }
 
 .h-\[400px\] {
@@ -3176,10 +3146,6 @@ html {
   flex-direction: column;
 }
 
-.flex-wrap {
-  flex-wrap: wrap;
-}
-
 .items-center {
   align-items: center;
 }
@@ -3194,10 +3160,6 @@ html {
 
 .justify-around {
   justify-content: space-around;
-}
-
-.gap-1 {
-  gap: 0.25rem;
 }
 
 .gap-2 {
@@ -3282,14 +3244,6 @@ html {
 
 .rounded {
   border-radius: 0.25rem;
-}
-
-.rounded-\[0\.6rem\] {
-  border-radius: 0.6rem;
-}
-
-.rounded-\[8px\] {
-  border-radius: 8px;
 }
 
 .rounded-full {
@@ -3596,11 +3550,6 @@ html {
   padding-right: 1.5rem;
 }
 
-.px-\[1\.5rem\] {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
 .px-\[10px\] {
   padding-left: 10px;
   padding-right: 10px;
@@ -3668,36 +3617,12 @@ html {
   padding-top: 1rem;
 }
 
-.pt-5 {
-  padding-top: 1.25rem;
-}
-
-.pt-\[2\.5rem\] {
-  padding-top: 2.5rem;
-}
-
-.pt-\[3rem\] {
-  padding-top: 3rem;
-}
-
-.pt-\[4rem\] {
-  padding-top: 4rem;
-}
-
-.pt-\[6rem\] {
-  padding-top: 6rem;
-}
-
 .text-center {
   text-align: center;
 }
 
 .text-right {
   text-align: right;
-}
-
-.text-end {
-  text-align: end;
 }
 
 .font-serif {
@@ -3789,10 +3714,6 @@ html {
 
 .uppercase {
   text-transform: uppercase;
-}
-
-.capitalize {
-  text-transform: capitalize;
 }
 
 .italic {
@@ -3997,16 +3918,8 @@ html {
   transition-duration: 150ms;
 }
 
-.duration-1000 {
-  transition-duration: 1000ms;
-}
-
 .duration-300 {
   transition-duration: 300ms;
-}
-
-.ease-in-out {
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 html {
@@ -4172,22 +4085,6 @@ input, option, textarea, select {
 }
 
 @media (min-width: 640px) {
-  .sm\:order-\[0\] {
-    order: 0;
-  }
-
-  .sm\:h-\[490px\] {
-    height: 490px;
-  }
-
-  .sm\:h-\[660px\] {
-    height: 660px;
-  }
-
-  .sm\:w-full {
-    width: 100%;
-  }
-
   .sm\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -4214,20 +4111,16 @@ input, option, textarea, select {
     height: 14rem;
   }
 
-  .md\:h-\[400px\] {
-    height: 400px;
-  }
-
   .md\:h-\[40vh\] {
     height: 40vh;
   }
 
-  .md\:h-\[60vh\] {
-    height: 60vh;
+  .md\:h-\[550px\] {
+    height: 550px;
   }
 
-  .md\:w-1\/2 {
-    width: 50%;
+  .md\:h-\[60vh\] {
+    height: 60vh;
   }
 
   .md\:w-1\/5 {
@@ -4240,10 +4133,6 @@ input, option, textarea, select {
 
   .md\:w-\[400px\] {
     width: 400px;
-  }
-
-  .md\:w-\[49\%\] {
-    width: 49%;
   }
 
   .md\:w-\[600px\] {
@@ -4337,6 +4226,10 @@ input, option, textarea, select {
 
   .lg\:w-\[70\%\] {
     width: 70%;
+  }
+
+  .lg\:w-\[80\%\] {
+    width: 80%;
   }
 
   .lg\:grid-cols-3 {

@@ -85,7 +85,6 @@ const updateLoungeBookingFunc = async () => {
 
         
     } catch (error) {
-        console.error(error);
         showAlertLounge(alertFailure, 'Unable to Create Lounge', btnCreateLounge)
 
         
@@ -154,8 +153,7 @@ const adminGetUserBookingFunc = async () => {
         })
         
     } catch (error) {
-        console.log(error);
-        
+        showAlertLounge(alertFailure, 'Unable to Fetch Booked Lounges')        
     }
 }
 

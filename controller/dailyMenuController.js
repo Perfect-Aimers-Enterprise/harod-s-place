@@ -69,14 +69,15 @@ const updateDailyMenu = async (req, res) => {
 const deleteDailyMenu = async (req, res) => {
     try {
         const { id } = req.params;
-        const menuVar = await DailyMenu.findByIdAndDelete(id);
-
+        const menuVar = await DailyMenu.findById(id);
+        
         if (!menuVar) {
             return res.status(404).json({ error: "Menu not found" });
         }
-
+        
         const oldImagePublicId = menuVar.menuImage.split('/').pop().split('.')[0];
         await cloudinary.uploader.destroy(`dailyMenu/${oldImagePublicId}`);
+        await DailyMenu.findByIdAndDelete(id);
 
         res.status(200).json(menuVar);
     } catch (error) {

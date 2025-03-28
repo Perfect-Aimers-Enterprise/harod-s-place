@@ -5,8 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/main.css">
+  <!-- <link rel="stylesheet" href="../css/landing.css"> -->
   <link rel="stylesheet" href="../src/output.css">
+  <link rel="stylesheet" href="../css/landing.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="shortcut icon" href="../image/perpetualTasteImg/logo.png" type="image/x-icon">
   <title>Harold's Place</title>
@@ -17,11 +18,6 @@
 
     .hero-overlay {
       background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8));
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-      transition: 0.3s ease-in-out;
     }
 
     nav a {
@@ -36,11 +32,11 @@
 
 <body class="bg-black text-gray-200">
   <!-- Header -->
-  <header class="bg-orange-600 text-white py-3 fixed top-0 w-full z-10 shadow-md text-[12px]">
+  <header class=" text-white fixed top-0 w-full z-10 shadow-lg text-[14px] uppercase">
     <div class="container mx-auto flex justify-between items-center px-6 lg:px-16">
       <div class="flex items-center space-x-4">
-        <img src="../image/perpetualTasteImg/logo.png" alt="Logo" class="w-10 h-10">
-        <h1 class="text-lg font-bold">Harold's Place</h1>
+        <!-- <img src="../image/perpetualTasteImg/logo.png" alt="Logo" class="w-10 h-10"> -->
+        <h1 class="text-lg font-bold"><a href="haroldsPlace.html" class="underline-none ">Harold's Place</a></h1>
       </div>
 
       <nav class="hidden lg:block">
@@ -97,22 +93,27 @@
   </header>
 
   <!-- Hero Section -->
-  <section id="dynamicHeroImage" class="mt-[30px]">
+  <section id="dynamicHeroImage" class="">
     <div class="relative bg-cover bg-center text-white h-[50vh] md:h-[60vh] lg:h-[70vh] xl:h-[85vh]" style="background-image: url('../image/regBg1.jpg');">
       <div class="hero-overlay absolute inset-0"></div>
       <div class="relative h-full flex flex-col justify-center items-center text-center">
         <h2 class="text-2xl md:text-5xl font-bold mb-4">Welcome to Harold's Place</h2>
         <p class="text-lg md:text-xl mb-6">Delicious meals made with love. Place your orders now!</p>
-        <a href="#menu" class="bg-orange-500 py-3 px-6 rounded-full hover:bg-orange-600">Explore Menu</a>
+        <a href="#menu" class="bg-orange-500 py-3 px-6 mt-6 rounded-xl hover:bg-orange-600 text-sm animatedBtn1">EXPLORE MENU <span class="over bg-white text-orange-500"><span>EXPLORE MENU</span></span></a>
       </div>
     </div>
   </section>
 
-  <!-- Menu Section -->
-  <section id="menu" class="py-16 bg-gray-100 text-black">
 
-    <div class="container mx-auto px-6 lg:px-16">
-      <h3 class="text-2xl font-bold text-center text-orange-700 mb-10">Harold's Place Dishes</h3>
+  <!-- Menu Section -->
+  <section id="menu" class="py-16 bg-gray-100 text-black hold_pattern">
+
+    <div class="container mx-auto px-6 lg:px-16 food_menu">
+      <div class="heading1">
+        <span>Discover</span>
+        <h3 >Our Menu</h3>
+
+      </div>
 
       <div id="menuGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 menuGridClass h-[700px] border-y-2 border-gray-200 shadow-md shadow-gray-300 overflow-y-scroll">
         <!-- Food Item Template -->
@@ -121,7 +122,7 @@
           <h3 id="men" class="mt-4 text-xl font-semibold">Jollof Rice</h3>
           <p class="text-gray-600">Classic Nigerian dish with a smoky twist.</p>
           <p class="mt-2 text-orange-700 font-bold">₦2,500</p>
-          <button class="mt-4 bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 w-full">Order Now</button>
+          <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
         </div>
 
         <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item">
@@ -129,7 +130,7 @@
           <h3 class="mt-4 text-xl font-semibold">Chicken Suya</h3>
           <p class="text-gray-600">Grilled chicken with spicy suya spices.</p>
           <p class="mt-2 text-orange-700 font-bold">₦3,000</p>
-          <button class="mt-4 bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 w-full">Order Now</button>
+          <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
         </div>
 
         <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item">
@@ -137,7 +138,7 @@
           <h3 class="mt-4 text-xl font-semibold">Pepper Soup</h3>
           <p class="text-gray-600">Hot and spicy soup for every occasion.</p>
           <p class="mt-2 text-orange-700 font-bold">₦1,800</p>
-          <button class="mt-4 bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 w-full">Order Now</button>
+          <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
         </div>
 
         <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item">
@@ -145,7 +146,7 @@
           <h3 class="mt-4 text-xl font-semibold">Pepper Soup</h3>
           <p class="text-gray-600">Hot and spicy soup for every occasion.</p>
           <p class="mt-2 text-orange-700 font-bold">₦1,800</p>
-          <button class="mt-4 bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 w-full">Order Now</button>
+          <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
         </div>
 
       </div>
@@ -155,10 +156,13 @@
   </section>
 
   <!-- Daily Menu Dishes  -->
-  <section id="dailyMenu" class="py-16 bg-orange-100 text-black">
+  <section id="dailyMenu" class="py-16 hold_pattern text-black">
 
-    <div class="container mx-auto px-6 lg:px-16">
-      <h3 class="text-2xl font-bold text-center text-orange-700 mb-10">Daily Menu Dishes</h3>
+    <div class="container mx-auto px-6 lg:px-16 food_daily_menu">
+      <div class="heading1">
+        <span>Explore</span>
+        <h3 >Our Daily Menu</h3>
+      </div>
     
       <div id="dailyMenuDishCards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- Dish Card -->
@@ -167,7 +171,7 @@
           <h4 class="mt-4 text-xl font-semibold">Monday Menu Dish</h4>
           <p class="mt-2 text-gray-600">₦8000</p>
           
-          <button class="mt-6 bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 w-full dailyMenuDishOrder">Order Now</button>
+          <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
         </div>
 
         <!-- Dish Card2 -->
@@ -176,7 +180,7 @@
           <h4 class="mt-4 text-xl font-semibold">Monday Menu Dish</h4>
           <p class="mt-2 text-gray-600">₦8000</p>
           
-          <button class="mt-6 bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 w-full dailyMenuDishOrder">Order Now</button>
+          <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
         </div>
 
           <!-- Dish Card3 -->
@@ -185,7 +189,7 @@
             <h4 class="mt-4 text-xl font-semibold">Monday Menu Dish</h4>
             <p class="mt-2 text-gray-600">₦8000</p>
             
-            <button class="mt-6 bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 w-full dailyMenuDishOrder">Order Now</button>
+            <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
           </div>
 
           <!-- Dish Card4 -->
@@ -194,7 +198,7 @@
             <h4 class="mt-4 text-xl font-semibold">Monday Menu Dish</h4>
             <p class="mt-2 text-gray-600">₦8000</p>
             
-            <button class="mt-6 bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 w-full dailyMenuDishOrder">Order Now</button>
+            <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
           </div>
 
         <!-- Repeat Dish Card for other items -->
@@ -203,62 +207,86 @@
 
   </section>
 
- 
-<!-- Bakery Display -->
-<section id="bakery" class="bg-gray-100 py-10 text-black">
-  <div class="container mx-auto px-4">
-    <h3 class="text-2xl font-bold text-red-800 text-center mb-6">Order From Our Bakery</h3>
+
+    <!-- Bakery Display 1-->
+    <section id="bakery" class=" bg-gray-100 hold_pattern text-black ">
+      <div class="container flex flex-wrap py-10 pt-[3rem] mx-auto px-[1.5rem]">
+
+
+          <div class="heading1 w-full order-[1] sm:order-[0] ">
+            <span>Order From </span>
+            <h3>Our Bakery</h3>
+          </div>
+
+        <div id="ceoProfile" class=" mx-auto w-full md:w-1/2 aboutUsImgHolder px-[1.5rem] ">
+          <div class=" h-[400px] sm:h-[490px] mx-auto border-[3px] border-orange-400 overflow-hidden group rounded-[0.6rem] shadow-lg bakery_image">
+            <img id="ceoImageId" src="../image/perpetualTasteImg/bread/pexels-pixabay-209206.jpg" alt="" class=" w-full h-full transform transition-transform object-cover duration-1000 ease-in-out group-hover:scale-120">
+          </div>
+        </div>
+
+
+        <div class="mx-auto w-full md:w-1/2 mb-5 px-[1.5rem] mt-5 md:mt-0 ">
+          <!-- <div class="heading1">
+            <span>Order From </span>
+            <h3>Our Bakery</h3>
+          </div> -->
+          
+          <form id="breadOrderForm" class="w-full mx-auto bg-white p-6 rounded-lg shadow-md space-y-4">
+            
+            <!-- Bake Type Selection -->
+            <div>
+              <label for="bakeType" class="block text-sm font-medium text-gray-700">Bake Type</label>
+              <select name="bakeType" id="bakeType" class="w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                <option value="" selected disabled>Select Bake Type</option>
+                <option value="bread">Bread</option>
+                <option value="cake">Cake</option>
+                <option value="pizza">Pizza</option>
+                <option value="shawarma">Shawarma</option>
+                <option value="hotdog">Hot Dog</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            
+            <!-- Other Bake Type Input -->
+            <div id="otherBakeTypeContainer" class="hidden">
+              <label for="otherBakeType" class="block text-sm font-medium text-gray-700">Specify Other</label>
+              <input type="text" id="otherBakeType" name="otherBakeType" class="w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Enter the bake type">
+            </div>
+            
+            <!-- Quantity Input -->
+            <div>
+              <label for="bakeQuantity" class="block text-sm font-medium text-gray-700">Quantity</label>
+              <input type="number" id="bakeQuantity" name="bakeQuantity" class="w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Enter quantity (Optional)" min="1">
+            </div>
+      
+            <!-- Ordering Contact  -->
+            <div>
+              <label for="bakeContact" class="block text-sm font-medium text-gray-700">Contact</label>
+              <input type="number" id="bakeContact" name="bakeContact" class="w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Enter Contact" min="1">
+            </div>
+            
+            <!-- Description Input -->
+            <div>
+              <label for="bakeDescription" class="block text-sm font-medium text-gray-700">Description</label>
+              <textarea id="bakeDescription" name="bakeDescription" rows="4" class="w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Describe preferred size, texture, etc."></textarea>
+            </div>
+            
+            <!-- Submit Button -->
+    <button type="button" class="mt-4 bg-orange-500 text-white py-2 px-4 rounded w-full animatedBtn1 text-sm"><span class="bg-black text-white"><span>PROCESS REQUEST</span></span>PROCESS REQUEST</button>
+          </form>
+          
+          <!-- Pricing Info Link -->
+          <div class="text-center mt-6">
+            <a href="bakery.html" class="text-orange-500 font-medium hover:underline">For more info, view pricing</a>
+          </div>
+      </div>
     
-    <form id="breadOrderForm" class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md space-y-4">
-      
-      <!-- Bake Type Selection -->
-      <div>
-        <label for="bakeType" class="block text-sm font-medium text-gray-700">Bake Type</label>
-        <select name="bakeType" id="bakeType" class="w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-orange-500">
-          <option value="" selected disabled>Select Bake Type</option>
-          <option value="bread">Bread</option>
-          <option value="cake">Cake</option>
-          <option value="pizza">Pizza</option>
-          <option value="shawarma">Shawarma</option>
-          <option value="hotdog">Hot Dog</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
-      
-      <!-- Other Bake Type Input -->
-      <div id="otherBakeTypeContainer" class="hidden">
-        <label for="otherBakeType" class="block text-sm font-medium text-gray-700">Specify Other</label>
-        <input type="text" id="otherBakeType" name="otherBakeType" class="w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Enter the bake type">
-      </div>
-      
-      <!-- Quantity Input -->
-      <div>
-        <label for="bakeQuantity" class="block text-sm font-medium text-gray-700">Quantity</label>
-        <input type="number" id="bakeQuantity" name="bakeQuantity" class="w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Enter quantity (Optional)" min="1">
+
       </div>
 
-      <!-- Ordering Contact  -->
-      <div>
-        <label for="bakeContact" class="block text-sm font-medium text-gray-700">Contact</label>
-        <input type="number" id="bakeContact" name="bakeContact" class="w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Enter Contact" min="1">
-      </div>
-      
-      <!-- Description Input -->
-      <div>
-        <label for="bakeDescription" class="block text-sm font-medium text-gray-700">Description</label>
-        <textarea id="bakeDescription" name="bakeDescription" rows="4" class="w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Describe preferred size, texture, etc."></textarea>
-      </div>
-      
-      <!-- Submit Button -->
-      <button type="submit" class="w-full bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 transition duration-300">Process Request</button>
-    </form>
-    
-    <!-- Pricing Info Link -->
-    <div class="text-center mt-6">
-      <a href="bakery.html" class="text-orange-500 font-medium hover:underline">For more info, view pricing</a>
-    </div>
-  </div>
-</section>
+    </section>
+
+
 
 <!-- Bakery PopUp  -->
 <section id="bakeryPopUp" class="fixed inset-0 bg-black bg-opacity-50 z-50 grid items-center hidden">
@@ -286,75 +314,229 @@
   </section>
 
   <!-- Lounge Bookings Section -->
-  <section id="loungeBookings" class="py-16 bg-orange-100">
+  <section id="loungeBookings" class="py-16 hold_pattern hidden">
     <div class="container mx-auto px-6 lg:px-16 text-black">
-      <h3 class="text-2xl font-bold text-orange-700 mb-6 text-center">Book a Lounge</h3>
-      <p class=" mb-10 text-center">Exciting packages for holidays and events!</p>
+      <div class="heading1">
+        <h3>Book a Lounge</h3>
+      </div>
+      <p class=" mb-10 text-center capitalize">Exciting Packages for Holidays and Events!</p>
 
         <div id="sendBookingDiv" class="container mx-auto px-4">
-          <form id="sendBookingForm" class="mt-6 max-w-lg mx-auto space-y-4">
+          <form id="sendBookingForm" class="mt-6  mx-auto flex flex-wrap gap-1 justify-between">
+            <div class="sm:w-full md:w-[49%] w-full">
             <div>
-              <label for="eventTitle" class="block text-sm font-medium">Event Title</label>
-              <input type="text" id="usereventTitle" name="eventTitle" class="w-full border rounded px-3 py-2">
+              <label for="eventTitle" class="block text-sm font-medium mb-2 mb-2">Event Title</label>
+              <input type="text" id="usereventTitle" name="eventTitle" class="w-full  rounded px-3 py-2" title="Choose event title">
             </div>
 
-            <div>
-              <label for="numberOfGuest" class="block text-sm font-medium">Number of Guest</label>
-              <input type="text" id="numberOfGuest" name="numberOfGuest" class="w-full border rounded px-3 py-2">
+            <div class="mt-5">
+              <label for="numberOfGuest" class="block text-sm font-medium mb-2">Number of Guest</label>
+              <input type="text" id="numberOfGuest" name="numberOfGuest" class="w-full  rounded px-3 py-2">
             </div>
     
-            <div>
-              <label for="loungeType" class="block text-sm font-medium">Lounge Type</label>
-              <select name="loungeType" id="loungeType" class="py-2 pl-10 text-sm text-gray-700 rounded-lg border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200">
+            <!-- <div class="">
+              <label for="loungeType" class="block text-sm font-medium mb-2">Lounge Type</label>
+              <select name="loungeType" id="loungeType" class="py-2 pl-10 text-sm text-gray-700 rounded-lg -gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200">
                 <option value="" disabled selected>Select Event Type</option>
                 <option value="shared">Shared &#8358;<span id="sharedPrice">4000</span></option>
                 <option value="private">Private &#8358;<span id="privatePrice">8000</span></option>
                 <option value="vip">VIP &#8358;<span id="vipPrice">15000</span></option>
               </select>
+            </div> -->
+
+
+
+          <div class="loungeTypeSelection mt-5">
+
+            <!-- custom select label -->
+            <div id="loungeTypeCustomLabel"  class="block text-sm font-medium mb-2"><span>Lounge Type</span></div>
+
+            <!-- custom select element -->
+            <div class="custom-select" >
+                <div data-value="" class="chosen" tabindex="0" ><span>Select Event Type</span> </div>
+                  <ul>
+                      <li data-value="shared">Shared &#8358;<span id="sharedPrice">4000</span></li>
+                      <li data-value="private">Private &#8358;<span id="privatePrice">8000</span></li>
+                      <li data-value="vip">VIP &#8358;<span id="vipPrice">15000</span></li>
+
+                  </ul>
             </div>
 
-            <div>
-              <label for="eventType" class="block text-sm font-medium">Event Type</label>
-              <input type="text" id="eventType" name="eventType" class="w-full border rounded px-3 py-2">
-            </div>
 
-            <div>
-              <label for="eventName" class="block text-sm font-medium">Event Name</label>
-              <input type="text" id="eventName" name="eventName" class="w-full border rounded px-3 py-2">
-            </div>
+              <select class="select-area hidden" name="loungeType" id="loungeType" title="Select lounge type">
+                  <option value="Option 1">Option 1</option>
+                  <option value="Option 2">Option 2</option>
+                  <option value="Option 3">Option 3</option>
+              </select>
+          </div>
 
-            <div>
-              <label for="bookingContact" class="block text-sm font-medium">Booking Contact</label>
-              <input type="number" id="bookingContact" name="bookingContact" class="w-full border rounded px-3 py-2">
-            </div>
 
-            <div>
-              <label for="eventDate" class="block text-sm font-medium">Event Date</label>
-              <input type="date" id="eventDate" name="eventDate" class="w-full border rounded px-3 py-2">
-            </div>
+          <div class="mt-5">
+              <label for="eventType" class="block text-sm font-medium mb-2">Event Type</label>
+              <input type="text" id="eventType" name="eventType" class="w-full  rounded px-3 py-2">
+          </div>
+        </div>
+           
 
-            <div>
-              <label for="eventTime" class="block text-sm font-medium">Event Time <span class="text-[10px] md:text-[12px]">(Click on the Clock Icon to Select)</span></label>
-              <input type="time" id="eventTime" name="eventTime" class="w-full border rounded px-3 py-2">
-            </div>
+
+        <div class="w-full w-full md:w-[49%] ">
+          <div>
+            <label for="eventName" class="block text-sm font-medium mb-2">Event Name</label>
+            <input type="text" id="eventName" name="eventName" class="w-full  rounded px-3 py-2">
+          </div>
+
+          <div class="mt-5">
+            <label for="bookingContact" class="block text-sm font-medium mb-2">Booking Contact</label>
+            <input type="number" id="bookingContact" name="bookingContact" class="w-full  rounded px-3 py-2">
+          </div>
+
+          <div class="mt-5">
+            <label for="eventDate" class="block text-sm font-medium mb-2">Event Date</label>
+            <input type="date" id="eventDate" name="eventDate" class="w-full  rounded px-3 py-2">
+          </div>
+
+          <div class="mt-5">
+            <label for="eventTime" class="block text-sm font-medium mb-2">Event Time </label>
+            <input type="time" id="eventTime" name="eventTime" class="w-full  rounded px-3 py-2">
+          </div>
+        </div>
+
     
-            <div>
-              <label for="eventMessage" class="block text-sm font-medium">Message (For Additional Request)</label>
-              <textarea id="eventMessage" name="eventMessage" rows="4" class="w-full border rounded px-3 py-2"></textarea>
-            </div>
+          <div class=" w-full mt-5">
+            <label for="eventMessage" class="block text-sm font-medium mb-2">Message (For Additional Request)</label>
+            <textarea id="eventMessage" name="eventMessage" rows="3" class="w-full  rounded px-3 py-2"></textarea>
+          </div>
 
-            <div class="mb-[10px] font-thin italic text-[12px] md:text-[14px] lg:text-[16px]">
-              <p id="truncateText">Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero incidunt tempora, repudiandae quod harum doloribus. Alias veniam aliquam ipsam temporibus eveniet, a magnam architecto dignissimos error adipisci et nulla fugiat!</p>
+          <div class="mb-[10px] font-thin italic text-[12px] md:text-[14px] lg:text-[16px]">
+            <p id="truncateText">Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero incidunt tempora, repudiandae quod harum doloribus. Alias veniam aliquam ipsam temporibus eveniet, a magnam architecto dignissimos error adipisci et nulla fugiat!</p>
 
-              <p id="readMoreTruncate" class="text-orange-600 cursor-pointer">Read More</p>
-            </div>
-            <button type="submit" class="bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 w-full mt-[10px]">Book</button>
+            <p id="readMoreTruncate" class="text-orange-600 cursor-pointer">Read More</p>
+          </div>
+          <button class="mt-4 bg-orange-500 text-white py-2 px-4 rounded w-full animatedBtn1 text-sm"><span class="bg-black text-white"><span>PROCESS REQUEST</span></span>PROCESS REQUEST</button>
           </form>
         </div>
 
     </div>
 
   </section>
+
+
+      <!-- Lounge Bookings Section-->
+    <section id="bakery" class=" bg-gray-100 hold_pattern text-black ">
+      <div class="container flex flex-wrap py-10 pt-[3rem] mx-auto px-[1.5rem]">
+
+
+          <div class="heading1 w-full order-[1] sm:order-[0] ">
+            <h3>Book a Lounge</h3>
+          </div>
+           <p class=" mb-10 text-center capitalize w-full">Exciting Packages for Holidays and Events!</p>
+
+
+        <div class="mx-auto w-full md:w-1/2 mb-5 px-[1.5rem] mt-5 md:mt-0 ">
+            <form id="sendBookingForm" class="mt-6  mx-auto flex flex-wrap gap-1 justify-between">
+                      <div class="sm:w-full md:w-[49%] w-full">
+                      <div>
+              <label for="eventTitle" class="block text-sm font-medium mb-2 mb-2">Event Title</label>
+              <input type="text" id="usereventTitle" name="eventTitle" class="w-full  rounded px-3 py-2" title="Choose event title">
+            </div>
+
+            <div class="mt-5">
+              <label for="numberOfGuest" class="block text-sm font-medium mb-2">Number of Guest</label>
+              <input type="text" id="numberOfGuest" name="numberOfGuest" class="w-full  rounded px-3 py-2">
+            </div>
+    
+            <!-- <div class="">
+              <label for="loungeType" class="block text-sm font-medium mb-2">Lounge Type</label>
+              <select name="loungeType" id="loungeType" class="py-2 pl-10 text-sm text-gray-700 rounded-lg -gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                <option value="" disabled selected>Select Event Type</option>
+                <option value="shared">Shared &#8358;<span id="sharedPrice">4000</span></option>
+                <option value="private">Private &#8358;<span id="privatePrice">8000</span></option>
+                <option value="vip">VIP &#8358;<span id="vipPrice">15000</span></option>
+              </select>
+            </div> -->
+
+
+
+          <div class="loungeTypeSelection mt-5">
+
+            <!-- custom select label -->
+            <div id="loungeTypeCustomLabel"  class="block text-sm font-medium mb-2"><span>Lounge Type</span></div>
+
+            <!-- custom select element -->
+            <div class="custom-select" >
+                <div data-value="" class="chosen" tabindex="0" ><span>Select Event Type</span> </div>
+                  <ul>
+                      <li data-value="shared">Shared &#8358;<span id="sharedPrice">4000</span></li>
+                      <li data-value="private">Private &#8358;<span id="privatePrice">8000</span></li>
+                      <li data-value="vip">VIP &#8358;<span id="vipPrice">15000</span></li>
+
+                  </ul>
+            </div>
+
+
+              <select class="select-area hidden" name="loungeType" id="loungeType" title="Select lounge type">
+                  <option value="Option 1">Option 1</option>
+                  <option value="Option 2">Option 2</option>
+                  <option value="Option 3">Option 3</option>
+              </select>
+          </div>
+
+
+          <div class="mt-5">
+              <label for="eventType" class="block text-sm font-medium mb-2">Event Type</label>
+              <input type="text" id="eventType" name="eventType" class="w-full  rounded px-3 py-2">
+          </div>
+        </div>
+           
+
+
+        <div class="w-full w-full md:w-[49%] ">
+          <div>
+            <label for="eventName" class="block text-sm font-medium mb-2">Event Name</label>
+            <input type="text" id="eventName" name="eventName" class="w-full  rounded px-3 py-2">
+          </div>
+
+          <div class="mt-5">
+            <label for="bookingContact" class="block text-sm font-medium mb-2">Booking Contact</label>
+            <input type="number" id="bookingContact" name="bookingContact" class="w-full  rounded px-3 py-2">
+          </div>
+
+          <div class="mt-5">
+            <label for="eventDate" class="block text-sm font-medium mb-2">Event Date</label>
+            <input type="date" id="eventDate" name="eventDate" class="w-full  rounded px-3 py-2">
+          </div>
+
+          <div class="mt-5">
+            <label for="eventTime" class="block text-sm font-medium mb-2">Event Time</label>
+            <input type="time" id="eventTime" name="eventTime" class="w-full  rounded px-3 py-2">
+          </div>
+        </div>
+
+    
+          <div class=" w-full mt-5">
+            <label for="eventMessage" class="block text-sm font-medium mb-2">Message (For Additional Request)</label>
+            <textarea id="eventMessage" name="eventMessage" rows="3" class="w-full  rounded px-3 py-2"></textarea>
+          </div>
+
+          <div class="mb-[10px] font-thin italic text-[12px] md:text-[14px] lg:text-[16px]">
+            <p id="truncateText">Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero incidunt tempora, repudiandae quod harum doloribus. Alias veniam aliquam ipsam temporibus eveniet, a magnam architecto dignissimos error adipisci et nulla fugiat!</p>
+
+            <p id="readMoreTruncate" class="text-orange-600 cursor-pointer">Read More</p>
+          </div>
+          <button class="mt-4 bg-orange-500 text-white py-2 px-4 rounded w-full animatedBtn1 text-sm"><span class="bg-black text-white"><span>PROCESS REQUEST</span></span>PROCESS REQUEST</button>
+          </form>
+      </div>
+
+        <div id="sendBookingDiv" class=" mx-auto w-full md:w-1/2 aboutUsImgHolder px-[1.5rem] pt-[2.5rem]">
+          <div class=" h-[400px] sm:h-[660px] mx-auto border-[3px] border-orange-400 overflow-hidden group rounded-[0.6rem] shadow-lg lounge_animation_holder">
+            <img id="ceoImageId" src="../image/perpetualTasteImg/restuarant_view/restaurant_view_long.jpg" alt="" class=" w-full h-full transform transition-transform object-cover duration-1000 ease-in-out group-hover:scale-120">
+          </div>
+        </div>
+    
+
+      </div>
+
+    </section>
 
   <!-- Lounge Bookings Popups  -->
   <section id="loungePopUp" class="fixed inset-0 bg-black bg-opacity-50 z-50 grid items-center hidden">
@@ -372,22 +554,56 @@
   </section>
 
     <!-- About Section -->
-    <section id="about" class="py-10 bg-gray-100 text-black">
-        <div class="container mx-auto px-4 text-center">
-          <h3 class="text-2xl font-bold text-orange-800">About Us</h3>
-          <p class="mt-4">Founded as a family business, Perpetual Fast Food combines the care of home cooked meals with the convenience of 24/7 service. We’re dedicated to serving fresh, fast, and delicious meals that bring people together anytime, anywhere.</p>
+    <section id="about" class=" bg-white text-black ">
+      <div class="container flex flex-wrap py-10 pt-[6rem] mx-auto">
+          <div class="mx-auto px-6 text-center w-full md:w-1/2 mb-5 pt-[4rem]">
+          <div class="heading1 ">
+            <h3>About Us</h3>
+            </div>
+          <p >Founded as a family business, Harold's Place combines the care of home cooked meals with the convenience of 24/7 service. We’re dedicated to serving fresh, fast, and delicious meals that bring people together anytime, anywhere.</p>
         </div>
     
-        <div id="ceoProfile" class="w-[95%] mx-auto mt-[20px]">
-          <div class="h-[400px] md:h-[550px] lg:w-[80%] mx-auto overflow-hidden border-[3px] border-orange-400">
-            <img id="ceoImageId" src="../image/perpetualTasteImg/bakery2.jpeg" alt="" class="object-cover w-full h-full">
+        <div id="ceoProfile" class=" mx-auto w-full md:w-1/2 aboutUsImgHolder px-6">
+          <div class=" h-[300px] md:h-[400px] mx-auto -[3px] border-orange-400 overflow-hidden group rounded-[0.6rem] shadow-lg">
+            <img id="ceoImageId" src="../image/perpetualTasteImg/bakery2.jpeg" alt="" class=" w-full h-full transform transition-transform object-cover duration-1000 ease-in-out group-hover:scale-120">
           </div>
         </div>
+      </div>
+
+    </section>
+
+    <section id="services" class="py-12 bg-white text-black">
+      <div class="container flex flex-wrap py-10 mx-auto">
+        <div id="ceoProfile" class=" mx-auto w-full md:w-1/2 aboutUsImgHolder px-6">
+          <div class=" h-[300px] md:h-[400px] mx-auto border-[3px] border-orange-400 overflow-hidden group rounded-[0.6rem] shadow-lg">
+          <img src="../image/perpetualTasteImg/img1.png" class=" w-full h-full transform transition-transform object-cover duration-1000 ease-in-out group-hover:scale-120" alt="Catering Service">          
+        </div>
+        </div>
+
+          <div class="mx-auto px-6 text-center w-full md:w-1/2 mb-5 pt-[4rem]">
+          <div class="heading1 ">
+            <h3>Our Services</h3>
+          </div>
+        <!-- Service Description -->
+        <div class="text-center text-lg font-medium leading-relaxed">
+          <p class="text-gray-800">
+            We offer premium catering services for all occasions. Choose from:
+          </p>
+          <ul class="mt-3 space-y-2 text-orange-900 font-semibold">
+            <li>✔ Outdoor Catering</li>
+            <li>✔ Indoor Catering</li>
+            <li>✔ Restaurant Services</li>
+            <li>✔ Lounge Booking</li>
+          </ul>
+        </div>
+        </div>
+      </div>
+
     </section>
 
 
  <!-- Services Section -->
-  <section id="services" class="py-12 bg-orange-100 text-black">
+  <section id="services" class="py-12 bg-orange-100 text-black hidden">
     <div class="container mx-auto px-6 text-center">
       <h3 class="text-3xl font-extrabold text-orange-800 mb-6">Our Services</h3>
 
@@ -415,8 +631,12 @@
 
 
     <!-- Testimonials -->
-    <section id="testimonialSection" class="py-12 bg-gray-100">
-        <h1 class="text-center text-3xl font-bold text-orange-700 mb-8">What Our Clients Say</h1>
+    <section id="testimonialSection" class="py-12 bg-gray-100 hold_pattern">
+      <div class="heading1"> 
+        <span>Customers'</span>
+        <h3 >Reviews</h3>
+      </div>
+        
         <div id="testimonialDiv" class="w-[95%] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
           <!-- 1st User Testimonial -->
@@ -505,9 +725,9 @@
     </section>
 
      <!-- Contact Section -->
-  <section id="contact" class="bg-orange-100 py-10 text-black">
-    <div class="container mx-auto px-4">
-      <h3 class="text-2xl font-bold text-red-800 text-center">Contact Us</h3>
+  <section id="contact" class="hold_pattern py-10 text-black">
+    <div class="container mx-auto px-4 pt-5">
+      <div class="heading1"><h3>Contact Us</h3></div>
       <form id="sendMessageForm" class="mt-6 max-w-lg mx-auto space-y-4">
         <div>
           <label for="messageTitle" class="block text-sm font-medium">Message Title</label>
@@ -518,14 +738,14 @@
           <label for="message" class="block text-sm font-medium">Message</label>
           <textarea id="userMessage" name="message" rows="4" class="w-full border rounded px-3 py-2"></textarea>
         </div>
-        <button type="submit" class="bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600">Send Message</button>
+          <button type="submit" class="mt-4 bg-orange-500 text-white py-2 px-4 rounded w-full animatedBtn1 text-sm"><span class="bg-black text-white"><span>SEND MESSAGE</span></span>SEND MESSAGE</button>
       </form>
     </div>
   </section>
       
   
   <footer class="bg-black text-white py-10 relative">
-    <div class="container mx-auto px-6 py-6 rounded-lg bg-opacity-30 bg-white backdrop-filter backdrop-blur-lg shadow-lg">
+    <div class="container mx-auto px-6 py-6 rounded-lg bg-opacity-30 backdrop-filter backdrop-blur-lg shadow-lg">
       <!-- Main Content -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- Address Section -->
@@ -582,9 +802,11 @@
   
         <!-- Call to Action -->
         <div class="mt-6 md:mt-0">
-          <a href="#" class="bg-orange-500 hover:bg-orange-600 text-white py-2 px-6 rounded-lg text-lg shadow-md">
+          <!-- <a href="#" class="bg-orange-500 hover:bg-orange-600 text-white py-2 px-6 rounded-lg text-lg shadow-md">
             Custom Package? Message Us on WhatsApp!
-          </a>
+          </a> -->
+
+           <a class="mt-4 bg-orange-500 text-white py-2 px-6 rounded-lg w-full animatedBtn1 text-sm uppercase"><span class="bg-white text-black shadow-md rounded-[8px]"><span>Custom Package? Message Us on WhatsApp!</span></span> Custom Package? Message Us on WhatsApp!</a>
         </div>
       </div>
   
@@ -629,4 +851,5 @@ document.getElementById("bakeType").addEventListener("change", function () {
 <script src="../jsFolder/clientOrders.js"></script>
 <script src="../jsFolder/userLoungeBooking.js"></script>
 <script src="../jsFolder/userBakeryOrder.js"></script>
+<script src="../jsFolder/styling.js"></script>
 </html>

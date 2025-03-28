@@ -37,10 +37,11 @@ const deleteGallery = async (req, res) => {
     try {
 
         const {id: deleteGalleryId} = req.params
-        const galleryVar = await gallery.findOneAndDelete({_id: deleteGalleryId})
-
+        const galleryVar = await gallery.findOne({_id: deleteGalleryId})
+        
         const oldImagePublicId = galleryVar.galleryMedia.split('/').pop().split('.')[0];
         await cloudinary.uploader.destroy(`GalleryVideo/${oldImagePublicId}`);
+        await gallery.findOneDelete({_id: deleteGalleryId})
 
         res.status(200).json(galleryVar)
     } catch (error) {

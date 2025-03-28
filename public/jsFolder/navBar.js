@@ -40,7 +40,6 @@ const activeNavBarFunc = () => {
   console.log(navLink);
   
   navLink.forEach((link) => {
-    console.log(link);
     let navColor = 'text-orange-400'
     if (link.getAttribute('href') === currentPage) {
       link.classList.add(navColor)

@@ -67,7 +67,7 @@ menuProductForm.addEventListener('submit', async (e) => {
         showAlertOrder(alertFailure, 'Unable to Upload Product');        
     }
     finally{
-      removeBtnFromLoadingState(menuUploadBtn)
+      removeBtnFromLoadingState(menuUploadBtn, 'Upload Product')
 
     }
 })
@@ -75,7 +75,6 @@ menuProductForm.addEventListener('submit', async (e) => {
 // getMenuProducts
 // getMenuProducts
 const getMenuProductFunc = async (e) => {
-  try {
     const getMenuProductsResponse = await fetch(getMenuProductFuncUrl);
 
     const data = await getMenuProductsResponse.json();
@@ -153,9 +152,6 @@ const getMenuProductFunc = async (e) => {
 
     attachEditEventListeners();
     
-  } catch (error) {
-    showAlertOrder(alertFailure, 'Unable to Fetch Product List');
-  }
 };
 
 
@@ -167,7 +163,7 @@ function isAllVariationsInvalid(variations) {
 
 const attachEditEventListeners = () => {
 
-  // Edit Listerner Section 
+  // Edit Listener Section 
   const editButton = document.querySelectorAll('.editButton')
   editButton.forEach((button) => {
     button.addEventListener('click', (e) => {
@@ -175,7 +171,7 @@ const attachEditEventListeners = () => {
 
       console.log(menuProductId);
       
-      fetchSingleProductFunc(menuProductId)
+      fetchSingleProductFunc(menuProductId, button) 
     })
   })
 
@@ -185,21 +181,21 @@ const attachEditEventListeners = () => {
     button.addEventListener('click', (e) => {
       const menuProductId = e.target.closest('.menuProductEach').dataset.id
 
-      deleteSingleProductFunc(menuProductId)
+      deleteSingleProductFunc(menuProductId, button)
     })
   })
 
 
 }
 
-const fetchSingleProductFunc = async (menuProductId) => {
+const fetchSingleProductFunc = async (menuProductId, button) => {
 
   try {
+    putButtonInLoadingState(button)
+
     const fetchSingleProductResponse = await fetch(`${config.apiUrl}/harolds/product/getSingleMenuProduct/${menuProductId}`)
 
     const data = await fetchSingleProductResponse.json()
-    console.log(data);
-
     const menuPopUpSection = document.getElementById('menuPopUpSection')
     menuPopUpSection.classList.remove('hidden')
 
@@ -270,14 +266,12 @@ const fetchSingleProductFunc = async (menuProductId) => {
     })
 
     // Edit Listener Section 
-    const editMenuProductForm = document.getElementById('editMenuProductForm')
+    const editMenuProductForm = document.getElementById('editMenuProductForm', button)
     editMenuProductForm.addEventListener('submit', async (e) => {
       e.preventDefault()
-      const editBtn = document.querySelector('form#editMenuProductForm button.submit');
       const menuName = document.getElementById('menuName').value;
       const menuProductDescription = document.getElementById('menuProductDescription').value;
       const menuProductPrice = document.getElementById('menuProductPrice').value;  
-      editBtn
       
 
       const formData = {
@@ -289,7 +283,7 @@ const fetchSingleProductFunc = async (menuProductId) => {
       
       try{
 
-        putButtonInLoadingState(editBtn)
+        putButtonInLoadingState(button)
 
         await updateMenuProductFunc(menuProductId, formData);
         menuPopUpSection.classList.add('hidden');
@@ -300,14 +294,19 @@ const fetchSingleProductFunc = async (menuProductId) => {
           showAlertOrder(alertFailure, 'Unable to Edit Product')
       }
       finally{
-        removeBtnFromLoadingState(editBtn)
+        removeBtnFromLoadingState(button, 'Upload Product')
       }
     })
 
   } catch (error) {
-    console.log(error);
+    showAlertOrder(alertFailure, 'Unable to Display Product Details')
     
-  }}
+  }
+    finally{
+      removeBtnFromLoadingState(button, `<p class="hidden md:block">Edit</p>
+                <i class="fas fa-pencil-alt md:hidden"></i>`)
+    }
+}
 
   const updateMenuProductFunc = async (menuProductId, formData) => {
 
@@ -319,26 +318,19 @@ const fetchSingleProductFunc = async (menuProductId) => {
         },
         body: JSON.stringify(formData)
       })
-
-      console.log(updateMenuProductResponse);
       
 
       if (!updateMenuProductResponse.ok)
           throw new Error('Unable to Update Product')
-
-
-        alert('Product updated successfully!');
         
         getMenuProductFunc(); // Refresh product list
 
   }
 
 
-  const deleteSingleProductFunc = async (menuProductId) => {
+  const deleteSingleProductFunc = async (menuProductId, button) => {
     try {
-      const delBtn = document.querySelector('.menuProductEach button.deleteButton')
-
-      putButtonInLoadingState(delBtn);
+      putButtonInLoadingState(button)
       const deleteSingleProductResponse = await fetch(`${config.apiUrl}/harolds/product/deleteMenuProduct/${menuProductId}`, {
         method: 'DELETE',
       })
@@ -354,7 +346,8 @@ const fetchSingleProductFunc = async (menuProductId) => {
       showAlertOrder(alertFailure, 'Unable to Delete Product')
     }
     finally{
-      removeBtnFromLoadingState(delBtn);
+      removeBtnFromLoadingState(button, `<p class="hidden md:block">Delete</p>
+                <i class="fas fa-trash md:hidden"></i>`);
 
     }
   }
@@ -385,17 +378,12 @@ const adminOrdersList = document.getElementById('adminOrdersList')
 const fetchAllOrders = async () => {
   adminOrdersList.innerHTML = '';
 
-  try {
     const response = await fetch(`${config.apiUrl}/harolds/adminGetOrder/adminGetAllProceedOrder`);
 
     const data = await response.json();
-    console.log('admin Data', data.orderProceed);
-
     const spreadData = data.orderProceed;
 
     spreadData.forEach((eachData) => {
-      // console.log(eachData.menuProductOrderVariation.size
-      // );
       const menuOrderId = eachData._id;
 
       // Format the createdAt date
@@ -457,9 +445,6 @@ const fetchAllOrders = async () => {
       `;
 
       adminOrdersList.innerHTML += ordersDisplay;
-
-      console.log(adminOrdersList);
-
       const confirmOrderBtn = document.getElementById('confirmOrderBtn');
       confirmOrderBtn.addEventListener('click', (e) => {
         const confirmMenuOrderId = e.target.closest('.ordersIdClass').dataset.id;
@@ -470,19 +455,18 @@ const fetchAllOrders = async () => {
     document.querySelectorAll('.cancleOrderBtn').forEach((button) => {
       button.addEventListener('click', (e) => {
         const deleteMenuOrderId = e.target.closest('.ordersIdClass').dataset.id;
-        cancleUserOrders(deleteMenuOrderId);
+        cancleUserOrders(deleteMenuOrderId, cancelBtn);
       });
     });
 
 
-  } catch (error) {
-    console.log(error);
-  }
+  
 };
 
 
-const cancleUserOrders = async (menuOrderId) => {
+const cancleUserOrders = async (menuOrderId, cancelOrderBtn) => {
   try {
+    putButtonInLoadingState(cancelOrderBtn)
     const response = await fetch(`${config.apiUrl}/harolds/order/adminCancleOrder/${menuOrderId}`, {
       method: 'DELETE',
       headers: {
@@ -492,11 +476,17 @@ const cancleUserOrders = async (menuOrderId) => {
     
 
     const data = await response.json()
-    fetchAllOrders()
+    fetchAllOrders();
+    if(!response.ok) throw new Error('Unable to Cancel User Order');
+
+    showAlertOrder(alertSuccess, 'User Order Cancelled Succssfully!')
     
   } catch (error) {
-    console.log(error);
+    showAlertOrder(alertFailure, 'Unable to Cancel User Order')
     
+  }
+  finally{
+    removeBtnFromLoadingState(cancelOrderBtn)
   }
 }
 
@@ -518,13 +508,11 @@ const confirmUserOrders = async (menuOrderId) => {
     fetchAllOrders()
 
   } catch (error) {
-    console.log(error);
-    
+      showAlertOrder(alertFailure, "Unable to Confirm User Order")
   }
 }
 
 const fetTotalOrderIncome = async () => {
-  try {
     const response = await fetch(`${config.apiUrl}/harolds/adminGetOrder/adminGetAllConfirmedOrdersPrice`)
 
     console.log('Total Price',response);
@@ -537,45 +525,26 @@ const fetTotalOrderIncome = async () => {
     const analyTicEarning = document.getElementById('analyTicEarning')
 
     analyTicEarning.textContent = analyticTotalPrice
-  } catch (error) {
-    
-  }
 }
 
 const countPendingOrdersFunc = async () => {
-  try {
     const response = await fetch(`${config.apiUrl}/harolds/adminGetOrder/adminGetAllProceedOrder`);
 
     const data = await response.json()
-    console.log(data);
-
     const countData = data.count
-    document.getElementById('pendingOrders').textContent = countData
-  } catch (error) {
-    console.log(error);
-    
-  }
+    document.getElementById('pendingOrders').textContent = countData;
 }
 
 const countRegisteredUsers = async () => {
-  try {
-    const response = await fetch(`${config.apiUrl}/harolds/api/getRegisteredUser`)
-
-    console.log(response);
-    
+    const response = await fetch(`${config.apiUrl}/harolds/api/getRegisteredUser`)    
 
     const data = await response.json()
     console.log('reg users count', data);
     document.getElementById('regUserCount').textContent = data.count
 
-  } catch (error) {
-    console.log(error);
-    
-  }
 }
 
 const getWeeklyGrowthFunc = async () => {
-  try {
     const response = await fetch(`${config.apiUrl}/harolds/adminGetOrder/getWeeklyGrowth`)
 
     const data = await response.json()
@@ -597,17 +566,10 @@ weeklyGrowthElem.className = `text-2xl font-bold ${
   growthPercentage >= 0 ? 'text-green-500' : 'text-red-500'
 }`;
 
-
-  } catch (error) {
-    console.log(error);
-    
-  }
 }
 
 
-const getAllUserMessageFunc = async () => {
-  try {
-  
+const getAllUserMessageFunc = async () => {  
     const response = await fetch(`${config.apiUrl}/harolds/message/getAllUserMessage`);
 
     const data = await response.json();
@@ -654,9 +616,6 @@ const getAllUserMessageFunc = async () => {
         getSingleUserMessageFunc(messageId);
       });
     });
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 
@@ -822,8 +781,9 @@ const galleryForm = document.getElementById('galleryForm')
 const createGalleryFunc = async () => {
   const createBtn = document.querySelector('#galleryForm button.upload')
   const formData = new FormData(galleryForm);
-  try {
 
+  try{
+    
     putButtonInLoadingState(createBtn);
 
     const response = await fetch(`${config.apiUrl}/galleryDisplay/createGallery`, {
@@ -839,12 +799,14 @@ const createGalleryFunc = async () => {
         } else {
           throw new Error("Unable to Upload File.");
         }
-  } catch (error) {
-    showAlertOrder(alertFailure, 'Unable to Upload File')
+  }
+  catch(err){
+    showAlertOrder(alertFailure, "Unable to Upload File.");
   }
   finally{
-    removeBtnFromLoadingState(createBtn, 'Upload Gallery')
+    removeBtnFromLoadingState(createBtn, "Upload Gallery")
   }
+
 }
 
 galleryForm.addEventListener('submit', async (e) => {
@@ -1018,7 +980,7 @@ async function deleteGalleryFunc(galleryDeleteId) {
 
     }
     finally{
-      removeBtnFromLoadingState(dailyMenuSubmitBtn)
+      removeBtnFromLoadingState(dailyMenuSubmitBtn, 'Upload Product')
     }
   })
 
@@ -1027,7 +989,6 @@ async function getAllDailyMenus() {
 
   const dailyMenuProductList = document.getElementById('dailyMenuProductList')
 
-    try {
         const response = await fetch(`${config.apiUrl}/dailyMenuDisplay/allDailyMenu`);
         const data = await response.json();
 
@@ -1081,9 +1042,6 @@ async function getAllDailyMenus() {
           
 
         })
-    } catch (error) {
-        console.error("Error fetching daily menus:", error);
-    }
 }
 
 // Function to get a single daily menu by ID
@@ -1205,7 +1163,6 @@ const bakeOrderList = document.getElementById('bakeOrderList')
 
 const fetchAllUserBakeryBookings = async () => {
   bakeOrderList.innerHTML = ''
-  try {
     const response = await fetch(`${config.apiUrl}/perpetualtaste/getAllBakery`)
     const data = await response.json()
 
@@ -1259,11 +1216,7 @@ const fetchAllUserBakeryBookings = async () => {
     })
     
     
-    
-  } catch (error) {
-    console.log(error);
-    
-  }
+
 }
 
 const formatTimeAgo = (timestamp) => {

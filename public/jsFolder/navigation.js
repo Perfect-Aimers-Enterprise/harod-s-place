@@ -73,7 +73,7 @@ exploreApp.onclick = () => {
 
         // localStorage.removeItem('token')
 
-    window.location.href = '../htmlFolder/perpetualTaste.html'
+    window.location.href = '../htmlFolder/haroldsPlace.html'
 }
 
 ForgottenPassword.onclick = () => {
@@ -113,7 +113,7 @@ registrationForm.addEventListener('submit', async (e) => {
     
 
     try {
-        const registrationResponse = await fetch(`${configreg.apiUrl}/doveeysKitchen/api/registerUser`, {
+        const registrationResponse = await fetch(`${configreg.apiUrl}/harolds/api/registerUser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -158,7 +158,7 @@ registrationForm.addEventListener('submit', async (e) => {
 loginForm.addEventListener('submit', async (e) => {
     e.preventDefault()
     try {
-        const loginResponse = await fetch(`${configreg.apiUrl}/doveeysKitchen/api/loginUser`, {
+        const loginResponse = await fetch(`${configreg.apiUrl}/harolds/api/loginUser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -192,7 +192,7 @@ loginForm.addEventListener('submit', async (e) => {
             localStorage.setItem('userName', data.user.userName),
             localStorage.setItem('userEmail', data.user.userEmail)
             localStorage.setItem('userPhone', data.user.userPhone)
-            window.location.href = '../htmlFolder/perpetualTaste.html'
+            window.location.href = '../htmlFolder/haroldsPlace.html'
         }
         
     } catch (error) {
@@ -208,7 +208,7 @@ const userRecoveryEmail = document.getElementById('userRecoveryEmail')
 forgottenPassForm.addEventListener('submit', async (e) => {
     e.preventDefault()
     try {
-        const response = await fetch(`${configreg.apiUrl}/doveeysKitchen/api/4gotten-password`, {
+        const response = await fetch(`${configreg.apiUrl}/harolds/api/4gotten-password`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

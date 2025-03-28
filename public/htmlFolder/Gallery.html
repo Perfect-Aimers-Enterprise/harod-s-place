@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="shortcut icon" href="../image/perpetualTasteImg/logo.png">
   <link rel="stylesheet" href="../src/output.css">
+    <link rel="stylesheet" href="../css/landing.css">
   <title>Perpetual Taste - Gallery</title>
   <style>
     .menu-item {
@@ -46,56 +47,68 @@
 <body class="bg-black text-gray-200">
 
  <!-- Header -->
- <header class="bg-orange-600 text-white py-3 fixed top-0 w-full z-10 shadow-md text-[12px]">
-  <div class="container mx-auto flex justify-between items-center px-6 lg:px-16">
-    <div class="flex items-center space-x-4">
-      <img src="../image/perpetualTasteImg/logo.png" alt="Logo" class="w-10 h-10">
-      <h1 class="text-lg font-bold">Perpetual Taste</h1>
+  <header class=" text-white AtTop fixed top-0 w-full z-10 shadow-lg text-[14px] uppercase">
+    <div class="container mx-auto flex justify-between items-center px-6 lg:px-16">
+      <div class="flex items-center space-x-4">
+        <!-- <img src="../image/perpetualTasteImg/logo.png" alt="Logo" class="w-10 h-10"> -->
+        <h1 class="text-lg font-bold"><a href="haroldsPlace.html" class="underline-none ">Harold's Place</a></h1>
+      </div>
+
+      <nav class="hidden lg:block">
+        <ul class="flex space-x-6">
+          <li><a href="haroldsPlace.html#menu" class="hover:text-orange-300">Menu</a></li>
+          <li><a href="haroldsPlace.html#bakery" class="hover:text-orange-300">Bakery</a></li>
+          <li><a href="haroldsPlace.html#loungeBookings" class="hover:text-orange-300">Book Lounge</a></li>
+          <li><a href="../htmlFolder/Gallery.html" class="hover:text-orange-300">Gallery</a></li>
+          <li><a href="../htmlFolder/regLog.html" class="hover:text-orange-300">Account</a></li>
+          
+          <li><a href="haroldsPlace.html#about" class="hover:text-orange-300">About</a></li>
+          <li><a href="haroldsPlace.html#services" class="hover:text-orange-300">Services</a></li>
+          <li><a href="haroldsPlace.html#contact" class="hover:text-orange-300">Contact</a></li>
+          <li>
+            <a href="../htmlFolder/shoppingCart.html" class="relative">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="absolute -top-2 -right-2 bg-orange-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center cartCount">1</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <button id="menuToggle" class="lg:hidden text-xl">
+        <i class="fas fa-bars"></i>
+      </button>
     </div>
 
-    <nav class="hidden lg:block">
-      <ul class="flex space-x-6">
-        <li><a href="perpetualTaste.html" class="hover:text-orange-300">Home</a></li>
-        <li><a href="Gallery.html" class="hover:text-orange-300">Gallery</a></li>
-        <li><a href="regLog.html" class="hover:text-orange-300">Account</a></li>
-        
-          <a href="../htmlFolder/shoppingCart.html" class="relative">
-            <i class="fas fa-shopping-cart"></i>
-            <span class="absolute -top-2 -right-2 bg-orange-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center cartCount">1</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-
-    <button id="menuToggle" class="lg:hidden text-xl">
-      <i class="fas fa-bars"></i>
-    </button>
-  </div>
-
-  <!-- Sliding Navbar -->
-<nav id="slidingNavbar" class="fixed top-0 right-0 h-full w-3/4 bg-black text-gray-200 transform translate-x-full transition-transform duration-300 lg:hidden">
-  <div class="p-4">
-    <!-- Close Icon -->
-    <button id="closeMenu" class="text-white text-2xl">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
-  <ul class="mt-5 space-y-4 text-[14px] px-6">
-    <li><a href="perpetualTaste.html" class="hover:text-orange-300">Home</a></li>
-    <li><a href="Gallery.html" class="hover:text-orange-300">Gallery</a></li>
-    <li><a href="regLog.html" class="hover:text-orange-300">Account</a></li>
-    <li class="w-fit">
-      <a href="shoppingCart.html" class="relative">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="absolute -top-2 -right-2 bg-orange-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center cartCount"></span>
-      </a>
-    </li>
-  </ul>
-</nav>
-</header>
+    <!-- Sliding Navbar -->
+  <nav id="slidingNavbar" class="fixed top-0 right-0 h-full w-3/4 bg-black text-gray-200 transform translate-x-full transition-transform duration-300 lg:hidden">
+    <div class="p-4">
+      <!-- Close Icon -->
+      <button id="closeMenu" class="text-white text-2xl">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul class="mt-5 space-y-4 text-[14px] px-6">
+      <li><a href="#menu" class="hover:text-orange-300">Menu</a></li>
+      <li><a href="#bakery" class="hover:text-orange-300">Bakery</a></li>
+      
+      <li><a href="#loungeBookings" class="hover:text-orange-300">Book Lounge</a></li>
+      <li><a href="../htmlFolder/Gallery.html" class="hover:text-orange-300">Gallery</a></li>
+      <li><a href="../htmlFolder/regLog.html" class="hover:text-orange-300">Account</a></li>
+      <li><a href="#about" class="hover:text-orange-300">About</a></li>
+      <li><a href="#services" class="hover:text-orange-300">Services</a></li>
+      <li><a href="#contact" class="hover:text-orange-300">Contact</a></li>
+      <li class="w-fit">
+        <a href="../htmlFolder/shoppingCart.html" class="relative">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="absolute -top-2 -right-2 bg-orange-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center cartCount"></span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  </header>
 
   <!-- Menu Section -->
-  <section class="py-20 mt-[40px]">
+  <section class="py-20 ">
     <div class="container mx-auto px-4">
       <h2 class="text-4xl font-bold text-orange-800 text-center">Our Gallery</h2>
       <p class="text-lg text-gray-400 text-center mt-2">Explore our Gallery and create yourself a unique memory</p>

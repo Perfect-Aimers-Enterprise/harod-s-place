@@ -2,7 +2,7 @@ const productModel = require('../model/productModel')
 const cloudinary = require('cloudinary').v2;
 
 const createMenuProduct = async (req, res) => {
-
+    console.log("Hello")
     try {
 
         const { menuProductName, menuDescription, menuPrice, variationSize, variationPrice } = req.body
@@ -11,9 +11,6 @@ const createMenuProduct = async (req, res) => {
             throw new Error ('No Image was uploaded')
         }
         menuImageUrl = req.file.path
-
-
-
          // Create a new menu product
          const menuProduct = await productModel.create({
             menuProductName,
@@ -64,10 +61,12 @@ const getSingleMenuProduct = async (req, res) => {
 const deleteMenuProduct = async (req, res) => {
     try {
         const { id:menuProductId } = req.params
-        const menuProduct = await productModel.findOneAndDelete({_id:menuProductId})
-
+        const menuProduct = await productModel.findOne({_id:menuProductId})
+        
         const oldImagePublicId = menuProduct.menuImage.split('/').pop().split('.')[0];
         await cloudinary.uploader.destroy(`menuImages/${oldImagePublicId}`);
+
+        await productModel.deleteOne({_id:menuProductId});
 
         res.status(201).send('Product Successfully Deleted')
     } catch (error) {
