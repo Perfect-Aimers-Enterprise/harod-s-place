@@ -81,14 +81,29 @@ p {
 
 input, textarea, select, div.custom-select div.chosen {
   border-radius: 10px !important;
-  outline-width: 2px;
-  outline-color: rgb(228, 228, 228);
+  outline-width: 1px;
+  /* outline-color: rgb(228, 228, 228); */
   outline-style: solid;
   border-image: none;
+  border: none;
+  height: 40px;
+  width: 100%;
+}
+
+.white-form input, .white-form textarea, .white-form select, .white-form div.chosen{
+  outline-color: rgb(99, 99, 99);
+}
+
+input:not(form.white-form input), textarea:not(form.white-form textarea), select:not(form.white-form select), div.custom-select div.chosen:not(form.white-form div) {
+  /* border-radius: 10px !important; */
+  /* outline-width: 2px; */
+  outline-color: rgb(228, 228, 228);
+  /* outline-style: solid; */
+  /* border-image: none; */
 }
 
 input:focus, textarea:focus, select:focus{
-  outline-color: var(--focus-input-outline-color);
+  outline-color: var(--focus-input-outline-color) !important;
   outline-width: 2px;
   border: none;
   outline-style: solid;
@@ -175,11 +190,11 @@ a.animatedBtn1:hover>span, button.animatedBtn1:hover>span {
 /* Styles for Select Element */
 
 
-div.loungeTypeSelection{
+div.loungeTypeSelection, div.bakeTypeSelection{
   position: relative;
 }
 
-div.custom-select div.chosen {
+/* div.custom-select div.chosen {
   background-color: white;
   width: 100%;
   padding: 10px 12px;
@@ -187,6 +202,26 @@ div.custom-select div.chosen {
   display: flex;
   align-items: center;
   justify-content: space-between;
+} */
+
+div.custom-select div.chosen {
+  /* background-color: white; */
+  width: 100%;
+  padding: 10px 12px;
+  /* border-radius: 8px; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+div.custom-select div.chosen {
+  background-color: white;
+  /* width: 100%; */
+  /* padding: 10px 12px; */
+  border-radius: 8px;
+  /* display: flex; */
+  /* align-items: center;
+  justify-content: space-between; */
 }
 
 div.custom-select div.chosen::after{
@@ -199,7 +234,11 @@ div.custom-select.open div.chosen::after{
   content: '\25B2';
 }
 
-div.custom-select div.chosen:focus{
+/* div.custom-select div.chosen:focus{
+  outline: 2px var(--focus-input-outline-color) solid;
+  border-radius: 8px;
+} */
+div.custom-select:focus{
   outline: 2px var(--focus-input-outline-color) solid;
   border-radius: 8px;
 }
@@ -222,7 +261,11 @@ div.custom-select div.chosen:focus{
   border-radius: 8px;;
 }
 
-div.custom-select div.chosen:focus+ul{
+/* div.custom-select div.chosen:focus+ul{
+  display: block;
+} */
+
+div.custom-select:focus ul{
   display: block;
 }
 
@@ -245,7 +288,7 @@ div.custom-select div.chosen:focus+ul{
 }
 
 .food_daily_menu{
-  transform: translate(0, 40%);
+  transform: translate(0, 50px);
   opacity: 0;
   transition: all 1.1s ease;
 }
@@ -263,8 +306,21 @@ div.custom-select div.chosen:focus+ul{
   transition: all 1.1s ease;
   
 }
+.aboutText, .servicesImage{
+  transform: translate(60%, 0);
+  opacity: 0;
+  transition: all 1.1s ease; 
+}
+
+.aboutImage, .ourServicesText{
+  transform: translate(-60%, 0);
+  opacity: 0;
+  transition: all 1.1s ease;
+}
 
 .appear {
   transform: translate(0, 0);
   opacity: 1;
 }
+
+

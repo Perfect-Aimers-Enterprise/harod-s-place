@@ -218,57 +218,79 @@
             <h3>Our Bakery</h3>
           </div>
 
-        <div id="ceoProfile" class=" mx-auto w-full md:w-1/2 aboutUsImgHolder px-[1.5rem] ">
+        <div id="ceoProfile" class=" mx-auto w-full lg:w-1/2 aboutUsImgHolder px-[1.5rem] ">
           <div class=" h-[400px] sm:h-[490px] mx-auto border-[3px] border-orange-400 overflow-hidden group rounded-[0.6rem] shadow-lg bakery_image">
             <img id="ceoImageId" src="../image/perpetualTasteImg/bread/pexels-pixabay-209206.jpg" alt="" class=" w-full h-full transform transition-transform object-cover duration-1000 ease-in-out group-hover:scale-120">
           </div>
         </div>
 
 
-        <div class="mx-auto w-full md:w-1/2 mb-5 px-[1.5rem] mt-5 md:mt-0 ">
+        <div class="mx-auto w-full lg:w-1/2 mb-5 px-[1.5rem] mt-5 md:mt-0 ">
           <!-- <div class="heading1">
             <span>Order From </span>
             <h3>Our Bakery</h3>
           </div> -->
           
-          <form id="breadOrderForm" class="w-full mx-auto bg-white p-6 rounded-lg shadow-md space-y-4">
-            
-            <!-- Bake Type Selection -->
-            <div>
-              <label for="bakeType" class="block text-sm font-medium text-gray-700">Bake Type</label>
-              <select name="bakeType" id="bakeType" class="w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-orange-500">
+          <form id="breadOrderForm" class="w-full mx-auto bg-white p-6 rounded-lg shadow-md space-y-4 white-form">
+
+
+            <div class="bakeTypeSelection mt-5">
+
+              <!-- custom select label -->
+              <label id="loungeTypeCustomLabel"  class="block text-sm font-medium mb-2"><span>Bake Type</span></label>
+
+              <!-- custom select element -->
+              <div class="custom-select max-md:hidden" tabindex="0">
+                  <div data-value="" class="chosen"  ><span>Bake Type</span> </div>
+                    <ul>
+                      <li>Bread</span></li>
+                      <li>Cake</span></li>
+                      <li>Pizza</span></li>
+                      <li>Shawarma</span></li>
+                      <li>Hot Dog</span></li>
+                      <li>Others</span></li>
+
+                  </ul>
+            </div>
+
+                        <!-- Bake Type Selection Select Element -->
+            <div class="md:hidden">
+              <select name="bakeType" id="bakeType" class="w-full border rounded px-2 py-2 mt-1 focus:ring-2 ">
                 <option value="" selected disabled>Select Bake Type</option>
                 <option value="bread">Bread</option>
                 <option value="cake">Cake</option>
                 <option value="pizza">Pizza</option>
                 <option value="shawarma">Shawarma</option>
                 <option value="hotdog">Hot Dog</option>
-                <option value="other">Other</option>
+                <option value="other">Others</option>
               </select>
             </div>
+
+          </div>
+
             
             <!-- Other Bake Type Input -->
             <div id="otherBakeTypeContainer" class="hidden">
               <label for="otherBakeType" class="block text-sm font-medium text-gray-700">Specify Other</label>
-              <input type="text" id="otherBakeType" name="otherBakeType" class="w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Enter the bake type">
+              <input type="text" id="otherBakeType" name="otherBakeType" class="w-full border rounded px-3 py-2 mt-1 " placeholder="Enter the bake type">
             </div>
             
             <!-- Quantity Input -->
             <div>
               <label for="bakeQuantity" class="block text-sm font-medium text-gray-700">Quantity</label>
-              <input type="number" id="bakeQuantity" name="bakeQuantity" class="w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Enter quantity (Optional)" min="1">
+              <input type="number" id="bakeQuantity" name="bakeQuantity" class="w-full border rounded px-3 py-2 mt-1 " placeholder="Enter quantity (Optional)" min="1">
             </div>
       
             <!-- Ordering Contact  -->
             <div>
               <label for="bakeContact" class="block text-sm font-medium text-gray-700">Contact</label>
-              <input type="number" id="bakeContact" name="bakeContact" class="w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Enter Contact" min="1">
+              <input type="number" id="bakeContact" name="bakeContact" class="w-full border rounded px-3 py-2 mt-1 " placeholder="Enter Contact" min="1">
             </div>
             
             <!-- Description Input -->
             <div>
               <label for="bakeDescription" class="block text-sm font-medium text-gray-700">Description</label>
-              <textarea id="bakeDescription" name="bakeDescription" rows="4" class="w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Describe preferred size, texture, etc."></textarea>
+              <textarea id="bakeDescription" name="bakeDescription" rows="4" class="w-full border rounded px-3 py-2 mt-1 " placeholder="Describe preferred size, texture, etc."></textarea>
             </div>
             
             <!-- Submit Button -->
@@ -313,13 +335,13 @@
      </a>
   </section>
 
-  <!-- Lounge Bookings Section -->
+  <!-- Lounge Bookings Section hidden-->
   <section id="loungeBookings" class="py-16 hold_pattern hidden">
     <div class="container mx-auto px-6 lg:px-16 text-black">
       <div class="heading1">
-        <h3>Book a Lounge</h3>
+        <h3 class=" !mb-0">Book a Lounge</h3>
       </div>
-      <p class=" mb-10 text-center capitalize">Exciting Packages for Holidays and Events!</p>
+      <p class=" max-lg-mb-0 mb-10 text-center capitalize">Exciting Packages for Holidays and Events!</p>
 
         <div id="sendBookingDiv" class="container mx-auto px-4">
           <form id="sendBookingForm" class="mt-6  mx-auto flex flex-wrap gap-1 justify-between">
@@ -349,11 +371,11 @@
           <div class="loungeTypeSelection mt-5">
 
             <!-- custom select label -->
-            <div id="loungeTypeCustomLabel"  class="block text-sm font-medium mb-2"><span>Lounge Type</span></div>
+            <label id="loungeTypeCustomLabel" for="loungeType" class="block text-sm font-medium mb-2"><span>Lounge Type</span></label>
 
             <!-- custom select element -->
-            <div class="custom-select" >
-                <div data-value="" class="chosen" tabindex="0" ><span>Select Event Type</span> </div>
+            <div class="custom-select" tabindex="0">
+                <div data-value="" class="chosen"  ><span>Select Event Type</span> </div>
                   <ul>
                       <li data-value="shared">Shared &#8358;<span id="sharedPrice">4000</span></li>
                       <li data-value="private">Private &#8358;<span id="privatePrice">8000</span></li>
@@ -423,16 +445,16 @@
 
       <!-- Lounge Bookings Section-->
     <section id="bakery" class=" bg-gray-100 hold_pattern text-black ">
-      <div class="container flex flex-wrap py-10 pt-[3rem] mx-auto px-[1.5rem]">
+      <div class="container flex flex-wrap py-10 pt-[4rem] mx-auto px-[1.5rem]">
 
 
-          <div class="heading1 w-full order-[1] sm:order-[0] ">
-            <h3>Book a Lounge</h3>
+          <div class="heading1 w-full sm:order-[0] ">
+            <h3 class=" !mb-4">Book a Lounge</h3>
           </div>
-           <p class=" mb-10 text-center capitalize w-full">Exciting Packages for Holidays and Events!</p>
+           <p class="  max-lg:mb-0 mb-10 text-center capitalize w-full">Exciting Packages for Holidays and Events!</p>
 
 
-        <div class="mx-auto w-full md:w-1/2 mb-5 px-[1.5rem] mt-5 md:mt-0 ">
+        <div class="mx-auto w-full lg:w-1/2 mb-5 px-[1.5rem] mt-5 order-2 max-lg:mt-4 mt-0">
             <form id="sendBookingForm" class="mt-6  mx-auto flex flex-wrap gap-1 justify-between">
                       <div class="sm:w-full md:w-[49%] w-full">
                       <div>
@@ -460,24 +482,25 @@
           <div class="loungeTypeSelection mt-5">
 
             <!-- custom select label -->
-            <div id="loungeTypeCustomLabel"  class="block text-sm font-medium mb-2"><span>Lounge Type</span></div>
+            <div id="loungeTypeCustomLabel"  class="block text-sm font-medium mb-2 px-2"><span>Lounge Type</span></div>
 
             <!-- custom select element -->
-            <div class="custom-select" >
-                <div data-value="" class="chosen" tabindex="0" ><span>Select Event Type</span> </div>
+            <div class="custom-select max-md:hidden" tabindex="0" >
+                <div data-value="" class="chosen" ><span>Select Event Type</span> </div>
                   <ul>
-                      <li data-value="shared">Shared &#8358;<span id="sharedPrice">4000</span></li>
-                      <li data-value="private">Private &#8358;<span id="privatePrice">8000</span></li>
-                      <li data-value="vip">VIP &#8358;<span id="vipPrice">15000</span></li>
+                      <li data-value="shared"><span class="value">Shared &#8358;<span id="sharedPrice">4000</span></span> </li>
+                      <li data-value="private"> <span class="value">Private &#8358;<span id="privatePrice">8000</span></span>  </li>
+                      <li data-value="vip"><span class="value">VIP &#8358;<span id="vipPrice">15000</span></span> </li>
 
                   </ul>
             </div>
 
 
-              <select class="select-area hidden" name="loungeType" id="loungeType" title="Select lounge type">
-                  <option value="Option 1">Option 1</option>
-                  <option value="Option 2">Option 2</option>
-                  <option value="Option 3">Option 3</option>
+              <select class="select-area md:hidden px-2" name="loungeType" id="loungeType" title="Select lounge type">
+                <option value="" disabled selected>Select Event Type</option>
+                <option value="shared">Shared &#8358;<span id="sharedPrice">4000</span></option>
+                <option value="private">Private &#8358;<span id="privatePrice">8000</span></option>
+                <option value="vip">VIP &#8358;<span id="vipPrice">15000</span></option>
               </select>
           </div>
 
@@ -527,13 +550,12 @@
           </form>
       </div>
 
-        <div id="sendBookingDiv" class=" mx-auto w-full md:w-1/2 aboutUsImgHolder px-[1.5rem] pt-[2.5rem]">
+        <div id="sendBookingDiv" class=" mx-auto w-full lg:w-1/2 aboutUsImgHolder px-[1.5rem] pt-[2.5rem] order-1 lg:order-2">
           <div class=" h-[400px] sm:h-[660px] mx-auto border-[3px] border-orange-400 overflow-hidden group rounded-[0.6rem] shadow-lg lounge_animation_holder">
             <img id="ceoImageId" src="../image/perpetualTasteImg/restuarant_view/restaurant_view_long.jpg" alt="" class=" w-full h-full transform transition-transform object-cover duration-1000 ease-in-out group-hover:scale-120">
           </div>
         </div>
     
-
       </div>
 
     </section>
@@ -553,17 +575,17 @@
     
   </section>
 
-    <!-- About Section -->
-    <section id="about" class=" bg-white text-black ">
+    <!-- About Section 1-->
+    <section id="about" class=" max-lg:hidden bg-white text-black ">
       <div class="container flex flex-wrap py-10 pt-[6rem] mx-auto">
-          <div class="mx-auto px-6 text-center w-full md:w-1/2 mb-5 pt-[4rem]">
+          <div class="mx-auto px-6 text-center w-full md:w-1/2 mb-5 pt-[4rem] aboutText">
           <div class="heading1 ">
             <h3>About Us</h3>
-            </div>
+          </div>
           <p >Founded as a family business, Harold's Place combines the care of home cooked meals with the convenience of 24/7 service. We’re dedicated to serving fresh, fast, and delicious meals that bring people together anytime, anywhere.</p>
         </div>
     
-        <div id="ceoProfile" class=" mx-auto w-full md:w-1/2 aboutUsImgHolder px-6">
+        <div id="ceoProfile" class=" mx-auto w-full md:w-1/2 aboutUsImgHolder px-6 aboutImage">
           <div class=" h-[300px] md:h-[400px] mx-auto -[3px] border-orange-400 overflow-hidden group rounded-[0.6rem] shadow-lg">
             <img id="ceoImageId" src="../image/perpetualTasteImg/bakery2.jpeg" alt="" class=" w-full h-full transform transition-transform object-cover duration-1000 ease-in-out group-hover:scale-120">
           </div>
@@ -572,15 +594,70 @@
 
     </section>
 
-    <section id="services" class="py-12 bg-white text-black">
+
+    <!-- About Section 2-->
+    <section id="about" class=" bg-white text-black lg:hidden">
+      <div class="container flex flex-wrap py-10 pt-[6rem] mx-auto ">
+          <div class="heading1 max-lg:w-full w-1/2 aboutText">
+            <h3>About Us</h3>
+            </div>
+          <p class=" max-lg:order[2] order-0 aboutText text-center">Founded as a family business, Harold's Place combines the care of home cooked meals with the convenience of 24/7 service. We’re dedicated to serving fresh, fast, and delicious meals that bring people together anytime, anywhere.</p>
+    
+        <div id="ceoProfile" class=" mx-auto w-full  lg:w-1/2 max-lg:order[1] order-0 aboutUsImgHolder px-6 aboutImage max-lg:mt-3 mt-0">
+          <div class=" h-[300px] md:h-[400px] mx-auto -[3px] border-orange-400 overflow-hidden group rounded-[0.6rem] shadow-lg">
+            <img id="ceoImageId" src="../image/perpetualTasteImg/bakery2.jpeg" alt="" class=" w-full h-full transform transition-transform object-cover duration-1000 ease-in-out group-hover:scale-120">
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <section id="services" class="py-12 bg-white text-black lg:hidden">
       <div class="container flex flex-wrap py-10 mx-auto">
-        <div id="ceoProfile" class=" mx-auto w-full md:w-1/2 aboutUsImgHolder px-6">
+            <div class="heading1 text-center w-full">
+              <h3>Our Services</h3>
+            </div>
+
+        <div id="ceoProfile" class=" mx-auto w-full  aboutUsImgHolder px-6 servicesImage">
+          <div class=" h-[300px] md:h-[400px] mx-auto border-[3px] border-orange-400 overflow-hidden group rounded-[0.6rem] shadow-lg">
+            <img src="../image/perpetualTasteImg/img1.png" class=" w-full h-full transform transition-transform object-cover duration-1000 ease-in-out group-hover:scale-120" alt="Catering Service">          
+          </div>
+        </div>
+
+        <div class="mx-auto px-6 text-center w-full mb-5 mt-[2rem] ourServicesText">
+          <!-- Service Description -->
+          <div class="text-center text-lg font-medium leading-relaxed">
+            <p class="text-gray-800">
+              We offer premium catering services for all occasions. Choose from:
+            </p>
+            <ul class="mt-3 space-y-2 text-orange-900 font-semibold">
+              <li>✔ Outdoor Catering</li>
+              <li>✔ Indoor Catering</li>
+              <li>✔ Restaurant Services</li>
+              <li>✔ Lounge Booking</li>
+            </ul>
+          </div>
+        </div>
+
+
+        
+
+
+      </div>
+
+    </section>
+
+
+    <!-- Our Services Section for big screens -->
+    <section id="services" class="py-12 bg-white text-black max-lg:hidden">
+      <div class="container flex flex-wrap py-10 mx-auto">
+        <div id="ceoProfile" class=" mx-auto w-full md:w-1/2 aboutUsImgHolder px-6 servicesImage">
           <div class=" h-[300px] md:h-[400px] mx-auto border-[3px] border-orange-400 overflow-hidden group rounded-[0.6rem] shadow-lg">
           <img src="../image/perpetualTasteImg/img1.png" class=" w-full h-full transform transition-transform object-cover duration-1000 ease-in-out group-hover:scale-120" alt="Catering Service">          
         </div>
         </div>
 
-          <div class="mx-auto px-6 text-center w-full md:w-1/2 mb-5 pt-[4rem]">
+          <div class="mx-auto px-6 text-center w-full md:w-1/2 mb-5 pt-[4rem] ourServicesText">
           <div class="heading1 ">
             <h3>Our Services</h3>
           </div>
@@ -602,7 +679,7 @@
     </section>
 
 
- <!-- Services Section -->
+    <!-- Hidden Our Services Section -->
   <section id="services" class="py-12 bg-orange-100 text-black hidden">
     <div class="container mx-auto px-6 text-center">
       <h3 class="text-3xl font-extrabold text-orange-800 mb-6">Our Services</h3>

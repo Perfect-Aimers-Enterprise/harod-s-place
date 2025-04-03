@@ -2812,8 +2812,20 @@ html {
   z-index: 50;
 }
 
+.order-1 {
+  order: 1;
+}
+
+.order-2 {
+  order: 2;
+}
+
 .order-\[1\] {
   order: 1;
+}
+
+.float-start {
+  float: inline-start;
 }
 
 .m-0 {
@@ -2823,6 +2835,14 @@ html {
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+
+.\!mb-0 {
+  margin-bottom: 0px !important;
+}
+
+.\!mb-4 {
+  margin-bottom: 1rem !important;
 }
 
 .mb-1 {
@@ -2877,6 +2897,10 @@ html {
   margin-right: 10px;
 }
 
+.mt-0 {
+  margin-top: 0px;
+}
+
 .mt-1 {
   margin-top: 0.25rem;
 }
@@ -2915,6 +2939,10 @@ html {
 
 .mt-\[20px\] {
   margin-top: 20px;
+}
+
+.mt-\[2rem\] {
+  margin-top: 2rem;
 }
 
 .mt-\[30px\] {
@@ -3656,6 +3684,11 @@ html {
   padding-bottom: 10px;
 }
 
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
 .pb-6 {
   padding-bottom: 1.5rem;
 }
@@ -4171,6 +4204,34 @@ input, option, textarea, select {
   opacity: 0.5;
 }
 
+@media not all and (min-width: 1024px) {
+  .max-lg\:mb-0 {
+    margin-bottom: 0px;
+  }
+
+  .max-lg\:mt-3 {
+    margin-top: 0.75rem;
+  }
+
+  .max-lg\:mt-4 {
+    margin-top: 1rem;
+  }
+
+  .max-lg\:hidden {
+    display: none;
+  }
+
+  .max-lg\:w-full {
+    width: 100%;
+  }
+}
+
+@media not all and (min-width: 768px) {
+  .max-md\:hidden {
+    display: none;
+  }
+}
+
 @media (min-width: 640px) {
   .sm\:order-\[0\] {
     order: 0;
@@ -4319,6 +4380,10 @@ input, option, textarea, select {
 }
 
 @media (min-width: 1024px) {
+  .lg\:order-2 {
+    order: 2;
+  }
+
   .lg\:block {
     display: block;
   }
@@ -4333,6 +4398,10 @@ input, option, textarea, select {
 
   .lg\:h-\[70vh\] {
     height: 70vh;
+  }
+
+  .lg\:w-1\/2 {
+    width: 50%;
   }
 
   .lg\:w-\[70\%\] {
