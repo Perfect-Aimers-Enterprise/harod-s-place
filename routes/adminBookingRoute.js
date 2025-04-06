@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-const { updateLoungeBookings, getLounngeBookings } = require('../controller/adminBookingLoungeController')
+const { updateLoungeBookings, getLoungeBookings } = require('../controller/adminBookingLoungeController')
 
 router.patch('/updateLoungeBookings', updateLoungeBookings)
-router.get('/getLounngeBookings', getLounngeBookings)
+router.get('/getLoungeBookings', getLoungeBookings)
 
 module.exports = router

@@ -66,7 +66,7 @@ app.use('/haroldsLanding', landingSectionRoute)
 app.use('/galleryDisplay', galleryRoute)
 app.use('/dailyMenuDisplay', dailyMenuRoute)
 app.use('/harolds', adminBookingRoute)
-app.use('/haroldsuser', bookingLoungeRoute)
+app.use('/haroldsUser', bookingLoungeRoute)
 app.use('/harolds', bakeryRoute)
 
 // Console logging instead

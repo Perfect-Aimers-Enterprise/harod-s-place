@@ -6,11 +6,43 @@ const config29 = {
 
 document.addEventListener('DOMContentLoaded', ()=> {
 
-    fetchUserGallery()
+    fetchUserGallery();
+    getHeroImageDisplay();
 
     
 })
 
+
+const getHeroImageDisplay = async () => {
+  try {
+    const response = await fetch(`${config.apiUrl}/doveeysLanding/getHeroImage`)
+    const data = await response.json()
+    
+
+    data.forEach((eachData) => {
+
+      const dynamicHeroImage = document.getElementById('dynamicHeroImage')
+
+      const populateHeroImage = `
+        <div class="relative bg-cover bg-center text-white h-[50vh] md:h-[60vh] lg:h-[70vh] xl:h-[85vh]" style="background-image: url('${eachData.heroImage}');">
+          <div class="hero-overlay absolute inset-0"></div>
+          <div class="relative h-full flex flex-col justify-center items-center text-center">
+            <h2 class="text-2xl md:text-5xl font-bold mb-4">${eachData.heroImageName}</h2>
+            <p class="text-lg md:text-xl mb-6">${eachData.heroImageDes}</p>
+            <a href="#menu" class="bg-orange-500 py-3 px-6 rounded-full hover:bg-orange-600">Explore Menu</a>
+          </div>
+        </div>
+      `
+
+      dynamicHeroImage.innerHTML = populateHeroImage
+
+    })
+    
+    
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
 async function fetchUserGallery() {

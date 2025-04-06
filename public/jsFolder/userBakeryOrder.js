@@ -20,6 +20,7 @@ const breadOrderForm = document.getElementById('breadOrderForm')
 
 breadOrderForm.addEventListener('submit', async (e) => {
     e.preventDefault()
+    console.log("Ordering bread")
 
     const formData = {
         bakeType: bakeType.value,
@@ -33,7 +34,7 @@ breadOrderForm.addEventListener('submit', async (e) => {
     }
 
     try {
-        const response = await fetch(`${configBakery.apiUrl}/perpetualtaste/requestBakery`, {
+        const response = await fetch(`${configBakery.apiUrl}/harolds/requestBakery`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

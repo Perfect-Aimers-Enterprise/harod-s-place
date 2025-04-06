@@ -90,11 +90,11 @@ input, textarea, select, div.custom-select div.chosen {
   width: 100%;
 }
 
-.white-form input, .white-form textarea, .white-form select, .white-form div.chosen{
+.white-form input, .white-form textarea, .white-form select, .white-form div.chosen, .searchTab > .searchHolder:focus-within, :not(.searchTab > .searchHolder)  {
   outline-color: rgb(99, 99, 99);
 }
 
-input:not(form.white-form input), textarea:not(form.white-form textarea), select:not(form.white-form select), div.custom-select div.chosen:not(form.white-form div) {
+input:not(form.white-form input), textarea:not(form.white-form textarea), select:not(form.white-form select) {
   /* border-radius: 10px !important; */
   /* outline-width: 2px; */
   outline-color: rgb(228, 228, 228);
@@ -102,12 +102,16 @@ input:not(form.white-form input), textarea:not(form.white-form textarea), select
   /* border-image: none; */
 }
 
+/* , .searchTab > .searchHolder:focus-within, div:not(.searchTab > .searchHolder) */
+
 input:focus, textarea:focus, select:focus{
   outline-color: var(--focus-input-outline-color) !important;
   outline-width: 2px;
   border: none;
   outline-style: solid;
 }
+
+/* , input:not(.searchTab > .searchHolder input:focus) */
 
 /* details.custom{
 }
@@ -324,3 +328,19 @@ div.custom-select:focus ul{
 }
 
 
+form.make-fields-bg-transparent select, form.make-fields-bg-transparent input, form.make-fields-bg-transparent select, form.make-fields-bg-transparent .custom-select > div.chosen, form.make-fields-bg-transparent textarea{
+  background-color: transparent;
+}
+
+
+button.themed_btn{
+  color: rgb(68, 68, 68);
+}
+
+button.themed_btn:hover{
+  color: black;
+}
+
+button.themed_btn:active{
+  color: var(--focus-input-outline-color);
+}

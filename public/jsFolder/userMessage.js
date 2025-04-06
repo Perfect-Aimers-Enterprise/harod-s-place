@@ -38,7 +38,7 @@ const sendUserMessage = async () => {
         userPhone
     }
     try {
-        const response = await fetch(`${config9.apiUrl}/doveeysKitchen/message/sendUserMessage`, {
+        const response = await fetch(`${config9.apiUrl}/harolds/message/sendUserMessage`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -61,4 +61,5 @@ const sendUserMessage = async () => {
 document.getElementById('sendMessageForm').addEventListener('submit', (e) => {
     e.preventDefault()
     sendUserMessage()
+    e.target.reset();
 })

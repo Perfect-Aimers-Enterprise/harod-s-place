@@ -11,9 +11,7 @@ const configg = {
   const loungeProductForm = document.getElementById('loungeProductForm')
   
   loungeProductForm.addEventListener('submit', (e) => {
-      console.log('Hello1')
       e.preventDefault()
-      console.log('Hello2')
     
     // const loungeType1 = document.getElementById('loungeType1').value
     // const loungeType2 = document.getElementById('loungeType2').value
@@ -37,22 +35,42 @@ const configg = {
 
   })
 const updateLoungeBookingFunc = async () => {
-    let formData = {};
+    let formData = {
+        loungeTypes: [],
+        loungeTypesPrices: [],
+        haroldsFeatures:''
+    };
+    const nativeFormData = new FormData(loungeProductForm);
+    nativeFormData.forEach((value, key)=>{
 
-    new FormData(loungeProductForm).forEach((value, key)=>{
-            formData[key] = value;
+        if(key=='loungeTypes[]'){
+
+            formData['loungeTypes'].push(value)
+        }
+        else if(key=='loungeTypesPrices[]'){
+            formData['loungeTypesPrices'].push(value)
+            
+        }
+        else{
+            formData.haroldsFeatures = value;
+        }
         });
 
-        const types = formData['loungeTypes[]'];
-        const prices = formData['loungeTypesPrices[]'];
+        console.log(formData)
+
+        const types = formData['loungeTypes'];
+        const prices = formData['loungeTypesPrices'];
         const haroldsFeatures = formData['haroldsFeatures']
+
 
         let loungeDetails = [];
 
         for (let index = 0; index < types.length; index++) {
-            loungeDetails[index] = {loungeType:types, loungeTypesPrices:prices}
+            loungeDetails[index] = {loungeType:types[index], loungeTypePrice:prices[index]}
             
         }
+
+        console.log(loungeDetails);
 
         const body = {
             loungeTypesAndPrices : loungeDetails,
@@ -100,7 +118,7 @@ const loungBookingPopulateId = document.getElementById('loungBookingPopulateId')
 const adminGetUserBookingFunc = async () => {
     loungBookingPopulateId.innerHTML = ''
     try {
-        const response = await fetch(`${configg.apiUrl}/haroldsuser/getUserBookedLounge`)
+        const response = await fetch(`${configg.apiUrl}/haroldsUser/getUserBookedLounge`)
 
         console.log(response);
         
@@ -179,7 +197,7 @@ BtnLoungeAdder.addEventListener('click', ()=>{
 
 function showAlertLounge(alert, alertText, triggerBtn){
     alert.classList.remove('show1');
-    alert.firstChild.innerHTML = alertText;
+    alert.firstElementChild.innerHTML = alertText;
     const btnClose = alert.querySelector('.btn-close');
     btnClose.addEventListener('click', ()=>{
         alert.classList.add('show1');
@@ -188,8 +206,6 @@ function showAlertLounge(alert, alertText, triggerBtn){
     setTimeout(() => {
         alert.classList.remove('bring_down');
         triggerBtn.disabled = false;
-        // alert.classList.add('show')
-        // alert.classList.add('show')
         
     }, 2500);
 
@@ -198,10 +214,6 @@ function showAlertLounge(alert, alertText, triggerBtn){
 const validateFormElements = (form)=>{
     const elements = form.querySelectorAll('input, textarea');
     elements.forEach((element)=>{
-        // alert('Done with validation 1')
-        console.log(element)
-        // console.log(!(element.value.length))
-        // console.log(!element.value.length>1)
         if(!(element.value.length>1)){
             console.log(element.value.length)
             element.setCustomValidity('This field can not be empty')

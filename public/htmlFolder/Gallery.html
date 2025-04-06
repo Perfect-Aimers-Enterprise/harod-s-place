@@ -54,6 +54,8 @@
         <h1 class="text-lg font-bold"><a href="haroldsPlace.html" class="underline-none ">Harold's Place</a></h1>
       </div>
 
+
+      <!-- Navbar for Big Screens -->
       <nav class="hidden lg:block">
         <ul class="flex space-x-6">
           <li><a href="haroldsPlace.html#menu" class="hover:text-orange-300">Menu</a></li>
@@ -62,8 +64,8 @@
           <li><a href="../htmlFolder/Gallery.html" class="hover:text-orange-300">Gallery</a></li>
           <li><a href="../htmlFolder/regLog.html" class="hover:text-orange-300">Account</a></li>
           
-          <li><a href="haroldsPlace.html#about" class="hover:text-orange-300">About</a></li>
-          <li><a href="haroldsPlace.html#services" class="hover:text-orange-300">Services</a></li>
+          <li><a href="haroldsPlace.html#aboutBig" class="hover:text-orange-300">About</a></li>
+          <li><a href="haroldsPlace.html#servicesBig" class="hover:text-orange-300">Services</a></li>
           <li><a href="haroldsPlace.html#contact" class="hover:text-orange-300">Contact</a></li>
           <li>
             <a href="../htmlFolder/shoppingCart.html" class="relative">
@@ -94,8 +96,8 @@
       <li><a href="#loungeBookings" class="hover:text-orange-300">Book Lounge</a></li>
       <li><a href="../htmlFolder/Gallery.html" class="hover:text-orange-300">Gallery</a></li>
       <li><a href="../htmlFolder/regLog.html" class="hover:text-orange-300">Account</a></li>
-      <li><a href="#about" class="hover:text-orange-300">About</a></li>
-      <li><a href="#services" class="hover:text-orange-300">Services</a></li>
+      <li><a href="#aboutSmall" class="hover:text-orange-300">About</a></li>
+      <li><a href="#servicesSmall" class="hover:text-orange-300">Services</a></li>
       <li><a href="#contact" class="hover:text-orange-300">Contact</a></li>
       <li class="w-fit">
         <a href="../htmlFolder/shoppingCart.html" class="relative">
@@ -108,7 +110,7 @@
   </header>
 
   <!-- Menu Section -->
-  <section class="py-20 ">
+  <section class="py-20 hidden">
     <div class="container mx-auto px-4">
       <h2 class="text-4xl font-bold text-orange-800 text-center">Our Gallery</h2>
       <p class="text-lg text-gray-400 text-center mt-2">Explore our Gallery and create yourself a unique memory</p>
@@ -123,6 +125,18 @@
           <p class="text-gray-600"><span>Posted: </span>Time Posted</p>
         </div> -->
 
+      </div>
+    </div>
+  </section>
+
+    <!-- Hero Section -->
+  <section id="dynamicHeroImage" class="">
+    <div class="relative bg-cover bg-center text-white h-[50vh] md:h-[60vh] lg:h-[70vh] xl:h-[85vh]" style="background-image: url('../image/regBg1.jpg');">
+      <div class="hero-overlay absolute inset-0"></div>
+      <div class="relative h-full flex flex-col justify-center items-center text-center">
+        <h2 class="text-2xl md:text-5xl font-bold mb-4">Our Gallery</h2>
+        <p class="text-lg md:text-xl mb-6">Explore our Gallery and create yourself a unique Memory</p>
+        <a href="#menu" class="bg-orange-500 py-3 px-6 mt-6 rounded-xl hover:bg-orange-600 text-sm animatedBtn1">EXPLORE GALLERY <span class="over bg-white text-orange-500"><span>EXPLORE GALLERY</span></span></a>
       </div>
     </div>
   </section>
