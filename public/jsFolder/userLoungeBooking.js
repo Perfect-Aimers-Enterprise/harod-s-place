@@ -14,6 +14,7 @@ const fetchLoungeDetailsFunc = async () => {
         const response = await fetch(`${configBookings.apiUrl}/harolds/getLoungeBookings`)
         const data = await response.json()
         insertLoungeDetailsinForm(data);
+        addEventListeners2CustomSelect();
         
         
         
@@ -167,7 +168,7 @@ const insertLoungeDetailsinForm = (loungeDetails)=>{
       `<option value="${loungeType} &#8358;${loungeTypePrice}">${loungeType} &#8358;${loungeTypePrice}</option>`
     )
   }).join('');
-  nativeLoungeOptionElements = `<option value="" disabled selected>Select Event Type</option>`; + nativeLoungeOptionElements;
+  nativeLoungeOptionElements = `<option value="" disabled selected>Select Event Type</option>` + nativeLoungeOptionElements;
 
   const customLoungeOptionElements = loungeTypesAndPrices.map((typeAndPrice)=>{
     const {loungeType, loungeTypePrice} = typeAndPrice;
@@ -202,36 +203,106 @@ const insertLoungeDetailsinForm = (loungeDetails)=>{
 
 }
 
+const addEventListeners2CustomSelect = ()=>{
+    // Custom Dropdown Element
+
+const customSelectElement = document.querySelectorAll('div.custom-select');
+const chosenOptionElement = document.querySelector('.custom-select div.chosen');
+const optionHolderElement = document.querySelector('.custom-select ul')
+// const customSelectElement = document.querySelector('div.custom-select')
+
+
+customSelectElement.forEach((element)=>{
+
+    element.addEventListener('click', ()=>{
+        element.focus()
+    })
+    element.addEventListener('blur', ()=>{
+        element.classList.remove('open')
+    })
+
+    element.addEventListener('focus', (e)=>{
+    const rect = chosenOptionElement.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
+
+    if(spaceAbove>chosenOptionElement.offsetHeight && spaceAbove>spaceBelow){
+        // Display Above
+        optionHolderElement.style.bottom = 'calc(100% + 3px)';
+    }
+    else{
+        // Display Below
+        optionHolderElement.style.top = 'calc(100% + 3px)';
+    }
+    const parentCustomSelect = e.target.closest('div.custom-select');
+    parentCustomSelect.classList.toggle('open')})
+})
+
+
+    // codes that make the custom select functionality map with those of an actual in built select element
+
+let allCustomSelectElements = document.querySelectorAll('.custom-select');
+
+allCustomSelectElements.forEach((customSelect)=>{
+    const customSelectOptions = customSelect.querySelectorAll('ul>li');
+    // customSelectOptions.addEventListener("click", ()=>{
+    //     console.log("first")
+    // })
+    customSelectOptions.forEach((option)=>{
+        option.addEventListener('click', (e)=>{
+            e.stopPropagation();
+            const chosenListItem = e.target;
+            const chosenListItemDisplay = e.target.closest('ul').previousElementSibling;
+            let nativeSelectElementOptions = e.target.closest('.custom-select').nextElementSibling.querySelectorAll('select option') || e.target.closest('.custom-select').nextElementSibling.querySelectorAll('option');
+            // let selectelementOptions = nativeSelectElementOptions.querySelectorAll('option');
+            nativeSelectElementOptions = Array.from(nativeSelectElementOptions);
+            // let selectedOption = nativeSelectElementOptions.find(option=>chosenListItem.innerHTML==option.innerHTML);
+            nativeSelectElementOptions.forEach((nativeOption)=>{
+                nativeOption = nativeOption.querySelector('span.value') ||  nativeOption;
+                const nativeOptionText = nativeOption.textContent;
+                nativeOption.selected = option.querySelector('span.value')? nativeOptionText == option.querySelector('span.value').textContent : nativeOptionText === option.textContent;
+                if(nativeOption.selected===true){
+                    chosenListItemDisplay.innerHTML = nativeOptionText;
+                }
+                if (nativeOption.selected) {
+                    nativeOption.setAttribute('selected', 'selected');
+                }
+                else {
+                    nativeOption.removeAttribute('selected');
+                }    
+            })
+            const containingCustomSelectElement = e.target.closest('.custom-select')
+            containingCustomSelectElement.blur();
+
+        }
+ )
+    })
+})
+
+}
+
 
 document.getElementById('sendBookingForm').addEventListener('submit', (e) => {
     e.preventDefault()
 
-    const userBookingMail = localStorage.getItem('userEmail')
+    const userBookingEmail = localStorage.getItem('userEmail')
     const userBookingTel = parseFloat(localStorage.getItem('userPhone'))
-    const userBookingName = localStorage.getItem('userName')
-    const numberOfGuest = document.getElementById('numberOfGuest')
-    const loungeType = document.getElementById('loungeType')
-    const eventType = document.getElementById('eventType')
-    const eventName = document.getElementById('eventName')
-    const bookingContact = document.getElementById('bookingContact')
-    const eventMessage = document.getElementById('eventMessage')
-    const eventTime = document.getElementById('eventTime')
-    const eventDate = document.getElementById('eventDate')
+    const userBookingName = localStorage.getItem('userName');
+    const token = localStorage.getItem('token')
 
-    const formData = {
-        userBookingMail,
+    if(!token){
+        return alert('You have to Login to Book a Lounge')
+    }
+
+    let formData = {
+        userBookingEmail,
         userBookingTel,
         userBookingName,
-        numberOfGuest: numberOfGuest.value,
-        loungeType: loungeType.value,
-        eventType: eventType.value,
-        eventName: eventName.value,
-        bookingContact: parseInt(bookingContact.value),
-        eventMessage: eventMessage.value,
-        eventTime: eventTime.value,
-        eventDate: eventDate.value
-
     }
+
+    new FormData(document.getElementById('sendBookingForm')).forEach((value, key)=>{
+        formData[key] = value
+    });
 
     executeLoungeBookingFunc(formData)
     e.target.reset();
@@ -246,8 +317,8 @@ document.getElementById('sendBookingForm').addEventListener('submit', (e) => {
 
 
 const executeLoungeBookingFunc = async (formData) => {
-    console.log('populateloungebookingformData 1', formData);
     try {
+        console.log('populateloungebookingformData 1', formData);
         const response = await fetch(`${configBookings.apiUrl}/haroldsUser/executeLoungeBooking`, {
             method: 'POST',
             headers: {
@@ -255,9 +326,8 @@ const executeLoungeBookingFunc = async (formData) => {
             },
             body: JSON.stringify(formData)
         })
+        if(!response==200) throw new Error("Unable to Book a Lounge!");
 
-        console.log('executeLoungeBookingFunc', response);
-        console.log('populateloungebookingformData 2', formData);
         const data = await response.json()
         
     } catch (error) {

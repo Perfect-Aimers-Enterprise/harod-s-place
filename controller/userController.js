@@ -15,27 +15,30 @@ const registerUser = async (req, res) => {
         user.verificationTokenExpires = verificationTokenExpires
         user.isVerified = false
         user.pending = true
+
+        console.log(process.env.HAROLDS_EMAIL)
+        console.log(process.env.HAROLDS_PASSWORD)
         
         await user.save()
         
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-              user: process.env.perpetual_Taste_EMAIL,
-              pass: process.env.perpetual_Taste_PASSWORD,
+              user: process.env.HAROLDS_EMAIL,
+              pass: process.env.HAROLDS_PASSWORD,
             },
             debug: true,
             logger: true,
           });
           
 
-        const verifyEmailUrl = `https://${req.headers.host}/doveeysKitchen/api/verify-email?token=${verificationToken}`;
+        const verifyEmailUrl = `http://${req.headers.host}/harolds/api/verify-email?token=${verificationToken}`;
 
 
         const mailOptions = {
-            from: process.env.perpetual_Taste_EMAIL,
+            from: process.env.HAROLDS_EMAIL,
             to: user.userEmail,
-            subject: 'Perpetual Taste Email Verification',
+            subject: `Harold'S Place Email Verification`,
             html: `
                 <table style="width: 100%; font-family: Arial, sans-serif; color: #333; text-align: center; background-color: #f9f9f9; padding: 20px;">
                     <tr>
@@ -45,7 +48,7 @@ const registerUser = async (req, res) => {
                     </tr>
                     <tr>
                         <td style="padding: 10px;">
-                            <p style="font-size: 16px; margin: 0;">Welcome! Please verify your email to gain access to your Perpetual Taste account.</p>
+                            <p style="font-size: 16px; margin: 0;">Welcome! Please verify your email to gain access to your Harold's Place account.</p>
                         </td>
                     </tr>
                     <tr>
@@ -165,9 +168,9 @@ const verifyRegisteredUser = async (req, res) => {
         await user.save()
 
         const mailOptions = {
-            from: process.env.perpetual_Taste_EMAIL,
+            from: process.env.HAROLDS_EMAIL,
             to: user.userEmail,
-            subject: 'Welcome to Perpetual Taste',
+            subject: `Welcome to Harold's Place`,
             html: `
                 <table style="width: 100%; font-family: Arial, sans-serif; color: #333; text-align: center; background-color: #f9f9f9; padding: 20px;">
                     <tr>
@@ -179,7 +182,7 @@ const verifyRegisteredUser = async (req, res) => {
                         <td style="padding: 10px;">
                             <p style="font-size: 16px; margin: 0;">Dear ${user.userName},
 
-                            Thank you for joining the Perpetual Taste's family! 🎉 We’re thrilled to have you on board, and we promise to treat your taste buds to something extraordinary.
+                            Thank you for joining the Harold's Place's family! 🎉 We’re thrilled to have you on board, and we promise to treat your taste buds to something extraordinary.
                             
                             We pride ourselves on serving freshly prepared meals made with love, passion, and the finest ingredients—because you deserve nothing less!
                             
@@ -260,15 +263,15 @@ const forgottenPassword = async (req, res) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: process.env.perpetual_Taste_EMAIL,  // Gmail email address
-                pass: process.env.perpetual_Taste_PASSWORD,   // Gmail password or App Password
+                user: process.env.HAROLDS_EMAIL,  // Gmail email address
+                pass: process.env.HAROLDS_PASSWORD,   // Gmail password or App Password
             },
         })
 
-        const resetUrl = `https://${req.headers.host}/doveeysKitchen/api/reset-password?token=${resetToken}&email=${userEmail}`;
+        const resetUrl = `https://${req.headers.host}/harolds/api/reset-password?token=${resetToken}&email=${userEmail}`;
 
         const mailOptions = {
-            from: process.env.perpetual_Taste_EMAIL,
+            from: process.env.HAROLDS_EMAIL,
             to: user.userEmail,
             subject: 'Password Recovery',
             html: `
@@ -282,7 +285,7 @@ const forgottenPassword = async (req, res) => {
                         <td style="padding: 10px;">
                             <p style="font-size: 16px; margin: 0;">Dear ${user.userName},
 
-                            We received your request from Perpetual Taste's family! 🎉 to reset your password.
+                            We received your request from Harold's Place's family! 🎉 to reset your password.
                         </td>
                     </tr>
 
@@ -345,8 +348,8 @@ const resetPassword = async (req, res) => {
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: process.env.perpetual_Taste_EMAIL,  // Gmail email address
-        pass: process.env.perpetual_Taste_PASSWORD,   // Gmail password or App Password
+        user: process.env.HAROLDS_EMAIL,  // Gmail email address
+        pass: process.env.HAROLDS_PASSWORD,   // Gmail password or App Password
     },
 });
 

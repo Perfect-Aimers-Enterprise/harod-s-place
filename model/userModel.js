@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
     resetTokenExpires: Date
 })
 
-userSchema.pre('save', async function () {
+userSchema.pre('save', async function (next) {
      // Only hash the password if it is modified
      if (!this.isModified("userPassword")) return next();
 

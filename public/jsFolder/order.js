@@ -1163,7 +1163,7 @@ const bakeOrderList = document.getElementById('bakeOrderList')
 
 const fetchAllUserBakeryBookings = async () => {
   bakeOrderList.innerHTML = ''
-    const response = await fetch(`${config.apiUrl}/perpetualtaste/getAllBakery`)
+    const response = await fetch(`${config.apiUrl}/harolds/getAllBakery`)
     const data = await response.json()
 
     console.log('AllUserBakeryBookings', response);

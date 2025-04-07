@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   getFlyer2Display()
   getHeroImageDisplay()
   getMenuLandingFunc()
-  getSpecialLandingFunc()
 })
 
 menuToggle.addEventListener('click', () => {
@@ -50,7 +49,7 @@ const activeNavBarFunc = () => {
 
 const getHeroImageDisplay = async () => {
   try {
-    const response = await fetch(`${config.apiUrl}/doveeysLanding/getHeroImage`)
+    const response = await fetch(`${config.apiUrl}/harolds/getHeroImage`)
     const data = await response.json()
     
 
@@ -81,7 +80,7 @@ const getHeroImageDisplay = async () => {
 
 const getFlyer1Display = async () => {
   try {
-    const response = await fetch(`${config.apiUrl}/doveeysLanding/getFlyer1Schema`)
+    const response = await fetch(`${config.apiUrl}/harolds/getFlyer1Schema`)
 
     const data = await response.json()
     
@@ -108,7 +107,7 @@ const getFlyer1Display = async () => {
 
 const getFlyer2Display = async () => {
   try {
-    const response = await fetch(`${config.apiUrl}/doveeysLanding/getFlyer2Schema`)
+    const response = await fetch(`${config.apiUrl}/harolds/getFlyer2Schema`)
     const data = await response.json()
     
     data.forEach((eachData) => {
@@ -134,7 +133,7 @@ const getFlyer2Display = async () => {
 
 const getMenuLandingFunc = async () => {
   try {
-    const response = await fetch(`${config.apiUrl}/doveeysLanding/getAllMenuImage`)
+    const response = await fetch(`${config.apiUrl}/harolds/getAllMenuImage`)
     const data = await response.json()
 
     const menuDishCards = document.getElementById('menuDishCards')

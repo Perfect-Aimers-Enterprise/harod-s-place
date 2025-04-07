@@ -8,7 +8,8 @@
   <!-- <link rel="stylesheet" href="../css/landing.css"> -->
   <link rel="stylesheet" href="../src/output.css">
   <link rel="stylesheet" href="../css/landing.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+  <link rel="stylesheet" href="../fontawesome/css/all.min.css"/>
   <link rel="shortcut icon" href="../image/perpetualTasteImg/logo.png" type="image/x-icon">
   <title>Harold's Place</title>
   <style>
@@ -119,7 +120,7 @@
         <div class="searchTab">
           <div class="searchHolder w-full max-w-[30rem] flex mx-auto gap-3">
             <input title="Search Bar" class=" flex-grow-1 bg-transparent px-3" type="search" placeholder="Search the Menu">
-            <button title="Click to search the menu" type="button" class=" rounded-full themed_btn">
+            <button title="Click to search the menu" type="button" class=" rounded-full themed_btn refresh">
               <i class="fas fa-rotate-right "></i>
             </button>
           </div>
@@ -272,7 +273,7 @@
                 <option value="cake">Cake</option>
                 <option value="pizza">Pizza</option>
                 <option value="shawarma">Shawarma</option>
-                <option value="hotdog">Hot Dog</option>
+                <option value="Baby Showers">Hot Dog</option>
                 <option value="other">Others</option>
               </select>
             </div>
@@ -412,7 +413,7 @@
            
 
 
-        <div class="w-full w-full md:w-[49%] ">
+        <div class="w-full md:w-[49%] ">
           <div>
             <label for="eventName" class="block text-sm font-medium mb-2">Event Name</label>
             <input type="text" id="eventName" name="eventName" class="w-full  rounded px-3 py-2">
@@ -441,9 +442,9 @@
           </div>
 
           <div class="mb-[10px] font-thin italic text-[12px] md:text-[14px] lg:text-[16px]">
-            <p id="truncateText">Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero incidunt tempora, repudiandae quod harum doloribus. Alias veniam aliquam ipsam temporibus eveniet, a magnam architecto dignissimos error adipisci et nulla fugiat!</p>
+            <p id="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero incidunt tempora, repudiandae quod harum doloribus. Alias veniam aliquam ipsam temporibus eveniet, a magnam architecto dignissimos error adipisci et nulla fugiat!</p>
 
-            <p id="readMoreTruncate" class="text-orange-600 cursor-pointer">Read More</p>
+            <p id="" class="text-orange-600 cursor-pointer">Read More</p>
           </div>
           <button type="submit" class="mt-4 bg-orange-500 text-white py-2 px-4 rounded w-full animatedBtn1 text-sm"><span class="bg-black text-white"><span>PROCESS REQUEST</span></span>PROCESS REQUEST</button>
           </form>
@@ -466,16 +467,17 @@
 
 
         <div class="mx-auto w-full lg:w-1/2 mb-5 px-[1.5rem] mt-5 order-2 max-lg:mt-4 mt-0">
-            <form id="sendBookingForm" class="mt-6  mx-auto flex flex-wrap gap-1 justify-between make-fields-bg-transparent">
-                      <div class="sm:w-full md:w-[49%] w-full">
-                      <div>
-              <label for="eventTitle" class="block text-sm font-medium mb-2 mb-2">Event Title</label>
-              <input type="text" id="usereventTitle" name="eventTitle" class="w-full  rounded px-3 py-2" title="Choose event title">
-            </div>
+            <form id="sendBookingForm" class="mt-6  mx-auto flex flex-wrap justify-between make-fields-bg-transparent">
+        <div class="sm:w-full md:w-[49%] w-full">
+          <div>
+            <label for="eventName" class="block text-sm font-medium mb-2">Event Name</label>
+            <input type="text" id="eventName" name="eventName" class="w-full  rounded px-3 py-2">
+          </div>
+
 
             <div class="mt-5">
               <label for="numberOfGuest" class="block text-sm font-medium mb-2">Number of Guest</label>
-              <input type="text" id="numberOfGuest" name="numberOfGuest" class="w-full  rounded px-3 py-2">
+              <input type="text" id="numberOfGuest" name="numberOfGuests" class="w-full  rounded px-3 py-2">
             </div>
     
             <!-- <div class="">
@@ -496,9 +498,9 @@
             <div id="loungeTypeCustomLabel"  class="block text-sm font-medium mb-2 px-2"><span>Lounge Type</span></div>
 
             <!-- custom select element -->
-            <div class="custom-select max-md:hidden" tabindex="0" >
-                <div data-value="" class="chosen " ><span>Select Event Type</span> </div>
-                  <ul id='custom_lounge_selector_container'>
+            <div class="custom-select max-md:hidden " tabindex="0" >
+                <div data-value="" class="chosen " ><span>Select Lounge Type</span> </div>
+                  <ul id='custom_lounge_selector_container' class='z-3'>
                       <li data-value="shared"><span class="value">Shared &#8358;<span id="sharedPrice">4000</span></span> </li>
                       <li data-value="private"> <span class="value">Private &#8358;<span id="privatePrice">8000</span></span>  </li>
                       <li data-value="vip"><span class="value">VIP &#8358;<span id="vipPrice">15000</span></span> </li>
@@ -514,23 +516,12 @@
                 <option value="vip">VIP &#8358;<span id="vipPrice">15000</span></option>
               </select>
           </div>
-
-
-          <div class="mt-5">
-              <label for="eventType" class="block text-sm font-medium mb-2">Event Type</label>
-              <input type="text" id="eventType" name="eventType" class="w-full  rounded px-3 py-2">
-          </div>
         </div>
            
 
 
-        <div class="w-full md:w-[49%] ">
-          <div>
-            <label for="eventName" class="block text-sm font-medium mb-2">Event Name</label>
-            <input type="text" id="eventName" name="eventName" class="w-full  rounded px-3 py-2">
-          </div>
-
-          <div class="mt-5">
+        <div class="w-full md:w-[49%] max-md:mt-5">
+          <div >
             <label for="bookingContact" class="block text-sm font-medium mb-2">Booking Contact</label>
             <input type="number" id="bookingContact" name="bookingContact" class="w-full  rounded px-3 py-2">
           </div>
@@ -546,6 +537,47 @@
           </div>
         </div>
 
+      <div class="Event Type Selector w-full mt-5">
+
+          <!-- custom select label -->
+          <label id="loungeTypeCustomLabel"  class="block text-sm font-medium mb-2"><span>Event Type</span></label>
+
+          <!-- custom select element -->
+          <div class="custom-select max-md:hidden relative" tabindex="0">
+              <div data-value="" class="chosen"  ><span>Select Event Type</span> </div>
+                <ul>
+                  <li>Birthday Parties</li>
+                  <li>Anniversaries</li>
+                  <li>Engagement Parties</li>
+                  <li>Bridal Showers</li>
+                  <li>Baby Showers</li>
+                  <li>Graduation Parties</li>
+                  <li>Reunions</li>
+                  <li>Corporate Meetings</li>
+                  <li>Networking Events</li>
+                  <li>Others</li>
+
+              </ul>
+        </div>
+
+                    <!-- Bake Type Selection Select Element -->
+        <div class="md:hidden">
+          <select name="eventType" id="eventType" class="w-full border rounded px-2 py-2 mt-1 focus:ring-2 ">
+            <option value="" selected disabled>Select Bake Type</option>
+            <option value="Birthday Parties">Birthday Parties</option>
+            <option value="Anniversaries">Anniversaries</option>
+            <option value="Engagement Parties">Engagement Parties</option>
+            <option value="Bridal Showers">Bridal Showers</option>
+            <option value="Baby Showers">Baby Showers</option>
+            <option value="Graduation Parties">Graduation Parties</option>
+            <option value="Reunions">Reunions</option>
+            <option value="Corporate Meetings">Corporate Meetings</option>
+            <option value="Networking Events">Networking Events</option>
+            <option value="other">Others</option>
+          </select>
+        </div>
+
+      </div>
     
           <div class=" w-full mt-5">
             <label for="eventMessage" class="block text-sm font-medium mb-2">Message (For Additional Request)</label>
@@ -914,7 +946,7 @@ document.getElementById("bakeType").addEventListener("change", function () {
 <script src="../jsFolder/cartReading.js"></script>
 <script src="../jsFolder/userDailyMenu.js"></script>
 <script src="../jsFolder/clientOrders.js"></script>
-<script src="../jsFolder/userLoungeBooking.js"></script>
 <script src="../jsFolder/userBakeryOrder.js"></script>
 <script src="../jsFolder/styling.js"></script>
+<script src="../jsFolder/userLoungeBooking.js"></script>
 </html>

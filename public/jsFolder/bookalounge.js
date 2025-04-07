@@ -149,14 +149,14 @@ const adminGetUserBookingFunc = async () => {
                     <a class="text-blue-500 underline" href="tel:+234${eachData.bookingContact}">Booking No: ${eachData.bookingContact}</a>
                     </div>
                     <div>
-                    <a class="text-orange-600 underline" href="mailto:${eachData.userBookingMail}">${eachData.userBookingMail}</a>
+                    <a class="text-orange-600 underline" href="mailto:${eachData.userBookingEmail}">${eachData.userBookingEmail}</a>
                     </div>
                 </div>
     
                 <div>
                     <p>${eachData.eventName}</p>
                     <p>${eachData.eventType}</p>
-                    <p>${eachData.numberOfGuest}</p>
+                    <p>${eachData.numberOfGuests} guest(s)</p>
                 </div>
                 </div>
 

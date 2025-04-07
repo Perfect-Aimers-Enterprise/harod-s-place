@@ -7,6 +7,9 @@ const config2 = {
 
   const navigationPopUp = document.getElementById('navigationPopUp')
 
+  let debounceTimer;
+
+
 
 document.addEventListener('DOMContentLoaded', ()=> {
     getAllMenuProductFunc()
@@ -17,12 +20,15 @@ document.addEventListener('DOMContentLoaded', ()=> {
     
 })
 
+let originalMenuItems;
+const menuGridClass = document.querySelector('.menuGridClass');
+const searchInput = document.querySelector('div.searchHolder>input')
 
-const menuGridClass = document.querySelector('.menuGridClass')
+const refreshBtn = document.querySelector('div.searchHolder button.refresh')
 
 const getAllMenuProductFunc = async () => {
     try {
-        const getAllMenuProductResponse = await fetch(`${config2.apiUrl}/doveeysKitchen/product/getMenuProducts`);
+        const getAllMenuProductResponse = await fetch(`${config2.apiUrl}/harolds/product/getMenuProducts`);
         console.log(getAllMenuProductResponse);
         
         const data = await getAllMenuProductResponse.json();
@@ -65,6 +71,8 @@ const getAllMenuProductFunc = async () => {
             menuGridClass.innerHTML += productContent;
         });
 
+        originalMenuItems = menuGridClass.innerHTML;
+
         setTimeout(() => {
             const menuItems = document.querySelectorAll('.menu-item');
             menuItems.forEach((item) => {
@@ -98,7 +106,7 @@ const fetchSingleProductFunc = async (menuProductId) => {
 
   
     try {
-      const fetchSingleProductResponse = await fetch(`${config2.apiUrl}/doveeysKitchen/product/getSingleMenuProduct/${menuProductId}`)
+      const fetchSingleProductResponse = await fetch(`${config2.apiUrl}/harolds/product/getSingleMenuProduct/${menuProductId}`)
   
     // console.log(fetchSingleProductResponse);
   
@@ -434,7 +442,7 @@ const populateUserProceedOrder = () => {
 const userProceedOrderFunc = async (formData, orderPage) => {
     const orderPopUpAlert = document.getElementById('orderPopUpAlert')
     try {
-        const userProceedResponse = await fetch(`${config2.apiUrl}/doveeysKitchen/order/createProceedOrder`, {
+        const userProceedResponse = await fetch(`${config2.apiUrl}/harolds/order/createProceedOrder`, {
             method: 'POST',
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -541,8 +549,48 @@ function isAllVariationsInvalid(variations) {
           console.log(data)
           if (data.responseCode === "USER_CANCELLED") {
               alert('Order Cancelled')
-              window.location.href = '../htmlFolder/perpetualTaste.html'
+              window.location.href = '../htmlFolder/haroldsPlace.html'
           }
         },
       })
   }  
+
+
+const escapeSpecialChars = (input)=>{
+    return input.replace(/[.*&^?$+[\|\\](){}]/g, '\\$&')
+}
+
+
+// This function searches the menu and returns the result
+const searchMenu = ()=>{
+
+    let inputText = searchInput.value.trim();
+    if(inputText==''){
+        return cancelSearch();
+    }
+    inputText = escapeSpecialChars(inputText)
+    let menuItems = document.querySelectorAll("#menuGrid .menu-item")
+    menuItems = Array.from(menuItems);
+    const regex = new RegExp(inputText, 'i')
+
+    let filteredItems = menuItems.filter((item)=> regex.test(item.querySelector('h3').textContent))
+    filteredItems = filteredItems.join('')
+    menuGridClass.innerHTML = filteredItems;
+}
+
+const cancelSearch = ()=>{
+    menuGridClass.innerHTML = originalMenuItems;
+}
+
+const refreshMenu = ()=>{
+    getAllMenuProductFunc();
+    searchMenu()
+}
+
+searchInput.addEventListener('input', ()=>{
+    clearTimeout(debounceTimer)
+
+    debounceTimer = setTimeout(() => {
+       searchMenu() 
+    }, 500);
+})

@@ -344,3 +344,7 @@ button.themed_btn:hover{
 button.themed_btn:active{
   color: var(--focus-input-outline-color);
 }
+
+.z-3{
+  z-index: 3;
+}

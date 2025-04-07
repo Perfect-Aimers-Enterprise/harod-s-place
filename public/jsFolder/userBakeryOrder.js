@@ -14,13 +14,18 @@ const bakeryPopUp = document.getElementById('bakeryPopUp')
 const userOrderName = localStorage.getItem('userName')
 const userOrderContact = localStorage.getItem('userPhone')
 const userOrderEmail = localStorage.getItem('userEmail')
+const token = localStorage.getItem('token')
+
 
 
 const breadOrderForm = document.getElementById('breadOrderForm')
 
 breadOrderForm.addEventListener('submit', async (e) => {
     e.preventDefault()
-    console.log("Ordering bread")
+
+    if(!token){
+        return alert("You have to Login to Place Orders")
+    }
 
     const formData = {
         bakeType: bakeType.value,

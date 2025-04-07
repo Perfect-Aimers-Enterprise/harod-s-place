@@ -16,7 +16,7 @@ const getAllCartCountFunc = async () => {
     cartCount.forEach( async (eachCartCount) => {
         eachCartCount.innerHTML = ''
     try {
-        const getAllProceedDataCountResponse = await fetch(`${config3.apiUrl}/doveeysKitchen/order/getAllProceedOrder`, {
+        const getAllProceedDataCountResponse = await fetch(`${config3.apiUrl}/harolds/order/getAllProceedOrder`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
