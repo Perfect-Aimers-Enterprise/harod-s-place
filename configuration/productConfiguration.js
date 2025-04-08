@@ -1,6 +1,7 @@
 const multer = require('multer')
 const { v2: cloudinary } = require('cloudinary')
 const { CloudinaryStorage } = require('multer-storage-cloudinary')
+const path = require('path');
 
 // Configure Cloudinary
 cloudinary.config({
@@ -13,10 +14,15 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-        folder: 'Harolds', // Folder name in Cloudinary
-        format: async (req, file) => 'png', // Convert to PNG
-        public_id: (req, file) => Date.now() + '-' + file.originalname
-    }
+        folder: 'Harolds/menu', // Folder name in Cloudinary
+        format: async (req, file) => {
+        return path.extname(file.originalname).replace('.', '');
+}},
+    public_id: (req, file) => {
+        const nameWithoutExt = path.parse(file.originalname).name;
+        return Date.now() + '-' + nameWithoutExt;
+}
+
 })
 
 const menuStorage = multer({ storage: storage }).single('menuImage')

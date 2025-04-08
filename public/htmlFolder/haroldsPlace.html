@@ -107,7 +107,7 @@
 
 
   <!-- Menu Section -->
-  <section id="menu" class="py-16 bg-gray-100 text-black hold_pattern">
+  <section id="menu" class="py-16 bg-gray-100 text-black hold_pattern ">
 
     <div class="container mx-auto px-6 lg:px-16 food_menu">
       <div class="heading1">
@@ -115,53 +115,112 @@
         <h3 >Our Menu</h3>
 
       </div>
-
-      <div class="gridHolder">
-        <div class="searchTab">
-          <div class="searchHolder w-full max-w-[30rem] flex mx-auto gap-3">
-            <input title="Search Bar" class=" flex-grow-1 bg-transparent px-3" type="search" placeholder="Search the Menu">
-            <button title="Click to search the menu" type="button" class=" rounded-full themed_btn refresh">
-              <i class="fas fa-rotate-right "></i>
-            </button>
+        <div class="gridHolder ">
+          <div class="searchTab">
+            <div class="searchHolder w-full max-w-[30rem] flex mx-auto gap-3">
+              <input title="Search Bar" class=" flex-grow-1 bg-transparent px-3" type="search" placeholder="Search the Menu">
+              <button title="Click to search the menu" type="button" class=" rounded-full themed_btn refresh">
+                <i class="fas fa-rotate-right "></i>
+              </button>
+              <button title="Click to search the menu" type="button" class=" rounded-full themed_btn menu_maximizer">
+                <i class="fas fa-maximize "></i>
+              </button>
+            </div>
           </div>
+  
+          <div id="menuGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 menuGridClass h-[700px] border-y-2 border-gray-200 shadow-md shadow-gray-300 overflow-y-scroll ">
+          <!-- Food Item Template -->
+          <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item">
+            <img src="../image/jollofRice.jpg" alt="Jollof Rice" class="w-full h-48 object-cover rounded">
+            <h3 id="men" class="mt-4 text-xl font-semibold">Jollof Rice</h3>
+            <p class="text-gray-600">Classic Nigerian dish with a smoky twist.</p>
+            <p class="mt-2 text-orange-700 font-bold">₦2,500</p>
+            <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
+          </div>
+  
+          <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item">
+            <img src="../image/chickenSuya.jpg" alt="Chicken Suya" class="w-full h-48 object-cover rounded">
+            <h3 class="mt-4 text-xl font-semibold">Chicken Suya</h3>
+            <p class="text-gray-600">Grilled chicken with spicy suya spices.</p>
+            <p class="mt-2 text-orange-700 font-bold">₦3,000</p>
+            <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
+          </div>
+  
+          <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item">
+            <img src="../image/3litresofvegetablesoup.jpg" alt="Pepper Soup" class="w-full h-48 object-cover rounded">
+            <h3 class="mt-4 text-xl font-semibold">Pepper Soup</h3>
+            <p class="text-gray-600">Hot and spicy soup for every occasion.</p>
+            <p class="mt-2 text-orange-700 font-bold">₦1,800</p>
+            <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
+          </div>
+  
+          <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item">
+            <img src="../image/3litresofvegetablesoup.jpg" alt="Pepper Soup" class="w-full h-48 object-cover rounded">
+            <h3 class="mt-4 text-xl font-semibold">Pepper Soup</h3>
+            <p class="text-gray-600">Hot and spicy soup for every occasion.</p>
+            <p class="mt-2 text-orange-700 font-bold">₦1,800</p>
+            <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
+          </div>
+  
+        </div>
         </div>
 
-        <div id="menuGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 menuGridClass h-[700px] border-y-2 border-gray-200 shadow-md shadow-gray-300 overflow-y-scroll">
-        <!-- Food Item Template -->
-        <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item">
-          <img src="../image/jollofRice.jpg" alt="Jollof Rice" class="w-full h-48 object-cover rounded">
-          <h3 id="men" class="mt-4 text-xl font-semibold">Jollof Rice</h3>
-          <p class="text-gray-600">Classic Nigerian dish with a smoky twist.</p>
-          <p class="mt-2 text-orange-700 font-bold">₦2,500</p>
-          <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
-        </div>
+    </div>
 
-        <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item">
-          <img src="../image/chickenSuya.jpg" alt="Chicken Suya" class="w-full h-48 object-cover rounded">
-          <h3 class="mt-4 text-xl font-semibold">Chicken Suya</h3>
-          <p class="text-gray-600">Grilled chicken with spicy suya spices.</p>
-          <p class="mt-2 text-orange-700 font-bold">₦3,000</p>
-          <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
-        </div>
+  </section>
+  
+  <section class="py-16 bg-gray-100 text-black hold_pattern maximizable_menu_section hidden overflow-y-auto">
 
-        <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item">
-          <img src="../image/3litresofvegetablesoup.jpg" alt="Pepper Soup" class="w-full h-48 object-cover rounded">
-          <h3 class="mt-4 text-xl font-semibold">Pepper Soup</h3>
-          <p class="text-gray-600">Hot and spicy soup for every occasion.</p>
-          <p class="mt-2 text-orange-700 font-bold">₦1,800</p>
-          <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
+    <div class="container-fluid px-6 lg:px-16 reltive">
+        <div class="gridHolder pt-4 w-full h-full ">
+          <div class="searchTab fixed top-1 w-full py-3 hold_pattern">
+            <div class="searchHolder max-w-[30rem] flex mx-auto gap-3">
+              <input title="Search Bar" class=" flex-grow-1 bg-transparent px-3" type="search" placeholder="Search the Menu">
+              <button title="Click to search the menu" type="button" class=" rounded-full themed_btn refresh">
+                <i class="fas fa-rotate-right "></i>
+              </button>
+              <button title="Click to search the menu" type="button" class=" rounded-full themed_btn menu_minimizer">
+                <i class="fas fa-minimize "></i>
+              </button>
+            </div>
+          </div>
+  
+          <div id="menuGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-5 menuGridClass h-full w-full border-y-2 border-gray-200 shadow-md shadow-gray-300 ">
+          <!-- Food Item Template -->
+          <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item">
+            <img src="../image/jollofRice.jpg" alt="Jollof Rice" class="w-full h-48 object-cover rounded">
+            <h3 id="men" class="mt-4 text-xl font-semibold">Jollof Rice</h3>
+            <p class="text-gray-600">Classic Nigerian dish with a smoky twist.</p>
+            <p class="mt-2 text-orange-700 font-bold">₦2,500</p>
+            <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
+          </div>
+  
+          <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item">
+            <img src="../image/chickenSuya.jpg" alt="Chicken Suya" class="w-full h-48 object-cover rounded">
+            <h3 class="mt-4 text-xl font-semibold">Chicken Suya</h3>
+            <p class="text-gray-600">Grilled chicken with spicy suya spices.</p>
+            <p class="mt-2 text-orange-700 font-bold">₦3,000</p>
+            <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
+          </div>
+  
+          <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item">
+            <img src="../image/3litresofvegetablesoup.jpg" alt="Pepper Soup" class="w-full h-48 object-cover rounded">
+            <h3 class="mt-4 text-xl font-semibold">Pepper Soup</h3>
+            <p class="text-gray-600">Hot and spicy soup for every occasion.</p>
+            <p class="mt-2 text-orange-700 font-bold">₦1,800</p>
+            <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
+          </div>
+  
+          <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item">
+            <img src="../image/3litresofvegetablesoup.jpg" alt="Pepper Soup" class="w-full h-48 object-cover rounded">
+            <h3 class="mt-4 text-xl font-semibold">Pepper Soup</h3>
+            <p class="text-gray-600">Hot and spicy soup for every occasion.</p>
+            <p class="mt-2 text-orange-700 font-bold">₦1,800</p>
+            <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
+          </div>
+  
         </div>
-
-        <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item">
-          <img src="../image/3litresofvegetablesoup.jpg" alt="Pepper Soup" class="w-full h-48 object-cover rounded">
-          <h3 class="mt-4 text-xl font-semibold">Pepper Soup</h3>
-          <p class="text-gray-600">Hot and spicy soup for every occasion.</p>
-          <p class="mt-2 text-orange-700 font-bold">₦1,800</p>
-          <button class="mt-4 bg-orange-500 text-sm font-semibold text-white py-2 px-4 rounded w-full animatedBtn1"><span class="bg-black text-white"><span>ORDER NOW</span></span>ORDER NOW</button>
         </div>
-
-      </div>
-      </div>
 
     </div>
 

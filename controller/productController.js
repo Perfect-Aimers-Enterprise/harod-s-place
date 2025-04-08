@@ -4,6 +4,7 @@ const cloudinary = require('cloudinary').v2;
 const createMenuProduct = async (req, res) => {
     console.log("Hello")
     try {
+        console.log(req.file);
 
         const { menuProductName, menuDescription, menuPrice, variationSize, variationPrice } = req.body
         // menuImageUrl = req.file.filename

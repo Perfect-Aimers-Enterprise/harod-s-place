@@ -1,24 +1,29 @@
 const multer = require('multer')
 const { v2: cloudinary } = require('cloudinary')
 const { CloudinaryStorage } = require('multer-storage-cloudinary')
+const path = require('path');
 
 // Configure Cloudinary
 cloudinary.config({
-    cloud_name: 'deelam9kb',
-    api_key: '537429937295938',
-    api_secret: '4b6KwYuAzQjhQwYr_xAMMXJz1uo'
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
 
+// Setup Multer Storage for Cloudinary
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-        folder: 'GalleryVideo',
-        resource_type: 'video', // Specifies that it's a video upload
-        format: async (req, res) => 'mp4',
-        public_id: (req, file) => Date.now() + '-' + file.originalname
+        folder: 'Harolds/gallery', // Folder name in Cloudinary
+        format: async (req, file) => {
+        return path.extname(file.originalname).replace('.', '');
+}},
+    public_id: (req, file) => {
+        const nameWithoutExt = path.parse(file.originalname).name;
+        return Date.now() + '-' + nameWithoutExt;
+}
 
-    }
 })
 
 // Multer instance for uploading a single file

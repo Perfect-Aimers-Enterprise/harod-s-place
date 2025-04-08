@@ -348,3 +348,39 @@ button.themed_btn:active{
 .z-3{
   z-index: 3;
 }
+
+.maximizable_menu_section{
+  position: fixed;
+  width: o;
+  height: 0;
+  z-index: 10;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* right: 0px; */
+  top: 50%;
+  /* bottom: 0px; */
+  max-width: none !important;
+  margin: 0;
+  transition: all ease 0.3s;
+}
+
+.maximizable_menu_section .searchTab{
+  opacity: 0;
+  transition: all ease 0.4s;
+}
+
+.maximizable_menu_section.maximized{
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  transform: translate(0, 0);
+
+}
+
+.maximizable_menu_section.maximized .searchTab.opaque {
+  opacity: 1;
+}

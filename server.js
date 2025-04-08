@@ -100,7 +100,7 @@ const start = async () => {
 
 start()
 
-
+module.exports = app;
 
 // WebSocket logic
 

@@ -1,25 +1,29 @@
 const multer = require('multer')
 const { v2: cloudinary } = require('cloudinary')
 const { CloudinaryStorage } = require('multer-storage-cloudinary')
+const path = require('path');
 
 // Configure Cloudinary
 cloudinary.config({
-    cloud_name: 'deelam9kb',
-    api_key: '537429937295938',
-    api_secret: '4b6KwYuAzQjhQwYr_xAMMXJz1uo'
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
+// Setup Multer Storage for Cloudinary
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-        folder: 'dailyMenu',
-        allowedFormats: ['jpg', 'png'],
-        resource_type: 'image',
-        public_id: (req, file) => Date.now() + '-' + file.originalname
-    }
+        folder: 'Harolds/dailyMenu', // Folder name in Cloudinary
+        format: async (req, file) => {
+        return path.extname(file.originalname).replace('.', '');
+}},
+    public_id: (req, file) => {
+        const nameWithoutExt = path.parse(file.originalname).name;
+        return Date.now() + '-' + nameWithoutExt;
+}
+
 })
-
-
-const dailyMenuStorage = multer({ storage: storage }).single('menuImage');
+const dailyMenuStorage = multer({ storage: storage }).single('dailyMenuImage');
 
 module.exports = { dailyMenuStorage };
