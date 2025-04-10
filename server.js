@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express');
 const cors = require('cors')
+const serverless = require('serverless-http')
 // const http = require('http');
 const bodyParser = require('body-parser')
 const path = require('path')
@@ -100,7 +101,7 @@ const start = async () => {
 
 start()
 
-module.exports = app;
+module.exports = serverless(app);
 
 // WebSocket logic
 
