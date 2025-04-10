@@ -128,7 +128,7 @@
             </div>
           </div>
   
-          <div id="menuGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 menuGridClass h-[700px] border-y-2 border-gray-200 shadow-md shadow-gray-300 overflow-y-scroll ">
+          <div id="menuGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 menuGridClass h-[700px] border-y-2 border-gray-200 shadow-md shadow-gray-300 overflow-y-scroll items-start">
           <!-- Food Item Template -->
           <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item">
             <img src="../image/jollofRice.jpg" alt="Jollof Rice" class="w-full h-48 object-cover rounded">
@@ -168,10 +168,12 @@
     </div>
 
   </section>
-  
-  <section class="py-16 bg-gray-100 text-black hold_pattern maximizable_menu_section hidden overflow-y-auto">
 
-    <div class="container-fluid px-6 lg:px-16 reltive">
+
+  <!-- Expandable Food Menu Section  -->
+  <section class="py-16 bg-gray-100 text-black hold_pattern maximizable_menu_section overflow-y-auto">
+
+    <div class="container-fluid px-6 lg:px-16 clipped_div">
         <div class="gridHolder pt-4 w-full h-full ">
           <div class="searchTab fixed top-1 w-full py-3 hold_pattern">
             <div class="searchHolder max-w-[30rem] flex mx-auto gap-3">
@@ -180,7 +182,7 @@
                 <i class="fas fa-rotate-right "></i>
               </button>
               <button title="Click to search the menu" type="button" class=" rounded-full themed_btn menu_minimizer">
-                <i class="fas fa-minimize "></i>
+                <i class="fas fa-x"></i>
               </button>
             </div>
           </div>
@@ -291,7 +293,7 @@
 
         <div id="ceoProfile" class=" mx-auto w-full lg:w-1/2 aboutUsImgHolder px-[1.5rem] ">
           <div class=" h-[400px] sm:h-[490px] mx-auto border-[3px] border-orange-400 overflow-hidden group rounded-[0.6rem] shadow-lg bakery_image">
-            <img id="ceoImageId" src="../image/perpetualTasteImg/bread/pexels-pixabay-209206.jpg" alt="" class=" w-full h-full transform transition-transform object-cover duration-1000 ease-in-out group-hover:scale-120">
+            <img id="ceoImageId" src="../image/perpetualTasteImg/bread/pexels-pixabay-209206 (1).jpg" alt="" class=" w-full h-full transform transition-transform object-cover duration-1000 ease-in-out group-hover:scale-120">
           </div>
         </div>
 
@@ -308,7 +310,7 @@
             <div class="bakeTypeSelection">
 
               <!-- custom select label -->
-              <label id="loungeTypeCustomLabel"  class="block text-sm font-medium mb-2"><span>Bake Type</span></label>
+              <label id="bakeType"  class="block text-sm font-medium mb-2"><span>Bake Type</span></label>
 
               <!-- custom select element -->
               <div class="custom-select max-md:hidden" tabindex="0">
@@ -654,7 +656,7 @@
 
         <div id="sendBookingDiv" class=" mx-auto w-full lg:w-1/2 aboutUsImgHolder px-[1.5rem] pt-[2.5rem] order-1 lg:order-2 lounge_animation_holder">
           <div class=" h-[400px] sm:h-[660px] mx-auto border-[3px] border-orange-400 overflow-hidden group rounded-[0.6rem] shadow-lg ">
-            <img id="ceoImageId" src="../image/perpetualTasteImg/restuarant_view/restaurant_view_long.jpg" alt="" class=" w-full h-full transform transition-transform object-cover duration-1000 ease-in-out group-hover:scale-120">
+            <img id="ceoImageId" src="../image/perpetualTasteImg/restuarant_view/pexels-jonathanborba-14590692 (1).jpg" alt="" loading class=" w-full h-full transform transition-transform object-cover duration-1000 ease-in-out group-hover:scale-120">
           </div>
         </div>
     

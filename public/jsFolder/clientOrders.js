@@ -22,9 +22,10 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
 let originalMenuItems;
 const menuGridClass = document.querySelector('.menuGridClass');
-const searchInput = document.querySelector('div.searchHolder>input')
+const expandableMenuGridClass = document.querySelector('section.maximizable_menu_section .menuGridClass');
+const searchInputs = document.querySelectorAll('div.searchHolder>input')
 
-const refreshBtn = document.querySelector('div.searchHolder button.refresh')
+const refreshBtns = document.querySelectorAll('div.searchHolder button.refresh')
 
 const getAllMenuProductFunc = async () => {
     try {
@@ -34,6 +35,7 @@ const getAllMenuProductFunc = async () => {
         const data = await getAllMenuProductResponse.json();
         console.log(data);
         menuGridClass.innerHTML = '';        
+        expandableMenuGridClass.innerHTML = '';        
 
         data.forEach((eachData) => {
             const eachDataId = eachData._id;
@@ -69,9 +71,10 @@ const getAllMenuProductFunc = async () => {
 
             // Append the product content to the menu grid
             menuGridClass.innerHTML += productContent;
+            expandableMenuGridClass.innerHTML += productContent;
         });
 
-        originalMenuItems = menuGridClass.innerHTML;
+        originalMenuItems = Array.from(menuGridClass.children);
 
         setTimeout(() => {
             const menuItems = document.querySelectorAll('.menu-item');
@@ -98,6 +101,8 @@ const getAllMenuProductFunc = async () => {
     } catch (error) {
         console.log(error);
     }
+
+    console.log(originalMenuItems)
 };
 
 
@@ -562,35 +567,63 @@ const escapeSpecialChars = (input)=>{
 
 
 // This function searches the menu and returns the result
-const searchMenu = ()=>{
+const searchMenu = (element, index)=>{
 
-    let inputText = searchInput.value.trim();
+    const inputElement = element;
+    const menuGrid = inputElement.closest('div.searchTab').nextElementSibling;
+
+    let inputText = inputElement.value.trim();
     if(inputText==''){
-        return cancelSearch();
+        return cancelSearch(element);
     }
     inputText = escapeSpecialChars(inputText)
-    let menuItems = document.querySelectorAll("#menuGrid .menu-item")
-    menuItems = Array.from(menuItems);
+
+    let menuItems = originalMenuItems;
+
     const regex = new RegExp(inputText, 'i')
 
-    let filteredItems = menuItems.filter((item)=> regex.test(item.querySelector('h3').textContent))
-    filteredItems = filteredItems.join('')
-    menuGridClass.innerHTML = filteredItems;
+    menuGrid.innerHTML = ''
+    let filteredItems = menuItems.filter((item)=> {
+        return regex.test(item.querySelector('h3').textContent);
+    })
+
+    filteredItems = filteredItems.map((item)=> item.cloneNode(true));
+
+    menuGrid.append(...filteredItems)
 }
 
-const cancelSearch = ()=>{
-    menuGridClass.innerHTML = originalMenuItems;
+const cancelSearch = (element)=>{
+    const inputElement = element;
+    inputElement.closest('div.searchTab').nextElementSibling.append(...originalMenuItems);
 }
 
-const refreshMenu = ()=>{
-    getAllMenuProductFunc();
-    searchMenu()
+const refreshMenu = async(element)=>{
+    const siblingInputElement = element.parentElement.querySelector('input')
+    await getAllMenuProductFunc();
+    console.log(siblingInputElement)
+    searchMenu(siblingInputElement)
 }
 
-searchInput.addEventListener('input', ()=>{
-    clearTimeout(debounceTimer)
 
-    debounceTimer = setTimeout(() => {
-       searchMenu() 
-    }, 500);
+searchInputs.forEach((searchInput, index, array)=>{
+    searchInput.addEventListener('input', (e)=>{
+
+
+        let nextIndex = index==0? 1 : 0;
+        array[nextIndex].value = searchInput.value;
+        clearTimeout(debounceTimer)
+        console.log(e.target)
+        debounceTimer = setTimeout(() => {
+            searchMenu(e.target, index) 
+            searchMenu(array[nextIndex], nextIndex) 
+
+
+        }, 500);
+    })
+})
+
+refreshBtns.forEach((btn)=>{
+    btn.addEventListener('click', (e)=>{
+    refreshMenu(btn);
+})
 })

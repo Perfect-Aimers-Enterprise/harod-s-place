@@ -14,7 +14,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-        folder: 'Harolds/menu', // Folder name in Cloudinary
+        folder: 'Harolds/food_menu', // Folder name in Cloudinary
         format: async (req, file) => {
         return path.extname(file.originalname).replace('.', '');
 }},
@@ -25,6 +25,22 @@ const storage = new CloudinaryStorage({
 
 })
 
+
+// const menuStorage=(req, res, next)=>{
+    
+// try {
+//     multer({ storage: storage }).single('menuImage')
+//     next()  
+// } catch (error) {
+//     console.log("An error Ocurred")
+//     console.log(error);
+//     res.json({msg:'Upload Unsuccess full'}).status(500)
+// }
+// }
+
+
 const menuStorage = multer({ storage: storage }).single('menuImage')
 
+
 module.exports = { menuStorage }
+

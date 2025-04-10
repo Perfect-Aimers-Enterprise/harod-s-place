@@ -305,6 +305,7 @@ div.custom-select:focus ul{
 }
 
 .lounge_animation_holder{
+  will-change: transform;
   transform: translate(60%, 0);
   opacity: 0;
   transition: all 1.1s ease;
@@ -351,36 +352,31 @@ button.themed_btn:active{
 
 .maximizable_menu_section{
   position: fixed;
-  width: o;
-  height: 0;
-  z-index: 10;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  /* right: 0px; */
-  top: 50%;
-  /* bottom: 0px; */
-  max-width: none !important;
-  margin: 0;
-  transition: all ease 0.3s;
-}
-
-.maximizable_menu_section .searchTab{
-  opacity: 0;
-  transition: all ease 0.4s;
-}
-
-.maximizable_menu_section.maximized{
-  width: 100vw;
+  width: 100%;
   height: 100vh;
+  z-index: 10;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  max-width: none !important;
+  margin: 0;
 
-  transform: translate(0, 0);
 
+  clip-path: circle(0% at 50% 50%);
+  transition: clip-path ease 0.5s;
 }
 
-.maximizable_menu_section.maximized .searchTab.opaque {
-  opacity: 1;
+
+/* .maximizable_menu_section div.clipped_div{
+  clip-path: circle(0% at 50% 50%);
+  transition: clip-path ease 0.5s;
+  transition-delay: 0.8s;
+}
+  
+
+.maximizable_menu_section.maximize div.clipped_div {
+    clip-path: circle(150% at 50% 50%);
+} */
+
+.maximizable_menu_section.maximize {
+    clip-path: circle(150% at 50% 50%);
 }

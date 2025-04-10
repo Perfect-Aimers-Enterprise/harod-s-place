@@ -115,8 +115,8 @@ const breadObserver = new IntersectionObserver ((entries, observer)=>{
 },
         {
             root:null,
-            rootMargin: '0px',
-            threshold: 0.2
+            rootMargin: '-10px 0px',
+            threshold: 0.1
         }
 );
 
@@ -212,34 +212,17 @@ const menuMaximizerBtn = document.querySelector('button.menu_maximizer');
 
 const menuMinimizerBtn = document.querySelector('button.menu_minimizer');
 
-
+// Event Listeners to maximize the food menu
 menuMaximizerBtn.addEventListener("click", (e)=>{
-    document.querySelector(".maximizable_menu_section").classList.remove('hidden'); 
+    document.querySelector(".maximizable_menu_section").classList.add('maximize'); 
 
-    setTimeout(() => {
-        document.querySelector(".maximizable_menu_section").classList.add('maximized');       
-    }, 10);
-    setTimeout(() => {
-        document.querySelector(".maximizable_menu_section .searchTab").classList.add('opaque');       
-    }, 320);
 })
 
-
-menuMinimizerBtn.addEventListener("click", (e)=>{
-    const containingSection = e.target.closest('section.maximizable_menu_section');  
-    document.querySelector(".maximizable_menu_section .searchTab").classList.remove('opaque'); 
-
-    setTimeout(() => {
-        containingSection.classList.remove('maximized');
+// Event Listeners to minimize the food menu
+menuMinimizerBtn.addEventListener("click", (e)=>{  
+    const containingSection = e.target.closest('section.maximizable_menu_section');
+    containingSection.classList.remove('maximize'); 
         
-    }, 400);
-
-    
-
-    setTimeout(() => {
-        containingSection.classList.add('hidden'); 
-        
-    }, 900);
 
 })
 
