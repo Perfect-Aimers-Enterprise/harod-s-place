@@ -31,20 +31,25 @@ customSelectElement.forEach((element)=>{
     })
 
     element.addEventListener('focus', (e)=>{
-    const rect = chosenOptionElement.getBoundingClientRect();
+    // const rect = chosenOptionElement.getBoundingClientRect();
+    const rect = e.target.querySelector('div.chosen').getBoundingClientRect();
+    const optionHolderElement = e.target.querySelector('ul');
     const spaceBelow = window.innerHeight - rect.bottom;
     const spaceAbove = rect.top;
 
     if(spaceAbove>chosenOptionElement.offsetHeight && spaceAbove>spaceBelow){
         // Display Above
         optionHolderElement.style.bottom = 'calc(100% + 3px)';
+        optionHolderElement.style.top = 'unset';
     }
     else{
         // Display Below
         optionHolderElement.style.top = 'calc(100% + 3px)';
+        optionHolderElement.style.bottom = 'unset';
     }
-    const parentCustomSelect = e.target.closest('div.custom-select');
-    parentCustomSelect.classList.toggle('open')})
+    console.log(e.target)
+    e.target.classList.toggle('open');
+    })
 })
 
 

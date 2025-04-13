@@ -5,14 +5,8 @@ const config2 = {
       : `${window.location.protocol}//${window.location.hostname}`
   };
 
-  const navigationPopUp = document.getElementById('navigationPopUp')
-
-  let debounceTimer;
-
-
 
 document.addEventListener('DOMContentLoaded', ()=> {
-    getAllMenuProductFunc()
     populateUserProceedOrder()
     // fetchUserGallery()
    
@@ -20,173 +14,49 @@ document.addEventListener('DOMContentLoaded', ()=> {
     
 })
 
-let originalMenuItems;
-const menuGridClass = document.querySelector('.menuGridClass');
-const expandableMenuGridClass = document.querySelector('section.maximizable_menu_section .menuGridClass');
-const searchInputs = document.querySelectorAll('div.searchHolder>input')
-
-const refreshBtns = document.querySelectorAll('div.searchHolder button.refresh')
-
-const getAllMenuProductFunc = async () => {
-    try {
-        const getAllMenuProductResponse = await fetch(`${config2.apiUrl}/harolds/product/getMenuProducts`);
-        console.log(getAllMenuProductResponse);
-        
-        const data = await getAllMenuProductResponse.json();
-        console.log(data);
-        menuGridClass.innerHTML = '';        
-        expandableMenuGridClass.innerHTML = '';        
-
-        data.forEach((eachData) => {
-            const eachDataId = eachData._id;
-
-            let productContent = '';
-
-
-            if (eachData.menuPrice && (!eachData.variations || eachData.variations.length === 0 || isAllVariationsInvalid(eachData.variations))) {
-                
-                productContent = `
-                    <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item" data-id="${eachDataId}">
-                        <img src="${eachData.menuImage}" alt="${eachData.menuProductName}" class="w-full h-48 object-cover rounded">
-                        <h3 class="mt-4 text-xl font-semibold">${eachData.menuProductName}</h3>
-                        <p class="text-gray-600">${eachData.menuDescription}</p>
-                        <p class="mt-2 text-orange-700 font-bold">₦${eachData.menuPrice}</p>
-                        <button id="orderNowButton" class="mt-4 bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 w-full">Order Now</button>
-                    </div>
-                `;
-            } else if (eachData.variations && eachData.variations.length > 0) {
-                 // Show the price of the first variation
-                 const firstVariationPrice = eachData.variations[0].price;
-
-                 productContent = `
-                     <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item" data-id="${eachDataId}">
-                         <img src="${eachData.menuImage}" alt="${eachData.menuProductName}" class="w-full h-48 object-cover rounded">
-                         <h3 class="mt-4 text-xl font-semibold">${eachData.menuProductName}</h3>
-                         <p class="text-gray-600">${eachData.menuDescription}</p>
-                         <p class="mt-2 text-orange-700 font-bold">₦${firstVariationPrice}</p>
-                         <button id="orderNowButton" class="mt-4 bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 w-full">Order Now</button>
-                     </div>
-                 `;
-            }
-
-            // Append the product content to the menu grid
-            menuGridClass.innerHTML += productContent;
-            expandableMenuGridClass.innerHTML += productContent;
-        });
-
-        originalMenuItems = Array.from(menuGridClass.children);
-
-        setTimeout(() => {
-            const menuItems = document.querySelectorAll('.menu-item');
-            menuItems.forEach((item) => {
-                item.classList.add('visible');
-            });
-        }, 100);
-        
-        const orderNowButton = document.querySelectorAll('#orderNowButton');
-        
-        orderNowButton.forEach((eachOrderNowButton) => {
-            eachOrderNowButton.addEventListener('click', (e) => {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                //    alert('Please Register an Account')
-                navigationPopUp.classList.remove('hidden')
-                   return
-                }
-                const menuProductId = e.target.closest('.menu-item').dataset.id;
-                fetchSingleProductFunc(menuProductId);
-            });
-        });
-
-    } catch (error) {
-        console.log(error);
-    }
-
-    console.log(originalMenuItems)
-};
-
-
-
-const fetchSingleProductFunc = async (menuProductId) => {
-
-  
-    try {
-      const fetchSingleProductResponse = await fetch(`${config2.apiUrl}/harolds/product/getSingleMenuProduct/${menuProductId}`)
-  
-    // console.log(fetchSingleProductResponse);
-  
-      const data = await fetchSingleProductResponse.json()
-      console.log('Testing Data String', data);
-
-      const menuProductOrderImage = data.menuImage
-      const menuProductOrderName = data.menuProductName
-      const menuProductOrderDescription = data.menuDescription
-      const menuProductOrderPrice = data.menuPrice
-      const menuProductVariations = data.variations || []; // Check if variations exist
-
-      console.log(menuProductVariations);
-      
-
-      localStorage.setItem('menuProductOrderImage', menuProductOrderImage)
-      localStorage.setItem('menuProductOrderName', menuProductOrderName)
-      localStorage.setItem('menuProductOrderDescription', menuProductOrderDescription)
-      localStorage.setItem('menuProductOrderPrice', menuProductOrderPrice)
-      localStorage.setItem('menuProductVariations', JSON.stringify(menuProductVariations));
-
-      window.location.href = '../htmlFolder/orderDetailsPage.html'
-
-    } catch (error) {
-      console.log(error);
-      
-    }}
-
-
-const orderPage = document.getElementById('orderPage')
-
-const populateUserProceedOrder = () => {
-    // e.preventDefault()
-
-    orderPage.innerHTML = ''
-
-    const proceedOrderImg = localStorage.getItem('menuProductOrderImage')
-    const proceedOrderName = localStorage.getItem('menuProductOrderName')
-    const proceedOrderPrice = parseFloat(localStorage.getItem('menuProductOrderPrice'));
-    const menuProductVariations = JSON.parse(localStorage.getItem('menuProductVariations'))
-
-    console.log(menuProductVariations);
     
+    const populateUserProceedOrder = () => {
+        // e.preventDefault()
+        const orderPage = document.getElementById('orderPage')
+
+        orderPage.innerHTML = ''
+
+        const proceedOrderImg = localStorage.getItem('menuProductOrderImage')
+        const proceedOrderName = localStorage.getItem('menuProductOrderName')
+        const proceedOrderPrice = parseFloat(localStorage.getItem('menuProductOrderPrice'));
+        const menuProductVariations = JSON.parse(localStorage.getItem('menuProductVariations'))    
 
 
-    let variationDropdown = '';
-    let priceDisplay = '';
+        let variationDropdown = '';
+        let priceDisplay = '';
 
 
-    if (proceedOrderPrice && (!menuProductVariations || menuProductVariations.length === 0 || isAllVariationsInvalidMenuPrice(menuProductVariations))) {
-        priceDisplay = `
-        <div class="mb-4">
-            <p id="orderProceedPrice" class="text-lg font-semibold text-gray-800">Price: <span class="text-orange-500">&#8358;${proceedOrderPrice.toFixed(2)}</span></p>
-        </div>`;
-    } else if (menuProductVariations && menuProductVariations.length > 0) {
-        variationDropdown = `
-        <div class="mb-4">
-            <label for="variationSelect" class="block text-gray-600 font-medium mb-1">Choose Variation</label>
-            <select id="variationSelect" class="w-full p-3 border border-gray-300 rounded-lg">
-            <option disabled selected>Select Food Size</option>
-            ${menuProductVariations
-                .map(
-                (variation) =>
-                    `<option value="${variation.price}" data-variation-name="${variation.size}">
-                    ${variation.size} - &#8358;${variation.price.toFixed(2)}
-                    </option>`
-                )
-                .join('')}
-            </select>
-        </div>`;
+        if (proceedOrderPrice && (!menuProductVariations || menuProductVariations.length === 0 || isAllVariationsInvalidMenuPrice(menuProductVariations))) {
+            priceDisplay = `
+            <div class="mb-4">
+                <p id="orderProceedPrice" class="text-lg font-semibold text-gray-800">Price: <span class="text-orange-500">&#8358;${proceedOrderPrice.toFixed(2)}</span></p>
+            </div>`;
+        } else if (menuProductVariations && menuProductVariations.length > 0) {
+            variationDropdown = `
+            <div class="mb-4">
+                <label for="variationSelect" class="block text-gray-600 font-medium mb-1">Choose Variation</label>
+                <select id="variationSelect" class="w-full p-3 border border-gray-300 rounded-lg">
+                <option disabled selected>Select Food Size</option>
+                ${menuProductVariations
+                    .map(
+                    (variation) =>
+                        `<option value="${variation.price}" data-variation-name="${variation.size}">
+                        ${variation.size} - &#8358;${variation.price.toFixed(2)}
+                        </option>`
+                    )
+                    .join('')}
+                </select>
+            </div>`;
 
-        priceDisplay = `
-        <div class="mb-4">
-            <p id="orderProceedPrice" class="text-lg font-semibold text-gray-800">Price: <span class="text-orange-500">&#8358;${menuProductVariations[0].price.toFixed(2)}</span></p>
-        </div>`;
+            priceDisplay = `
+            <div class="mb-4">
+                <p id="orderProceedPrice" class="text-lg font-semibold text-gray-800">Price: <span class="text-orange-500">&#8358;${menuProductVariations[0].price.toFixed(2)}</span></p>
+            </div>`;
     }
 
         
@@ -249,7 +119,7 @@ const populateUserProceedOrder = () => {
 
 
             <!-- Proceed Button -->
-            <button id="proceedButton" class="w-full bg-orange-500 text-white font-bold py-2 px-4 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed" disabled>Proceed to Order</button>
+            <button id="proceedButton" class="w-full bg-orange-500 text-white font-bold py-2 px-4 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed animatedBtn1 text-sm" disabled><span class="bg-black text-white"><span>PROCEED TO ORDER</span></span>PROCEED TO ORDER</button>
         </form>
         `
 
@@ -466,7 +336,7 @@ const userProceedOrderFunc = async (formData, orderPage) => {
         orderPopUpAlert.classList.remove('hidden')
         
     } catch (error) {
-        console.log(error);
+        throw error
         
     }
 }
@@ -516,13 +386,6 @@ const updateTotalPrice = () => {
 
 
 
-
-// Helper function to check if all variations are invalid
-function isAllVariationsInvalid(variations) {
-    return variations.every((variation) => !variation.size || variation.price === null);
-  }
-
-
   function payWithMonnify(selectedPriceTotal, userName, userEmail, proceedOrderName) {
     MonnifySDK.initialize({
         amount: selectedPriceTotal,
@@ -551,7 +414,6 @@ function isAllVariationsInvalid(variations) {
           }
         },
         onClose: function (data) {
-          console.log(data)
           if (data.responseCode === "USER_CANCELLED") {
               alert('Order Cancelled')
               window.location.href = '../htmlFolder/haroldsPlace.html'
@@ -560,70 +422,3 @@ function isAllVariationsInvalid(variations) {
       })
   }  
 
-
-const escapeSpecialChars = (input)=>{
-    return input.replace(/[.*&^?$+[\|\\](){}]/g, '\\$&')
-}
-
-
-// This function searches the menu and returns the result
-const searchMenu = (element, index)=>{
-
-    const inputElement = element;
-    const menuGrid = inputElement.closest('div.searchTab').nextElementSibling;
-
-    let inputText = inputElement.value.trim();
-    if(inputText==''){
-        return cancelSearch(element);
-    }
-    inputText = escapeSpecialChars(inputText)
-
-    let menuItems = originalMenuItems;
-
-    const regex = new RegExp(inputText, 'i')
-
-    menuGrid.innerHTML = ''
-    let filteredItems = menuItems.filter((item)=> {
-        return regex.test(item.querySelector('h3').textContent);
-    })
-
-    filteredItems = filteredItems.map((item)=> item.cloneNode(true));
-
-    menuGrid.append(...filteredItems)
-}
-
-const cancelSearch = (element)=>{
-    const inputElement = element;
-    inputElement.closest('div.searchTab').nextElementSibling.append(...originalMenuItems);
-}
-
-const refreshMenu = async(element)=>{
-    const siblingInputElement = element.parentElement.querySelector('input')
-    await getAllMenuProductFunc();
-    console.log(siblingInputElement)
-    searchMenu(siblingInputElement)
-}
-
-
-searchInputs.forEach((searchInput, index, array)=>{
-    searchInput.addEventListener('input', (e)=>{
-
-
-        let nextIndex = index==0? 1 : 0;
-        array[nextIndex].value = searchInput.value;
-        clearTimeout(debounceTimer)
-        console.log(e.target)
-        debounceTimer = setTimeout(() => {
-            searchMenu(e.target, index) 
-            searchMenu(array[nextIndex], nextIndex) 
-
-
-        }, 500);
-    })
-})
-
-refreshBtns.forEach((btn)=>{
-    btn.addEventListener('click', (e)=>{
-    refreshMenu(btn);
-})
-})

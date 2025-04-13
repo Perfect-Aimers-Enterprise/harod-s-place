@@ -19,7 +19,7 @@ const fetchLoungeDetailsFunc = async () => {
         
         
     } catch (error) {
-        alert("Unable to retrieve lounge details");
+        throw new Error("Unable to retrieve lounge details");
         
     }
   }
@@ -161,7 +161,6 @@ const cancleLoungePopUp = document.getElementById('cancleLoungePopUp')
 
 const insertLoungeDetailsinForm = (loungeDetails)=>{
     const { loungeTypesAndPrices, haroldsFeatures } = loungeDetails;
-    console.log(haroldsFeatures)
   let nativeLoungeOptionElements = loungeTypesAndPrices.map((typeAndPrice)=>{
     const {loungeType, loungeTypePrice} = typeAndPrice;
     return(
@@ -318,7 +317,6 @@ document.getElementById('sendBookingForm').addEventListener('submit', (e) => {
 
 const executeLoungeBookingFunc = async (formData) => {
     try {
-        console.log('populateloungebookingformData 1', formData);
         const response = await fetch(`${configBookings.apiUrl}/haroldsUser/executeLoungeBooking`, {
             method: 'POST',
             headers: {
@@ -331,7 +329,7 @@ const executeLoungeBookingFunc = async (formData) => {
         const data = await response.json()
         
     } catch (error) {
-        console.log(error);
+        throw new Error("Unabale to book Lounge");
         
     }
 }

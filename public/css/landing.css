@@ -34,13 +34,25 @@ body{
 
 .heading1 h3 {
   font-weight: bolder;
-  font-size: 2.8rem /* 24px */;
+  font-size: 2.8em /* 24px */;
   line-height: 2rem;
   color: rgb(8, 3, 1);
   margin-bottom: 3.4rem;
   text-transform: uppercase;
   letter-spacing: 7px;
 
+}
+
+@media (max-width: 768px) {
+  .heading1 span{
+    font-size: 1.2em;
+    margin-bottom: 0.4rem;
+  }
+  .heading1 h3{
+    font-size: 1.9em;
+    margin-bottom: 1.7rem;
+    line-height: 1.4;
+  }
 }
 
 
@@ -187,7 +199,7 @@ a.animatedBtn1>span>span, button.animatedBtn1>span>span{
   left: 50%;
 }
 
-a.animatedBtn1:hover>span, button.animatedBtn1:hover>span {
+a.animatedBtn1:not(:disabled):hover>span, button.animatedBtn1:not(:disabled):hover>span {
   width: 100%;
 }
 
@@ -379,4 +391,86 @@ button.themed_btn:active{
 
 .maximizable_menu_section.maximize {
     clip-path: circle(150% at 50% 50%);
+}
+
+
+@media (max-width: 638px) {
+  .menuGridClass > .menu-item {
+    width: 80%;
+    margin-inline: auto;
+    min-width: 255px;
+  }
+
+}
+
+button:disabled{
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+
+
+/* CSS for Button Spinner Functionality */
+
+.spinner-grow,
+.spinner-border {
+  display: inline-block;
+  width: var(--bs-spinner-width);
+  height: var(--bs-spinner-height);
+  vertical-align: var(--bs-spinner-vertical-align);
+  border-radius: 50%;
+  animation: var(--bs-spinner-animation-speed) linear infinite var(--bs-spinner-animation-name);
+}
+
+@keyframes spinner-border {
+  to {
+    transform: rotate(360deg) /* rtl:ignore */;
+  }
+}
+.spinner-border {
+  --bs-spinner-width: 2rem;
+  --bs-spinner-height: 2rem;
+  --bs-spinner-vertical-align: -0.125em;
+  --bs-spinner-border-width: 0.25em;
+  --bs-spinner-animation-speed: 0.75s;
+  --bs-spinner-animation-name: spinner-border;
+  border: var(--bs-spinner-border-width) solid currentcolor;
+  border-right-color: transparent;
+}
+
+.spinner-border-sm {
+  --bs-spinner-width: 1rem;
+  --bs-spinner-height: 1rem;
+  --bs-spinner-border-width: 0.2em;
+}
+
+@keyframes spinner-grow {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: none;
+  }
+}
+.spinner-grow {
+  --bs-spinner-width: 2rem;
+  --bs-spinner-height: 2rem;
+  --bs-spinner-vertical-align: -0.125em;
+  --bs-spinner-animation-speed: 0.75s;
+  --bs-spinner-animation-name: spinner-grow;
+  background-color: currentcolor;
+  opacity: 0;
+}
+
+.spinner-grow-sm {
+  --bs-spinner-width: 1rem;
+  --bs-spinner-height: 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner-border,
+  .spinner-grow {
+    --bs-spinner-animation-speed: 1.5s;
+  }
 }

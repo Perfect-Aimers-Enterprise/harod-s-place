@@ -16,7 +16,7 @@ const getAllProceedSubTotalFunc = async () => {
     const subtotalDiv = document.getElementById('subtotalDiv');
 
     try {
-        const getAllProceedDataCountResponse = await fetch(`${config.apiUrl}/doveeysKitchen/order/getAllProceedOrder`, {
+        const getAllProceedDataCountResponse = await fetch(`${config.apiUrl}/harolds/order/getAllProceedOrder`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
@@ -52,7 +52,7 @@ const getAllProceedDataCountFunc = async () => {
     const totalOrders = document.getElementById('totalOrders')
     totalOrders.innerHTML = ''
     try {
-        const getAllProceedDataCountResponse = await fetch(`${config.apiUrl}/doveeysKitchen/order/getAllProceedOrder`, {
+        const getAllProceedDataCountResponse = await fetch(`${config.apiUrl}/harolds/order/getAllProceedOrder`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
@@ -73,7 +73,7 @@ const getAllProceedDataCountFunc = async () => {
 
 const getAllProceedOrderFunc = async () => {
     try {
-        const getAllProceedResponse = await fetch(`${config.apiUrl}/doveeysKitchen/order/getAllProceedOrder`, {
+        const getAllProceedResponse = await fetch(`${config.apiUrl}/harolds/order/getAllProceedOrder`, {
             method: 'GET',
             headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`

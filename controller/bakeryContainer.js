@@ -4,7 +4,9 @@ const requestBakery = async (req, res) => {
     try {
         const bakeryVar = await Bakery.create({...req.body})
         res.status(201).json(bakeryVar)
+        console.log('Hello')
     } catch (error) {
+        console.log(error)
         res.status(500).json(error)
     }
 }

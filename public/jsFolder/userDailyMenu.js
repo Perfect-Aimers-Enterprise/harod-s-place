@@ -257,8 +257,6 @@ async function getSingleDailyMenu(eachDailyMenuData) {
                 userPhone,
                
             }
-
-            console.log(formData);
             await dailyMenuUserProceedOrderFunc(formData)
             
         })
@@ -268,7 +266,7 @@ async function getSingleDailyMenu(eachDailyMenuData) {
   const dailyMenuUserProceedOrderFunc = async (formData) => {
     const orderPopUpAlert = document.getElementById('orderPopUpAlert')
     try {
-        const userProceedResponse = await fetch(`${configuration.apiUrl}/doveeysKitchen/order/createProceedOrder`, {
+        const userProceedResponse = await fetch(`${configuration.apiUrl}/harolds/order/createProceedOrder`, {
             method: 'POST',
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
