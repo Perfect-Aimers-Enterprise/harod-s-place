@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', ()=> {
 })
 
 let originalMenuItems;
-const menuGridClass = document.querySelector('.menuGridClass');
-const expandableMenuGridClass = document.querySelector('section.maximizable_menu_section .menuGridClass');
+const menuGridClass = document.querySelectorAll('.menuGridClass');
+// const expandableMenuGridClass = document.querySelector('section.maximizable_menu_section .menuGridClass');
 const searchInputs = document.querySelectorAll('div.searchHolder>input')
 
 const refreshBtns = document.querySelectorAll('div.searchHolder button.refresh')
@@ -27,6 +27,7 @@ const refreshBtns = document.querySelectorAll('div.searchHolder button.refresh')
 const notFoundMenuSearch = document.querySelectorAll('.menuSearchNotFound');
 
 const loader = document.querySelector('.menu_loader');
+const unable2LoadMenu = document.querySelectorAll('.unable2LoadMenu')
 
 const getAllMenuProductFunc = async () => {
     try {
@@ -35,8 +36,9 @@ const getAllMenuProductFunc = async () => {
         const getAllMenuProductResponse = await fetch(`${config2.apiUrl}/harolds/product/getMenuProducts`);
         console.log(getAllMenuProductFunc)
         const data = await getAllMenuProductResponse.json();
-        menuGridClass.innerHTML = '';        
-        expandableMenuGridClass.innerHTML = '';        
+
+        menuGridClass.forEach((element)=>element.innerHTML='');
+       
 
         data.forEach((eachData) => {
             const eachDataId = eachData._id;
@@ -71,11 +73,10 @@ const getAllMenuProductFunc = async () => {
             }
 
             // Append the product content to the menu grid
-            menuGridClass.innerHTML += productContent;
-            expandableMenuGridClass.innerHTML += productContent;
+        menuGridClass.forEach((element)=>element.innerHTML += productContent)
         });
 
-        originalMenuItems = Array.from(menuGridClass.children);
+        originalMenuItems = Array.from(menuGridClass[0].children);
 
         setTimeout(() => {
             const menuItems = document.querySelectorAll('.menu-item');
@@ -99,8 +100,15 @@ const getAllMenuProductFunc = async () => {
             });
         });
 
+
+        unable2LoadMenu.forEach((element)=>element.classList.add('hidden'));
+        menuGridClass.forEach((element)=>element.classList.remove('hidden'))
+
     } catch (error) {
-        throw error;
+        unable2LoadMenu.forEach((element)=>element.classList.remove('hidden'));
+        menuGridClass.forEach((element)=>element.classList.add('hidden'))
+        console.log(error)
+
     }
     finally{
         loader.classList.add('hidden');
@@ -145,9 +153,8 @@ const escapeSpecialChars = (input)=>{
 const searchMenu = (element, index)=>{
 
     const inputElement = element;
-    const menuGrid = inputElement.closest('div.searchTab').nextElementSibling.nextElementSibling;
-
-    // console.log(menuGrid)
+    const menuGrid = inputElement.closest('div.gridHolder').querySelector('.menuGridClass');
+    console.log(menuGrid)
 
     let inputText = inputElement.value.trim();
     if(inputText==''){
@@ -192,15 +199,25 @@ const cancelSearch = (element)=>{
     notFoundMenuSearch.forEach(element => {
         element.classList.add('hidden')
     });
-    inputElement.closest('div.searchTab').nextElementSibling.nextElementSibling.innerHTML = '';
-    inputElement.closest('div.searchTab').nextElementSibling.nextElementSibling.append(...originalMenuItems.map((items)=>items.cloneNode(true)));
-    inputElement.closest('div.searchTab').nextElementSibling.nextElementSibling.classList.remove('hidden');
+    const menuGrids = document.querySelectorAll('.menuGridClass');
+    menuGrids.forEach((element)=> element.innerHTML='')
+    menuGrids.forEach((menuGrid)=>{
+        menuGrid.append(...originalMenuItems.map((items)=>items.cloneNode(true)));
+        menuGrid.classList.remove('hidden')
+    })
 }
 
 const refreshMenu = async(element)=>{
     const siblingInputElement = element.parentElement.querySelector('input')
+    const menuGrids = element.closest('.gridHolder').querySelectorAll('.menuGridClass');
+    menuGrids.forEach((menuGrid)=>{
+        menuGrid.classList.add('hidden')
+    })
     await getAllMenuProductFunc();
     searchMenu(siblingInputElement)
+    menuGrids.forEach((menuGrid)=>{
+        menuGrid.classList.remove('hidden')
+    })
 }
 
 

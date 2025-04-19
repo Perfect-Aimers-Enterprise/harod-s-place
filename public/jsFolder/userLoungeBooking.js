@@ -281,8 +281,10 @@ allCustomSelectElements.forEach((customSelect)=>{
 }
 
 
-document.getElementById('sendBookingForm').addEventListener('submit', (e) => {
+document.getElementById('sendBookingForm').addEventListener('submit', async (e) => {
     e.preventDefault()
+
+    const submitBtn = e.target.querySelector('button')
 
     const userBookingEmail = localStorage.getItem('userEmail')
     const userBookingTel = parseFloat(localStorage.getItem('userPhone'))
@@ -303,14 +305,25 @@ document.getElementById('sendBookingForm').addEventListener('submit', (e) => {
         formData[key] = value
     });
 
-    executeLoungeBookingFunc(formData)
-    e.target.reset();
+    try {
+        putBtnInLoadingState(submitBtn, 'Processing', submitBtn)
+        await executeLoungeBookingFunc(formData)
+        showToastNoti('Lounge Booked Successfully', true)
+        
+    } catch (error) {
+        console.log('An Error occured when booking the lounge!');
+        showToastNoti('Unable to Book Lounge', false)
+    }
 
-    loungePopUp.classList.remove('hidden')
+    finally{
+        e.target.reset();
+        // loungePopUp.classList.remove('hidden')
+        cancleLoungePopUp.addEventListener('click', () => {
+            loungePopUp.classList.add('hidden')
+        })
+    }
 
-    cancleLoungePopUp.addEventListener('click', () => {
-        loungePopUp.classList.add('hidden')
-    })
+
 
 })
 

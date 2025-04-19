@@ -14,6 +14,7 @@
   --hover-li-color:  rgb(255, 158, 106);
   --small-heading-text-color: rgb(241, 104, 31);
   --focus-input-outline-color: rgb(254, 90, 1);
+  --btn-hover-color: rgb(255, 158, 106);
 }
 
 body{
@@ -473,4 +474,30 @@ button:disabled{
   .spinner-grow {
     --bs-spinner-animation-speed: 1.5s;
   }
+}
+
+.beyond_top {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  transition: all 0.6s;
+  margin-top: 0;
+}
+
+.bring_down {
+  top: 20%;
+}
+
+.show1 {
+  visibility: hidden;
+}
+
+div.toastCon button.btn-close {
+  font-size: 0.8em;
+  top: 50%;
+}
+
+div.toastCon button.btn-close:hover{
+  color: var(--btn-hover-color);
 }

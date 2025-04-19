@@ -22,23 +22,19 @@ const breadOrderForm = document.getElementById('breadOrderForm')
 
 breadOrderForm.addEventListener('submit', async (e) => {
     e.preventDefault()
-
+    const submitBtn = e.target.querySelector('button');
     if(!token){
         return alert("You have to Login to Place Orders")
     }
+        const formData = new FormData(breadOrderForm)        
+        formData.forEach((value, key)=>{
+        formData[key] = value
+    });
 
-    const formData = {
-        bakeType: bakeType.value,
-        otherBakeType: otherBakeType.value,
-        bakeQuantity: parseInt(bakeQuantity.value),
-        bakeDescription: bakeDescription.value,
-        bakeContact: parseInt(bakeContact.value),
-        userOrderName,
-        userOrderContact,
-        userOrderEmail
-    }
 
     try {
+        putBtnInLoadingState(submitBtn, 'Processing')
+
         const response = await fetch(`${configBakery.apiUrl}/harolds/requestBakery`, {
             method: 'POST',
             headers: {
@@ -47,11 +43,17 @@ breadOrderForm.addEventListener('submit', async (e) => {
             body: JSON.stringify(formData)
         })
 
-        bakeryPopUp.classList.remove('hidden')
+        if(!response.ok) throw new Error("Unable to place Order")
+
+        showToastNoti("Order Placed Successfully", true, submitBtn)
+
+        // bakeryPopUp.classList.remove('hidden')
         cancleBakeryPopUp.addEventListener('click', () => {
             bakeryPopUp.classList.add('hidden')
         })
     } catch (error) {
         console.log(error);
+        showToastNoti("Unable to place Order", false, submitBtn)
     }
+
 })

@@ -58,6 +58,7 @@ app.get('/reset-password', (req, res) => {
 });
 
 // MiddleWares 
+app.use('/harolds', bakeryRoute)
 app.use('/harolds/api', userRoute)
 app.use('/harolds/product', productRoute)
 app.use('/harolds/order', authentication, orderRoute)
@@ -68,7 +69,6 @@ app.use('/galleryDisplay', galleryRoute)
 app.use('/dailyMenuDisplay', dailyMenuRoute)
 app.use('/harolds', adminBookingRoute)
 app.use('/haroldsUser', bookingLoungeRoute)
-app.use('/harolds', bakeryRoute)
 
 // Console logging instead
 app.use((req, res, next) => {

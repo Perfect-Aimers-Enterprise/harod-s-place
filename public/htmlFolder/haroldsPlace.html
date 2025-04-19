@@ -134,11 +134,17 @@
             </div>
 
           </div>
+          <div class=" unable2LoadMenu flex items-center justify-center  w-100  h-[250px] hidden text-center" style="color: #a2a2a2;">
+            <div class=" text-[2em] italic">
+              Unable to Load Menu at the Moment <br/> Try Again Later...
+            </div>
+
+          </div>
           <div class="flex items-center justify-center  w-100  h-[300px] menu_loader">
             <img src="../image/loaders/Blocks@1x-1.0s-200px-200px.svg" alt="food menu loader" srcset="">
           </div>
   
-          <div id="menuGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 menuGridClass h-[700px] border-y-2 border-gray-200 shadow-md shadow-gray-300 overflow-y-scroll items-start ">
+          <div id="menuGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 menuGridClass min-h-[500px] border-y-2 border-gray-200 shadow-md shadow-gray-300 overflow-y-scroll items-start ">
           <!-- Food Item Template -->
           <!-- <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item">
             <img src="../image/jollofRice.jpg" alt="Jollof Rice" class="w-full h-48 object-cover rounded">
@@ -201,6 +207,12 @@
             <div class=" text-[2em] italic">
               No Result Matches the Search
             </div>
+          </div>
+          <div class=" unable2LoadMenu flex items-center justify-center  w-100  h-[250px] hidden text-center" style="color: #a2a2a2;">
+              <div class=" text-[2em] italic">
+              Unable to Load Menu at the Moment <br/> Try Again Later...
+            </div>
+
           </div>
 
           <div id="menuGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-5 menuGridClass h-full w-full border-y-2 border-gray-200 shadow-md shadow-gray-300 ">
@@ -337,7 +349,7 @@
                       <li>Pizza</span></li>
                       <li>Shawarma</span></li>
                       <li>Hot Dog</span></li>
-                      <li>Others</span></li>
+                      <li class='othersBakeType'>Others</span></li>
 
                   </ul>
             </div>
@@ -698,8 +710,8 @@
 
 
     <!-- About Section for small screens-->
-    <section id="aboutSmall" class=" bg-white text-black lg:hidden">
-      <div class="container flex flex-wrap py-10 pt-[6rem] mx-auto ">
+    <section id="aboutSmall" class=" py-8 bg-white text-black lg:hidden hold_pattern">
+      <div class="container flex flex-wrap py-1 mx-auto ">
           <div class="heading1 max-lg:w-full w-1/2 aboutText">
             <h3 class=" !mb-5">About Us</h3>
             </div>
@@ -715,11 +727,11 @@
     </section>
 
         <!-- About Section for big Screens-->
-    <section id="aboutBig" class=" max-lg:hidden bg-white text-black ">
-      <div class="container flex flex-wrap py-10 pt-[6rem] mx-auto">
+    <section id="aboutBig" class=" max-lg:hidden bg-white text-black hold_pattern">
+      <div class="container flex flex-wrap py-10 mx-auto">
           <div class="mx-auto px-6 text-center w-full md:w-1/2 mb-5 pt-[4rem] aboutText">
           <div class="heading1 ">
-            <h3 class=" !mb-4">About Us</h3>
+            <h3 class=" !mb-5">About Us</h3>
           </div>
           <p class="px-2 ">Founded as a family business, Harold's Place combines the care of home cooked meals with the convenience of 24/7 service. We’re dedicated to serving fresh, fast, and delicious meals that bring people together anytime, anywhere.</p>
         </div>
@@ -736,7 +748,7 @@
 
     <!-- Services Section for small screens -->
 
-    <section id="servicesSmall" class="py-12 bg-white text-black lg:hidden">
+    <section id="servicesSmall" class="py-8 bg-white text-black lg:hidden hold_pattern">
       <div class="container flex flex-wrap py-10 mx-auto">
             <div class="heading1 text-center w-full">
               <h3>Our Services</h3>
@@ -773,7 +785,7 @@
 
 
     <!-- Our Services Section for big screens -->
-    <section id="servicesBig" class="py-12 bg-white text-black max-lg:hidden">
+    <section id="servicesBig" class="py-12 bg-white text-black max-lg:hidden hold_pattern">
       <div class="container flex flex-wrap py-10 mx-auto">
         <div id="ceoProfile" class=" mx-auto w-full md:w-1/2 aboutUsImgHolder px-6 servicesImage">
           <div class=" h-[300px] md:h-[400px] mx-auto border-[3px] border-orange-400 overflow-hidden group rounded-[0.6rem] shadow-lg">
@@ -1008,6 +1020,20 @@
     </div>
   </div>
 </section>
+
+<div class="toastCon success px-1 fixed top-10 left-1/2 translate-x-[-50%] max-sm:w-full w-fit beyond_top text-white">
+  <div class="flex justify-between items-baseline px-3 py-3 w-full bg-green-400">
+    <span class="notification px-2 pe-4 uppercase"></span>
+    <button type="button" title="Close toast" class='btn-close'><i class="fas fa-x"></i></button>
+  </div>
+</div>
+
+<div class="toastCon failure px-1 fixed top-10 left-1/2 translate-x-[-50%] max-sm:w-full w-fit beyond_top text-white">
+  <div class="flex justify-between items-baseline px-3 py-3 w-full bg-red-400">
+    <span class="notification px-2 pe-4 uppercase"></span>
+    <button type="button" title="Close toast" class='btn-close'><i class="fas fa-x"></i></button>
+  </div>
+</div>
 
 
 </body>

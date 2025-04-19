@@ -1,8 +1,8 @@
-const config29 = {
-    apiUrl: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-      ? 'http://localhost:3000'
-      : `${window.location.protocol}//${window.location.hostname}`
-  };
+// const config = {
+//     apiUrl: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+//       ? 'http://localhost:3000'
+//       : `${window.location.protocol}//${window.location.hostname}`
+//   };
 
 document.addEventListener('DOMContentLoaded', ()=> {
 
@@ -13,41 +13,41 @@ document.addEventListener('DOMContentLoaded', ()=> {
 })
 
 
-const getHeroImageDisplay = async () => {
-  try {
-    const response = await fetch(`${config.apiUrl}/doveeysLanding/getHeroImage`)
-    const data = await response.json()
+// const getHeroImageDisplay = async () => {
+//   try {
+//     const response = await fetch(`${config.apiUrl}/doveeysLanding/getHeroImage`)
+//     const data = await response.json()
     
+//     if(!response.ok) throw new Error('Unable to load Hero Image')
 
-    data.forEach((eachData) => {
+//     data.forEach((eachData) => {
 
-      const dynamicHeroImage = document.getElementById('dynamicHeroImage')
+//       const dynamicHeroImage = document.getElementById('dynamicHeroImage')
 
-      const populateHeroImage = `
-        <div class="relative bg-cover bg-center text-white h-[50vh] md:h-[60vh] lg:h-[70vh] xl:h-[85vh]" style="background-image: url('${eachData.heroImage}');">
-          <div class="hero-overlay absolute inset-0"></div>
-          <div class="relative h-full flex flex-col justify-center items-center text-center">
-            <h2 class="text-2xl md:text-5xl font-bold mb-4">${eachData.heroImageName}</h2>
-            <p class="text-lg md:text-xl mb-6">${eachData.heroImageDes}</p>
-            <a href="#menu" class="bg-orange-500 py-3 px-6 rounded-full hover:bg-orange-600">Explore Menu</a>
-          </div>
-        </div>
-      `
+//       const populateHeroImage = `
+//         <div class="relative bg-cover bg-center text-white h-[50vh] md:h-[60vh] lg:h-[70vh] xl:h-[85vh]" style="background-image: url('${eachData.heroImage}');">
+//           <div class="hero-overlay absolute inset-0"></div>
+//           <div class="relative h-full flex flex-col justify-center items-center text-center">
+//             <h2 class="text-2xl md:text-5xl font-bold mb-4">${eachData.heroImageName}</h2>
+//             <p class="text-lg md:text-xl mb-6">${eachData.heroImageDes}</p>
+//             <a href="#menu" class="bg-orange-500 py-3 px-6 rounded-full hover:bg-orange-600">Explore Menu</a>
+//           </div>
+//         </div>
+//       `
 
-      dynamicHeroImage.innerHTML = populateHeroImage
+//       dynamicHeroImage.innerHTML = populateHeroImage
 
-    })
+//     })
     
     
-  } catch (error) {
-    console.log(error);
-  }
-}
+//   } catch (error) {
+//   }
+// }
 
 
 async function fetchUserGallery() {
     try {
-      const response = await fetch(`${config29.apiUrl}/galleryDisplay/getGallery`); // Fetch the gallery data
+      const response = await fetch(`${config.apiUrl}/galleryDisplay/getGallery`); // Fetch the gallery data
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

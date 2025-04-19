@@ -1,31 +1,43 @@
-function showAlertOrder(alert, alertText){
-  alert.classList.remove('show1');
-  alert.firstChild.innerHTML = alertText;
-  const btnClose = alert.querySelector('.btn-close');
+function showToastNoti(toastText, successStatus, submitBtn){
+  // Insert Initial Button Text
+  submitBtn.innerHTML = `<span class="bg-black text-white"><span>${submitBtn.initInnerText}</span></span>${submitBtn.initInnerText}`
+
+  const toast = successStatus? document.querySelector('div.toastCon.success') : document.querySelector('div.toastCon.failure');
+  toast.querySelector('span.notification').innerHTML = toastText
+  toast.classList.remove('show1');
+  toast.firstChild.innerHTML = toastText;
+  const btnClose = toast.querySelector('.btn-close');
   btnClose.addEventListener('click', ()=>{
-    alert.classList.add('show');
+    toast.classList.add('show1');
+    activateBtn(submitBtn);
 
   })
-  alert.classList.add('bring_down')
+  toast.classList.add('bring_down')
   setTimeout(() => {
-    alert.classList.remove('bring_down');
+    toast.classList.remove('bring_down');
+
     // triggerBtn.disabled = false;
-    // alert.classList.add('show')
-    
+    // toast.classList.add('show')
   }, 2500);
 
+  setTimeout(() => {
+
+    activateBtn(submitBtn);
+  }, 3200);
+
 }
 
-const putButtonInLoadingState = (btn, loading_text)=>{
-          btn.innerHTML = `<span class="spinner-grow spinner-grow-sm"></span> ${loading_text}`
-        btn.disabled = true
+const putBtnInLoadingState = (btn, loading_text)=>{
+  btn.initInnerText = btn.querySelector('span').outerText;
+  btn.innerHTML = `<span class="spinner-grow spinner-grow-sm"></span> ${loading_text}`
+  btn.disabled = true
 }
 
-const removeBtnFromLoadingState = (btn, btn_text)=>{
-  btn.innerHTML = btn_text;
+const activateBtn = (btn)=>{
+  // btn.innerHTML = `<span class="bg-black text-white"><span>${btn.initInnerText}</span></span>${btn.initInnerText}`
   btn.disabled = false;
 }
 
 window.showAlertOrder = showAlertOrder;
 window.putButtonInLoadingState = putButtonInLoadingState;
-window.removeBtnFromLoadingState = removeBtnFromLoadingState;
+window.activateBtn = activateBtn;

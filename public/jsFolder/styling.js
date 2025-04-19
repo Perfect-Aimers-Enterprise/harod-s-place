@@ -184,6 +184,15 @@ allCustomSelectElements.forEach((customSelect)=>{
     customSelectOptions.forEach((option)=>{
         option.addEventListener('click', (e)=>{
             e.stopPropagation();
+
+            if(option.className=="othersBakeType"){
+                document.getElementById('otherBakeTypeContainer').classList.remove('hidden');
+            }
+            else{
+                document.getElementById('otherBakeTypeContainer').classList.add('hidden');
+
+            }
+
             const chosenListItem = e.target;
             const chosenListItemDisplay = e.target.closest('ul').previousElementSibling;
             let nativeSelectElementOptions = e.target.closest('.custom-select').nextElementSibling.querySelectorAll('select option') || e.target.closest('.custom-select').nextElementSibling.querySelectorAll('option');

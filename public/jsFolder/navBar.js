@@ -1,8 +1,11 @@
+
+
 const config = {
   apiUrl: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:3000'
     : `${window.location.protocol}//${window.location.hostname}`
 };
+
 
 const menuToggle = document.getElementById('menuToggle');
 const closeMenu = document.getElementById('closeMenu');
@@ -34,10 +37,7 @@ window.addEventListener('click', (e) => {
 
 const activeNavBarFunc = () => {
   const currentPage = window.location.pathname.split('/').pop()
-  const navLink = document.querySelectorAll('li a')
-  
-  console.log(navLink);
-  
+  const navLink = document.querySelectorAll('li a')  
   navLink.forEach((link) => {
     let navColor = 'text-orange-400'
     if (link.getAttribute('href') === currentPage) {
@@ -49,7 +49,7 @@ const activeNavBarFunc = () => {
 
 const getHeroImageDisplay = async () => {
   try {
-    const response = await fetch(`${config.apiUrl}/harolds/getHeroImage`)
+    const response = await fetch(`${config.apiUrl}/haroldsLanding/getHeroImage`)
     const data = await response.json()
     
 
@@ -63,8 +63,7 @@ const getHeroImageDisplay = async () => {
           <div class="relative h-full flex flex-col justify-center items-center text-center">
             <h2 class="text-2xl md:text-5xl font-bold mb-4">${eachData.heroImageName}</h2>
             <p class="text-lg md:text-xl mb-6">${eachData.heroImageDes}</p>
-            <a href="#menu" class="bg-orange-500 py-3 px-6 rounded-full hover:bg-orange-600">Explore Menu</a>
-          </div>
+            <a href="#menu" class="bg-orange-500 py-3 px-6 mt-6 rounded-xl hover:bg-orange-600 text-sm animatedBtn1">EXPLORE MENU <span class="over bg-white text-orange-500"><span>EXPLORE MENU</span></span></a>
         </div>
       `
 
@@ -80,7 +79,7 @@ const getHeroImageDisplay = async () => {
 
 const getFlyer1Display = async () => {
   try {
-    const response = await fetch(`${config.apiUrl}/harolds/getFlyer1Schema`)
+    const response = await fetch(`${config.apiUrl}/haroldsLanding/getFlyer1Schema`)
 
     const data = await response.json()
     
@@ -107,7 +106,7 @@ const getFlyer1Display = async () => {
 
 const getFlyer2Display = async () => {
   try {
-    const response = await fetch(`${config.apiUrl}/harolds/getFlyer2Schema`)
+    const response = await fetch(`${config.apiUrl}/haroldsLanding/getFlyer2Schema`)
     const data = await response.json()
     
     data.forEach((eachData) => {
@@ -133,7 +132,7 @@ const getFlyer2Display = async () => {
 
 const getMenuLandingFunc = async () => {
   try {
-    const response = await fetch(`${config.apiUrl}/harolds/getAllMenuImage`)
+    const response = await fetch(`${config.apiUrl}/haroldsLanding/getAllMenuImage`)
     const data = await response.json()
 
     const menuDishCards = document.getElementById('menuDishCards')
