@@ -9,6 +9,32 @@
 } */
 
 
+@font-face {
+  font-family: 'Satisfy';
+  src: url("../fonts/Satisfy/Satisfy-Regular.ttf") format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'Dancing_Script';
+  src: url("../fonts/Dancing_Script/DancingScript-VariableFont_wght.ttf") format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'Satisfy';
+  src: url("../fonts/Satisfy/") format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+
+}
+
+
+
 :root{
   --primary:  rgba(241, 104, 31);
   --hover-li-color:  rgb(255, 158, 106);
@@ -27,10 +53,12 @@ body{
 }
 
 .heading1 span{
-  font-size: 1.8em;
+  font-size: 2.2em;
   margin-bottom: 0.8rem;
   display: block;
   color: var(--small-heading-text-color);
+  font-family: 'Dancing_Script', sans-serif;
+  font-weight: 600;
 }
 
 .heading1 h3 {
@@ -46,7 +74,7 @@ body{
 
 @media (max-width: 768px) {
   .heading1 span{
-    font-size: 1.2em;
+    font-size: 1.4em;
     margin-bottom: 0.4rem;
   }
   .heading1 h3{

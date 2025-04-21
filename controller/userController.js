@@ -417,8 +417,6 @@ cron.schedule('0 10 * * 5', sendReminderEmail, {
     timezone: "Africa/Lagos", // Use your local timezone here
 });
 
-console.log('Reminder email service is running...');
-
 
 module.exports = {
     registerUser, loginUser, getRegisteredUser, verifyRegisteredUser, forgottenPassword, resetPassword

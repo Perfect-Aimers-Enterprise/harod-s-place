@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express');
 const cors = require('cors')
-const serverless = require('serverless-http')
+// const serverless = require('serverless-http')
 // const http = require('http');
 const bodyParser = require('body-parser')
 const path = require('path')
@@ -77,7 +77,7 @@ app.use((req, res, next) => {
 });
 
 process.on('uncaughtException', (err) => {
-  console.error(`Uncaught Exception: ${err.message}`);
+  console.error(`Uncaught Exception: ${err}`);
 });
 
 
@@ -85,10 +85,8 @@ const port = process.env.PORT || 3000
 
 const start = async () => {
   try {
-      await connectDB(process.env.MONGO_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    })
+      console.log('The database URL: ', process.env.MONGO_URI)
+      await connectDB(process.env.MONGO_URI)
       app.listen(port, () => {
           console.log(`Harolds server is listening on port ${port}`);
           
@@ -101,7 +99,10 @@ const start = async () => {
 
 start()
 
-module.exports = serverless(app);
+module.exports = async(req, res, next)=>{
+  await connectDB(process.env.MONGO_URI);
+  return  app(req, res, next)
+};
 
 // WebSocket logic
 

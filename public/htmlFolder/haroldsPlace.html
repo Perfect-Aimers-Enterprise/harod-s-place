@@ -128,14 +128,14 @@
             </div>
           </div>
 
-          <div class="flex items-center justify-center  w-100  h-[250px]  menuSearchNotFound hidden" style="color: #a2a2a2;">
-            <div class=" text-[2em] italic">
+          <div class="flex items-center justify-center  w-100  h-[250px] max-sm:h-[180px]  menuSearchNotFound hidden max-sm:text-[1.3rem] text-[1.8rem]" style="color: #a2a2a2; ">
+            <div class=" italic text-center">
               No Result Matches the Search
             </div>
 
           </div>
-          <div class=" unable2LoadMenu flex items-center justify-center  w-100  h-[250px] hidden text-center" style="color: #a2a2a2;">
-            <div class=" text-[2em] italic">
+          <div class=" unable2LoadMenu flex items-center justify-center  w-100  h-[250px] max-sm:h-[180px] hidden max-sm:text-[1.3rem] text-[1.8rem]" style="color: #a2a2a2;">
+            <div class=" italic text-center">
               Unable to Load Menu at the Moment <br/> Try Again Later...
             </div>
 
@@ -144,7 +144,7 @@
             <img src="../image/loaders/Blocks@1x-1.0s-200px-200px.svg" alt="food menu loader" srcset="">
           </div>
   
-          <div id="menuGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 menuGridClass min-h-[500px] border-y-2 border-gray-200 shadow-md shadow-gray-300 overflow-y-scroll items-start ">
+          <div id="menuGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 menuGridClass h-[600px] border-y-2 border-gray-200 shadow-md shadow-gray-300 overflow-y-scroll items-start ">
           <!-- Food Item Template -->
           <!-- <div class="border rounded-lg shadow-lg p-4 bg-white text-black menu-item">
             <img src="../image/jollofRice.jpg" alt="Jollof Rice" class="w-full h-48 object-cover rounded">
@@ -319,14 +319,14 @@
             <h3>Our Bakery</h3>
           </div>
 
-        <div id="ceoProfile" class=" mx-auto w-full lg:w-1/2 aboutUsImgHolder px-[1.5rem] ">
-          <div class=" h-[340px] sm:h-[420px] lg:h-{490px} mx-auto border-[3px] border-orange-400 overflow-hidden group rounded-[0.6rem] shadow-lg bakery_image">
+        <div id="ceoProfile" class=" mx-auto w-full lg:w-1/2 aboutUsImgHolder md:px-[1.5rem] ">
+          <div class=" h-[200px] sm:h-[420px] lg:h-{490px} mx-auto border-[3px] border-orange-400 overflow-hidden group rounded-[0.6rem] shadow-lg bakery_image">
             <img id="ceoImageId" src="../image/perpetualTasteImg/bread/pexels-pixabay-209206 (1).jpg" alt="" class=" w-full h-full transform transition-transform object-cover duration-1000 ease-in-out group-hover:scale-120">
           </div>
         </div>
 
 
-        <div class="mx-auto w-full lg:w-1/2 mb-5 px-[1.5rem] mt-5 md:mt-0 ">
+        <div class="mx-auto w-full lg:w-1/2 mb-5 md:px-[1.5rem] mt-5 md:mt-0 ">
           <!-- <div class="heading1">
             <span>Order From </span>
             <h3>Our Bakery</h3>
@@ -555,7 +555,7 @@
            <p class="  max-lg:mb-0 mb-10 text-center capitalize w-full">Exciting Packages for Holidays and Events!</p>
 
 
-        <div class="mx-auto w-full lg:w-1/2 mb-5 px-[1.5rem] mt-5 order-2 max-lg:mt-4 mt-0">
+        <div class="mx-auto w-full lg:w-1/2 mb-5 md:px-[1.5rem] mt-5 order-2 max-lg:mt-4 mt-0">
             <form id="sendBookingForm" class="mt-6  mx-auto flex flex-wrap justify-between make-fields-bg-transparent">
         <div class="sm:w-full md:w-[49%] w-full">
           <div>
@@ -652,7 +652,7 @@
                     <!-- Bake Type Selection Select Element -->
         <div class="md:hidden">
           <select name="eventType" id="eventType" class="w-full border rounded px-2 py-2 mt-1 focus:ring-2 ">
-            <option value="" selected disabled>Select Bake Type</option>
+            <option value="" selected disabled>Select Event Type</option>
             <option value="Birthday Parties">Birthday Parties</option>
             <option value="Anniversaries">Anniversaries</option>
             <option value="Engagement Parties">Engagement Parties</option>
@@ -682,7 +682,7 @@
           </form>
       </div>
 
-        <div id="sendBookingDiv" class=" mx-auto w-full lg:w-1/2 aboutUsImgHolder px-[1.5rem] pt-[2.5rem] max-sm:pt-[1.2rem] order-1 lg:order-2 lounge_animation_holder">
+        <div id="sendBookingDiv" class=" mx-auto w-full lg:w-1/2 aboutUsImgHolder md:px-[1.5rem] pt-[2.5rem] max-sm:pt-[1.2rem] order-1 lg:order-2 lounge_animation_holder">
           <div class=" h-[350px] sm:h-[500px] lg:h-[660px] mx-auto border-[3px] border-orange-400 overflow-hidden group rounded-[0.6rem] shadow-lg ">
             <img id="ceoImageId" src="../image/perpetualTasteImg/restuarant_view/pexels-jonathanborba-14590692 (1).jpg" alt="" loading class=" w-full h-full transform transition-transform object-cover duration-1000 ease-in-out group-hover:scale-120">
           </div>

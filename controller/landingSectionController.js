@@ -86,7 +86,7 @@ const uploadMenuImageSchema = async (req, res) => {
 
         res.status(201).json({ menuImageSchema, message: 'menuLandingPage Uploaded Successfullyl' })
     } catch (error) {
-        res.status(500).json(error)
+        res.status(500).json({msg:"Internal Server Error"})
     }
 }
 
@@ -96,7 +96,7 @@ const getAllMenuImage = async (req, res) => {
 
         res.status(201).json(getAllMenuImageVar)
     } catch (error) {
-        res.status(500).json(error)
+        res.status(500).json({msg:"Internal Server Error"})
     }
 }
 
@@ -139,7 +139,7 @@ const uploadFlyer1Schema = async (req, res) => {
             return res.status(201).json({ newFlyer1, message: 'Flyer1 created successfully!' });
         }
     } catch (error) {
-        res.status(500).json({ error });
+        res.status(500).json({ msg: 'Unable to Upload Flyer' });
     }
 };
 
@@ -148,7 +148,7 @@ const getFlyer1Schema = async (req, res) => {
         const getFlyer1Var = await Flyer1.find()
         res.status(201).json(getFlyer1Var)
     } catch (error) {
-        res.status(500).json({ error, message: 'Flyer1 not found' })
+        res.status(500).json({ message: 'Unable to Load Flyer1' })
     }
 }
 

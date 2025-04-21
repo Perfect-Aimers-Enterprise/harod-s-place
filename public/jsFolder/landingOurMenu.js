@@ -33,8 +33,11 @@ const getAllMenuProductFunc = async () => {
     try {
 
         loader.classList.remove('hidden')
+        menuGridClass.forEach((element)=>element.classList.add('hidden'));
+        unable2LoadMenu.forEach((element)=>element.classList.add('hidden'));
+        notFoundMenuSearch.forEach((element)=>element.classList.add('hidden'));
+
         const getAllMenuProductResponse = await fetch(`${config2.apiUrl}/harolds/product/getMenuProducts`);
-        console.log(getAllMenuProductFunc)
         const data = await getAllMenuProductResponse.json();
 
         menuGridClass.forEach((element)=>element.innerHTML='');
@@ -172,7 +175,13 @@ const searchMenu = (element, index)=>{
     })
 
     if(filteredItems.length<=0) {
-        menuGrid.classList.add('hidden')
+8
+        menuGridClass.forEach(element => {
+        element.classList.add('hidden')});
+
+        unable2LoadMenu.forEach(element => {
+        element.classList.add('hidden')});
+
         return notFoundMenuSearch.forEach(element => {
         element.classList.remove('hidden')
     })
@@ -180,11 +189,17 @@ const searchMenu = (element, index)=>{
 
 
 else {
+    unable2LoadMenu.forEach(element => {
+        element.classList.add('hidden')
+    });
+
     notFoundMenuSearch.forEach(element => {
         element.classList.add('hidden')
     });
 
-    menuGrid.classList.remove('hidden')
+    menuGridClass.forEach(element => {
+        element.classList.remove('hidden')
+    });
 
     filteredItems = filteredItems.map((item)=> item.cloneNode(true));
 
@@ -215,9 +230,7 @@ const refreshMenu = async(element)=>{
     })
     await getAllMenuProductFunc();
     searchMenu(siblingInputElement)
-    menuGrids.forEach((menuGrid)=>{
-        menuGrid.classList.remove('hidden')
-    })
+
 }
 
 
