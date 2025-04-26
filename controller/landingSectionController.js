@@ -11,6 +11,9 @@ const Flyer2 = require('../model/flyer2Model')
 const uploadHeroImageSchema = async (req, res) => {
     try {
         const { heroImageName, heroImageDes } = req.body;
+
+        console.log('req.file', req.file);
+
         const heroImageUrlFile = req.file.path;
 
         const existingHeroImage = await HeroImage.findOne();

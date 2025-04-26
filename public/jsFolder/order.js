@@ -719,21 +719,30 @@ async function handleFormSubmit(event, endpoint, formBtn) {
   event.preventDefault();
   const form = event.target;
   const formData = new FormData(form);
+
+  const file = form.querySelector('input[type="file"]').files[0];
+  console.log(file);
+  // Check if a file is selected
+if (!file) {
+  return alert("Please select a file before submitting.");
+}
+
   console.log(formBtn);
   const initialBtnText = formBtn.innerHTML;
 
   try {
     putButtonInLoadingState(formBtn);
     const response = await fetch(`${config.apiUrl}${endpoint}`, {
-      method: "PATCH",
+      method: "POST",
       body: formData,
     });
+    if (!response.ok) throw new Error("Unable to Upload");
+
     await response.json();
 
-    if (!response.ok) throw new Error("Unable to Upload")
       
     form.reset();
-    showAlertOrder(alertSuccess, "Failed to upload. Please try again.");
+    showAlertOrder(alertSuccess, "Uploaded Successfully");
   } catch (error) {
     showAlertOrder(alertFailure, "Unable to upload. Please try again.");
   }
@@ -745,7 +754,9 @@ async function handleFormSubmit(event, endpoint, formBtn) {
 
 
 // Attach event listeners to forms
-document.getElementById("heroImageForm").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/updateHeroImageSchema", document.querySelector('form#heroImageForm button')));
+// document.getElementById("heroImageForm").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/updateHeroImageSchema", document.querySelector('form#heroImageForm button')));
+
+
 
 document.getElementById("flyer1Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer1Schema", document.querySelector('form#flyer1Form button')));
 
@@ -1271,4 +1282,38 @@ const putButtonInLoadingState = (btn)=>{
 const removeBtnFromLoadingState = (btn, btn_text)=>{
   btn.innerHTML = btn_text;
   btn.disabled = false;
+}
+
+
+// Function For Uploading Image to Vercel Blob
+
+const uploadFormImage = async(form)=>{
+  const folder = form.image.dataset.role;
+  const file = form.image.files[0];
+  const allowedTypes = ['image/png', 'image/jpeg', 'image/gif']
+
+  if (!allowedTypes.includes(file.type)) {
+    return alert('Only PNG, JPEG and GIF files are allowd')
+  }
+
+  try{
+    const uploadURLRes = await fetch(`${config.apiUrl}/harolds/generate-upload/url?filename=${file.name}`);
+  
+    if(!uploadURLRes.ok) throw new Error("Unable to Request Upload URL");
+
+    const {url} = await uploadURLRes.json();
+
+    const uploadRES = await fetch(url, {
+      method: 'PUT',
+      headers: {'Content-Type':file.type},
+      body: file
+    }) 
+
+    if(!uploadRES.ok) throw new Error("Unable to Upload File");
+    const uploadedBlobUrl = url.split('?')[0];
+    return uploadedBlobUrl;
+  }
+  catch(err){
+
+  }
 }

@@ -11,7 +11,7 @@ cloudinary.config({
 })
 
 // Setup Multer Storage for Cloudinary
-const storage = new CloudinaryStorage({
+const cloudStorage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
         folder: 'Harolds/food_menu', // Folder name in Cloudinary
@@ -26,6 +26,8 @@ const storage = new CloudinaryStorage({
 })
 
 
+const memoryStorage = multer.memoryStorage();
+
 // const menuStorage=(req, res, next)=>{
     
 // try {
@@ -39,7 +41,8 @@ const storage = new CloudinaryStorage({
 // }
 
 
-const menuStorage = multer({ storage: storage }).single('menuImage')
+const menuStorage = multer({ storage: cloudStorage }).single('menuImage')
+// const menuStorage = multer({ storage: memoryStorage }).single('menuImage')
 
 
 module.exports = { menuStorage }

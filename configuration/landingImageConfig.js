@@ -11,7 +11,7 @@ cloudinary.config({
 })
 
 // Setup Multer Storage for Cloudinary
-const storage = new CloudinaryStorage({
+const cloudinaryStorage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
         folder: 'Harolds/landingpages', // Folder name in Cloudinary
@@ -25,9 +25,32 @@ const storage = new CloudinaryStorage({
 
 })
 
-const uploadHeroImage = multer({ storage: storage }).single('heroImage')
-const uploadMenuImage = multer({ storage: storage }).single('menuLandingImage')
-const uploadFlyer1 = multer({ storage: storage }).single('flyer1Image')
-const uploadFlyer2 = multer({ storage: storage }).single('flyer2Image')
+
+const memoryStorage = multer.memoryStorage();
+
+// const uploadHeroImage = multer({
+//   storage: cloudinaryStorage,
+//   fileFilter: (req, file, cb) => {
+//     console.log(`✅ File received in backend: ${file.originalname}`);
+//     // you can even store some info in req if needed
+//     req.imageReceived = true;
+//     cb(null, true); // accept file
+//   },
+// }).single('heroImage');
+
+const uploadHeroImage = multer({
+  storage: memoryStorage,
+  fileFilter: (req, file, cb) => {
+    console.log(`✅ File received in backend: ${file.originalname}`);
+    // you can even store some info in req if needed
+    req.imageReceived = true;
+    cb(null, true); // accept file
+  },
+}).single('heroImage');
+
+
+const uploadMenuImage = multer({ storage: cloudinaryStorage }).single('menuLandingImage')
+const uploadFlyer1 = multer({ storage: cloudinaryStorage }).single('flyer1Image')
+const uploadFlyer2 = multer({ storage: cloudinaryStorage }).single('flyer2Image')
 
 module.exports = { uploadHeroImage, uploadMenuImage,  uploadFlyer1, uploadFlyer2 }

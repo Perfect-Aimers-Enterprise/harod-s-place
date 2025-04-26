@@ -5,3 +5,8 @@ or
     vercel
 3. cd client
     vercel
+
+
+http://localhost:3000/haroldsLanding/updateHeroImageSchema <-- without vercel dev porely local
+
+http://localhost:3000/haroldsLanding/updateHeroImageSchema
