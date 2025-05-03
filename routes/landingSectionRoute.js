@@ -12,11 +12,14 @@ const {
     getFlyer2Schema,
     getAllMenuImage,
     getSingleMenuImage,
-} = require('../controller/landingSectionController')
+} = require('../controller/landingSectionController');
+
+const { generateCloudinaryUploadSignature } = require('../controller/sPImageUpload');
 
 const {uploadHeroImage, uploadMenuImage, uploadFlyer1, uploadFlyer2} = require('../configuration/landingImageConfig')
 
-router.post('/updateHeroImageSchema', uploadHeroImage, uploadHeroImageSchema)
+router.get('/getUploadSignature', generateCloudinaryUploadSignature)
+router.put('/updateHeroImageSchema', uploadHeroImageSchema)
 router.get('/getHeroImage', getHeroImage)
 
 router.get('/getAllMenuImage', getAllMenuImage)
@@ -28,5 +31,8 @@ router.get('/getFlyer1Schema', getFlyer1Schema)
 
 router.put('/uploadFlyer2Schema', uploadFlyer2, uploadFlyer2Schema)
 router.get('/getFlyer2Schema', getFlyer2Schema)
+
+
+router.get('/getUploadSignature', generateCloudinaryUploadSignature);
 
 module.exports = router

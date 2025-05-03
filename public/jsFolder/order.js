@@ -715,47 +715,50 @@ addVariationBtn.addEventListener("click", () => {
 
 
 // Generic function to handle form submissions
-async function handleFormSubmit(event, endpoint, formBtn) {
-  event.preventDefault();
-  const form = event.target;
-  const formData = new FormData(form);
+// async function handleFormSubmit(event, endpoint, formBtn) {
+//   event.preventDefault();
+//   const form = event.target;
+//   const formData = new FormData(form);
 
-  const file = form.querySelector('input[type="file"]').files[0];
-  console.log(file);
-  // Check if a file is selected
-if (!file) {
-  return alert("Please select a file before submitting.");
-}
+//   const file = form.querySelector('input[type="file"]').files[0];
+//   console.log(file);
+//   // Check if a file is selected
+// if (!file) {
+//   return alert("Please select a file before submitting.");
+// }
 
-  console.log(formBtn);
-  const initialBtnText = formBtn.innerHTML;
+//   console.log(formBtn);
+//   const initialBtnText = formBtn.innerHTML;
 
-  try {
-    putButtonInLoadingState(formBtn);
-    const response = await fetch(`${config.apiUrl}${endpoint}`, {
-      method: "POST",
-      body: formData,
-    });
-    if (!response.ok) throw new Error("Unable to Upload");
+//   try {
+//     putButtonInLoadingState(formBtn);
+//     const response = await fetch(`${config.apiUrl}${endpoint}`, {
+//       method: "POST",
+//       body: formData,
+//     });
+//     if (!response.ok) throw new Error("Unable to Upload");
 
-    await response.json();
+//     await response.json();
 
       
-    form.reset();
-    showAlertOrder(alertSuccess, "Uploaded Successfully");
-  } catch (error) {
-    showAlertOrder(alertFailure, "Unable to upload. Please try again.");
-  }
-  finally{
-    removeBtnFromLoadingState(formBtn, initialBtnText)
-  }
-}
+//     form.reset();
+//     showAlertOrder(alertSuccess, "Uploaded Successfully");
+//   } catch (error) {
+//     showAlertOrder(alertFailure, "Unable to upload. Please try again.");
+//   }
+//   finally{
+//     removeBtnFromLoadingState(formBtn, initialBtnText)
+//   }
+// }
 
 
 
 // Attach event listeners to forms
 // document.getElementById("heroImageForm").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/updateHeroImageSchema", document.querySelector('form#heroImageForm button')));
 
+document.getElementById("heroImageForm").addEventListener("submit",   (e) =>  { handleFormSubmit(e, "/haroldsLanding/updateHeroImageSchema", e.target.querySelector('button[type="submit"]'))});
+
+console.log(document.getElementById("heroImageForm"));
 
 
 document.getElementById("flyer1Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer1Schema", document.querySelector('form#flyer1Form button')));
@@ -1288,32 +1291,100 @@ const removeBtnFromLoadingState = (btn, btn_text)=>{
 // Function For Uploading Image to Vercel Blob
 
 const uploadFormImage = async(form)=>{
-  const folder = form.image.dataset.role;
+  const role = form.image.dataset.role;
   const file = form.image.files[0];
   const allowedTypes = ['image/png', 'image/jpeg', 'image/gif']
 
   if (!allowedTypes.includes(file.type)) {
-    return alert('Only PNG, JPEG and GIF files are allowd')
+    return alert('Only PNG, JPEG and GIF files are allowed')
   }
 
-  try{
-    const uploadURLRes = await fetch(`${config.apiUrl}/harolds/generate-upload/url?filename=${file.name}`);
   
-    if(!uploadURLRes.ok) throw new Error("Unable to Request Upload URL");
+    const uploadURLRes = await fetch(`${config.apiUrl}/haroldsLanding/getUploadSignature/?public_id=${role}`);
 
-    const {url} = await uploadURLRes.json();
+    console.log(uploadURLRes);
+  
+    if(!uploadURLRes.ok) throw new Error("Unable to Request Upload Signature");
 
-    const uploadRES = await fetch(url, {
-      method: 'PUT',
-      headers: {'Content-Type':file.type},
-      body: file
+    const { 
+    timestamp,
+    signature,
+    cloudName,
+    apiKey,
+    upload_preset,
+    public_id 
+  } = await uploadURLRes.json();
+
+
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('timestamp', timestamp);
+  formData.append('signature', signature);
+  formData.append('api_key', apiKey);
+  formData.append('upload_preset', upload_preset);
+  formData.append('public_id', public_id);
+
+
+    const uploadRES = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, {
+      method: 'POST',
+      body: formData
     }) 
-
+    console.log(uploadRES);
     if(!uploadRES.ok) throw new Error("Unable to Upload File");
-    const uploadedBlobUrl = url.split('?')[0];
-    return uploadedBlobUrl;
-  }
-  catch(err){
+    console.log(uploadRES);
+    const uploadData = await uploadRES.json();
+    return uploadData.url;
 
+}
+
+const handleFormSubmit = async (e, APIEndpoint, btn)=>{
+  e.preventDefault();
+  const form = e.target;
+
+
+  try {
+    const imageURL = await uploadFormImage(form);
+    console.log(imageURL);
+    // formData.append('imageURL', imageURL);
+    // console.log(formData)
+    const formData = {
+      imageURL,
+
+    }
+
+    const HTMLFormData = new FormData(form);
+    HTMLFormData.delete('image');
+    HTMLFormData.forEach((value, key)=>{
+      if(formData[key]){
+        if (Array.isArray(formData[key])) {
+          formData[key].push(value);
+        }
+        else {
+          formData[key] = [ formData[key], value ];
+        }
+      }
+      else{
+        formData[key] = value;
+      }
+    })
+
+    const rice = {
+      delicious: 'Very',
+      color: "white"
+    }
+
+    const response = await fetch(APIEndpoint, {
+      method: 'PUT',
+      body: JSON.stringify(formData),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if(!response.ok) throw new Error("Unable to Upload Image")
+      alert('Upload Successful')
+  } catch (error) {
+    console.log(error)
+    alert("Unable to Upload Image")
   }
 }

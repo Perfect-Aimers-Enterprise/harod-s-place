@@ -2,42 +2,80 @@ const fs = require('fs');
 const path = require('path');
 const cloudinary = require('cloudinary').v2;
 
+// Import Models
 const HeroImage = require('../model/landingPageModel');
 const MenuLanding = require('../model/menuLandingSchema')
 const Flyer1 = require('../model/flyer1Model')
 const Flyer2 = require('../model/flyer2Model')
 
 
+// const uploadHeroImageSchema = async (req, res) => {
+//     try {
+//         const { heroImageName, heroImageDes } = req.body;
+
+//         console.log('req.file', req.file);
+
+//         const heroImageUrlFile = req.file.path;
+
+//         const existingHeroImage = await HeroImage.findOne();
+//         if (existingHeroImage) {
+//             // Delete old image from Cloudinary
+//             const oldImagePublicId = existingHeroImage.heroImage.split('/').pop().split('.')[0];
+//             await cloudinary.uploader.destroy(`landingpages/${oldImagePublicId}`);
+
+//             const updatedHeroImage = await HeroImage.findByIdAndUpdate(
+//                 existingHeroImage._id,
+//                 { heroImageName, heroImageDes, heroImage: heroImageUrlFile },
+//                 { new: true, runValidators: true }
+//             );
+//             return res.status(200).json({ updatedHeroImage, message: 'Hero image updated successfully!' });
+//         } else {
+//             const newHeroImage = await HeroImage.create({
+//                 heroImageName,
+//                 heroImageDes,
+//                 heroImage: heroImageUrlFile
+//             });
+//             return res.status(201).json({ newHeroImage, message: 'Hero image created successfully!' });
+//         }
+
+//     } catch (error) {
+//         res.status(500).json({ error });
+//     }
+// };
+
 const uploadHeroImageSchema = async (req, res) => {
     try {
-        const { heroImageName, heroImageDes } = req.body;
-
-        console.log('req.file', req.file);
-
-        const heroImageUrlFile = req.file.path;
+        console.log("Hello, uploading Hero Image Schema");
+        console.log(req.body);
+        const { heroImageName, heroImageDes, imageURL } = req.body;
 
         const existingHeroImage = await HeroImage.findOne();
         if (existingHeroImage) {
+            console.log(existingHeroImage);
             // Delete old image from Cloudinary
             const oldImagePublicId = existingHeroImage.heroImage.split('/').pop().split('.')[0];
-            await cloudinary.uploader.destroy(`landingpages/${oldImagePublicId}`);
-
+            // await cloudinary.uploader.destroy(`${oldImagePublicId}`);
+            console.log('Deleting old image from Cloudinary:');
             const updatedHeroImage = await HeroImage.findByIdAndUpdate(
                 existingHeroImage._id,
-                { heroImageName, heroImageDes, heroImage: heroImageUrlFile },
+                { heroImageName,  heroImage: imageURL },
                 { new: true, runValidators: true }
             );
+            console.log('Updated Hero Image:');
             return res.status(200).json({ updatedHeroImage, message: 'Hero image updated successfully!' });
         } else {
+            console.log('Creating new Hero Image 2');
             const newHeroImage = await HeroImage.create({
                 heroImageName,
                 heroImageDes,
-                heroImage: heroImageUrlFile
+                heroImage: imageURL
             });
+            console.log('New Hero Image:');
             return res.status(201).json({ newHeroImage, message: 'Hero image created successfully!' });
         }
 
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error });
     }
 };
