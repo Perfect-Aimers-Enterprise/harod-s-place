@@ -97,7 +97,7 @@ const start = async () => {
   }
 }
 
-start()
+// start()
 
 module.exports = async(req, res, next)=>{
   await connectDB(process.env.MONGO_URI);
