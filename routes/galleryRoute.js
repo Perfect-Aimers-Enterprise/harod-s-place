@@ -3,7 +3,8 @@ const router = express.Router()
 const {createGallery, getGallery, deleteGallery} = require('../controller/galleryController')
 const {uploadGallery} = require('../configuration/galleryConfiguration')
 
-router.post('/createGallery', uploadGallery, createGallery)
+// router.post('/createGallery', uploadGallery, createGallery)
+router.post('/createGallery', createGallery)
 router.get('/getGallery', getGallery)
 router.delete('/deleteGallery/:id', deleteGallery)
 

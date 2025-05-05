@@ -754,16 +754,22 @@ addVariationBtn.addEventListener("click", () => {
 
 
 // Attach event listeners to forms
-// document.getElementById("heroImageForm").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/updateHeroImageSchema", document.querySelector('form#heroImageForm button')));
 
-document.getElementById("heroImageForm").addEventListener("submit",   (e) =>  { handleFormSubmit(e, "/haroldsLanding/updateHeroImageSchema", e.target.querySelector('button[type="submit"]'))});
+document.getElementById("heroImageForm").addEventListener("submit",   (e) =>  { handleFormSubmit(e, "/haroldsLanding/updateHeroImageSchema", e.target.querySelector('button[type="submit"]'), 'PUT')});
 
-console.log(document.getElementById("heroImageForm"));
+document.getElementById("flyer1Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer1Schema", e.target.querySelector('button[type="submit"]'), 'PUT'));
+
+document.getElementById("flyer2Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer2Schema", e.target.querySelector('button[type="submit"]'), "PUT"));
 
 
-document.getElementById("flyer1Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer1Schema", document.querySelector('form#flyer1Form button')));
+// For Gallery Uploads Form
+document.getElementById("galleryForm").addEventListener("submit", (e) => handleFormSubmit(e, "/galleryDisplay/createGallery", e.target.querySelector('button[type="submit"]'), "POST", true));
 
-document.getElementById("flyer2Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer2Schema", document.querySelector('form#flyer2Form button')));
+// For Menu Items Form
+document.getElementById("flyer2Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer2Schema", e.target.querySelector('button[type="submit"]'), "PUT"));
+
+// For Daily Menu Items Form
+document.getElementById("flyer2Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer2Schema", e.target.querySelector('button[type="submit"]'), "PUT"));
 
 
 async function handleCreateFormSubmit(event, endpoint) {
@@ -791,42 +797,42 @@ async function handleCreateFormSubmit(event, endpoint) {
 }
 
 
-const galleryForm = document.getElementById('galleryForm')
-const createGalleryFunc = async () => {
-  const createBtn = document.querySelector('#galleryForm button.upload')
-  const formData = new FormData(galleryForm);
+// const galleryForm = document.getElementById('galleryForm')
+// const createGalleryFunc = async () => {
+//   const createBtn = document.querySelector('#galleryForm button.upload')
+//   const formData = new FormData(galleryForm);
 
-  try{
+//   try{
     
-    putButtonInLoadingState(createBtn);
+//     putButtonInLoadingState(createBtn);
 
-    const response = await fetch(`${config.apiUrl}/galleryDisplay/createGallery`, {
-      method: 'POST',
-      body: formData
-    })
+//     const response = await fetch(`${config.apiUrl}/galleryDisplay/createGallery`, {
+//       method: 'POST',
+//       body: formData
+//     })
 
-    const result = await response.json();
-        if (response.ok) {
-          showAlertOrder(alertSuccess, "File uploaded successfully!");
-          // fetchGallery(); 
-          fetchGallery()
-        } else {
-          throw new Error("Unable to Upload File.");
-        }
-  }
-  catch(err){
-    showAlertOrder(alertFailure, "Unable to Upload File.");
-  }
-  finally{
-    removeBtnFromLoadingState(createBtn, "Upload Gallery")
-  }
+//     const result = await response.json();
+//         if (response.ok) {
+//           showAlertOrder(alertSuccess, "File uploaded successfully!");
+//           // fetchGallery(); 
+//           fetchGallery()
+//         } else {
+//           throw new Error("Unable to Upload File.");
+//         }
+//   }
+//   catch(err){
+//     showAlertOrder(alertFailure, "Unable to Upload File.");
+//   }
+//   finally{
+//     removeBtnFromLoadingState(createBtn, "Upload Gallery")
+//   }
 
-}
+// }
 
-galleryForm.addEventListener('submit', async (e) => {
-  e.preventDefault()
-  await createGalleryFunc()
-} )
+// galleryForm.addEventListener('submit', async (e) => {
+//   e.preventDefault()
+//   await createGalleryFunc()
+// } )
 
 
 async function fetchGallery() {
@@ -1288,23 +1294,23 @@ const removeBtnFromLoadingState = (btn, btn_text)=>{
 }
 
 
-// Function For Uploading Image to Vercel Blob
+// Function For Uploading Media to Cloudinary
 
-const uploadFormImage = async(form)=>{
-  const role = form.image.dataset.role;
-  const file = form.image.files[0];
-  const allowedTypes = ['image/png', 'image/jpeg', 'image/gif']
+const getMediaUploadSignature = async(form, isGallery)=>{
+  const role = form.media.dataset.role || false;
+  const file = form.media.files[0];
+  const allowedTypes = ['image/', 'video/'];
 
-  if (!allowedTypes.includes(file.type)) {
-    return alert('Only PNG, JPEG and GIF files are allowed')
-  }
-
+  // file
+  if(!allowedTypes.find(type=>file.type.includes(type))) throw new Error("Only Videos and Images are Allowed");
   
-    const uploadURLRes = await fetch(`${config.apiUrl}/haroldsLanding/getUploadSignature/?public_id=${role}`);
+    const uploadURLRes = await fetch(`${config.apiUrl}/haroldsLanding/getUploadSignature/?public_id=${role}&isGallery=${isGallery}`);
 
     console.log(uploadURLRes);
   
     if(!uploadURLRes.ok) throw new Error("Unable to Request Upload Signature");
+
+
 
     const { 
     timestamp,
@@ -1322,8 +1328,8 @@ const uploadFormImage = async(form)=>{
   formData.append('signature', signature);
   formData.append('api_key', apiKey);
   formData.append('upload_preset', upload_preset);
-  formData.append('public_id', public_id);
 
+  if(role) formData.append('public_id', public_id);
 
     const uploadRES = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, {
       method: 'POST',
@@ -1333,27 +1339,30 @@ const uploadFormImage = async(form)=>{
     if(!uploadRES.ok) throw new Error("Unable to Upload File");
     console.log(uploadRES);
     const uploadData = await uploadRES.json();
-    return uploadData.url;
+    console.log(uploadData)
+    return uploadData.url
 
 }
 
-const handleFormSubmit = async (e, APIEndpoint, btn)=>{
+const handleFormSubmit = async (e, APIEndpoint, submitBtn, API_method, isGallery=false)=>{
   e.preventDefault();
   const form = e.target;
 
-
+  const initialBtnText = submitBtn.innerHTML;
   try {
-    const imageURL = await uploadFormImage(form);
-    console.log(imageURL);
-    // formData.append('imageURL', imageURL);
+
+    putButtonInLoadingState(submitBtn);
+    const mediaURL = await getMediaUploadSignature(form, isGallery);
+    console.log(mediaURL);
+    // formData.append('mediaURL', mediaURL);
     // console.log(formData)
     const formData = {
-      imageURL,
+      mediaURL,
 
     }
 
     const HTMLFormData = new FormData(form);
-    HTMLFormData.delete('image');
+    HTMLFormData.delete('media');
     HTMLFormData.forEach((value, key)=>{
       if(formData[key]){
         if (Array.isArray(formData[key])) {
@@ -1368,23 +1377,30 @@ const handleFormSubmit = async (e, APIEndpoint, btn)=>{
       }
     })
 
-    const rice = {
-      delicious: 'Very',
-      color: "white"
-    }
 
     const response = await fetch(APIEndpoint, {
-      method: 'PUT',
+      method: API_method,
       body: JSON.stringify(formData),
       headers:{
         'Content-Type': 'application/json'
       }
     });
 
+    console.log("hello")
+
     if(!response.ok) throw new Error("Unable to Upload Image")
-      alert('Upload Successful')
+    form.reset();
+    showAlertOrder(alertSuccess, "Uploaded Successfully");
   } catch (error) {
     console.log(error)
-    alert("Unable to Upload Image")
+    if(error.message.includes("File size too large")) return showAlertOrder(alertFailure, "Image is too Large. Please upload an image smaller than 5MB");
+
+    else if(error.message.includes("Only Videos and Images are Allowed")) return showAlertOrder(alertFailure, "Only videos and images are allowed");
+
+    showAlertOrder(alertFailure, "Unable to upload. Please try again.");
   }
+    finally{
+      removeBtnFromLoadingState(submitBtn, initialBtnText)
+
+    }
 }

@@ -6,9 +6,14 @@ const cloudinary = require('cloudinary').v2;
 const createGallery = async (req, res) => {
     try {
 
-        const { galleryTitle, galleryType  } = req.body
+        console.log("Creating the gallery...")
 
-        const galleryUrl = req.file.path
+        const { galleryTitle, galleryType, mediaURL  } = req.body
+
+        const galleryUrl = mediaURL;
+
+        console.log(req.body)
+        console.log(galleryUrl);
 
         if (!galleryTitle || !galleryType || !galleryUrl) {
             return res.status(400).json({ error: "Incomplete credentials" });
@@ -19,6 +24,7 @@ const createGallery = async (req, res) => {
 
         res.status(201).json({createGalleryVar})
     } catch (error) {
+        console.log(error)
         res.status(500).json(error)   
     }
 }

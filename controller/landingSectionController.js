@@ -47,7 +47,7 @@ const uploadHeroImageSchema = async (req, res) => {
     try {
         console.log("Hello, uploading Hero Image Schema");
         console.log(req.body);
-        const { heroImageName, heroImageDes, imageURL } = req.body;
+        const { heroImageName, heroImageDes, mediaURL } = req.body;
 
         const existingHeroImage = await HeroImage.findOne();
         if (existingHeroImage) {
@@ -58,7 +58,7 @@ const uploadHeroImageSchema = async (req, res) => {
             console.log('Deleting old image from Cloudinary:');
             const updatedHeroImage = await HeroImage.findByIdAndUpdate(
                 existingHeroImage._id,
-                { heroImageName,  heroImage: imageURL },
+                { heroImageName,  heroImage: mediaURL },
                 { new: true, runValidators: true }
             );
             console.log('Updated Hero Image:');
@@ -68,7 +68,7 @@ const uploadHeroImageSchema = async (req, res) => {
             const newHeroImage = await HeroImage.create({
                 heroImageName,
                 heroImageDes,
-                heroImage: imageURL
+                heroImage: mediaURL
             });
             console.log('New Hero Image:');
             return res.status(201).json({ newHeroImage, message: 'Hero image created successfully!' });
@@ -93,8 +93,8 @@ const getHeroImage = async (req, res) => {
 // Menu Image Controller
 const createMenuImage = async (req, res) => {
     try {
-        const { menuLandingName, menuLandingDes } = req.body;
-        const menuLandingImageUrl = req.file.path;
+        const { menuLandingName, menuLandingDes, mediaURL } = req.body;
+        const menuLandingImageUrl = mediaURL;
 
         const existingMenuImages = await MenuLanding.find();
         if (existingMenuImages.length >= 4) {
@@ -116,8 +116,8 @@ const uploadMenuImageSchema = async (req, res) => {
     try {
 
         const { id: menuImageId } = req.params
-        const { menuLandingName, menuLandingDes } = req.body
-        menuLandingImageUrl = req.file.path
+        const { menuLandingName, menuLandingDes, mediaURL } = req.body
+        menuLandingImageUrl = mediaURL
 
         const menuImageSchema = await MenuLanding.findOneAndUpdate(
             { _id: menuImageId },
@@ -156,15 +156,16 @@ const getSingleMenuImage = async (req, res) => {
 // Flyer 1 Image Controller (Only 1 flyer)
 const uploadFlyer1Schema = async (req, res) => {
     try {
-        const { flyer1Title } = req.body;
-        const flyer1ImageUrl = req.file.path;
+        const { flyer1Title, mediaURL } = req.body;
+        const flyer1ImageUrl = mediaURL;
 
         const existingFlyer1 = await Flyer1.findOne();
         if (existingFlyer1) {
 
             // Delete old image from Cloudinary
             const oldImagePublicId = existingFlyer1.flyer1Image.split('/').pop().split('.')[0];
-            await cloudinary.uploader.destroy(`landingpages/${oldImagePublicId}`);
+            console.log(oldImagePublicId)
+            // await cloudinary.uploader.destroy(`landingpages/${oldImagePublicId}`);
 
             const updatedFlyer1 = await Flyer1.findByIdAndUpdate(
                 existingFlyer1._id,
@@ -196,8 +197,8 @@ const getFlyer1Schema = async (req, res) => {
 // Flyer 2 Image Controller (Only 1 flyer)
 const uploadFlyer2Schema = async (req, res) => {
     try {
-        const { flyer2Title } = req.body;
-        const flyer2ImageUrl = req.file.path;
+        const { flyer2Title, mediaURL } = req.body;
+        const flyer2ImageUrl = mediaURL;
 
         console.log('uploadFlyerSchema');
 
@@ -207,7 +208,7 @@ const uploadFlyer2Schema = async (req, res) => {
         if (existingFlyer2) {
             // Delete old image from Cloudinary
             const oldImagePublicId = existingFlyer2.flyer2Image.split('/').pop().split('.')[0];
-            await cloudinary.uploader.destroy(`landingpages/${oldImagePublicId}`);
+            // await cloudinary.uploader.destroy(`landingpages/${oldImagePublicId}`);
             const updatedFlyer2 = await Flyer2.findByIdAndUpdate(
                 existingFlyer2._id,
                 { flyer2Title, flyer2Image: flyer2ImageUrl },

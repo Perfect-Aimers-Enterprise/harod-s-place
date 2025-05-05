@@ -9,16 +9,25 @@ cloudinary.config({
 
 const generateCloudinaryUploadSignature = (req, res) => {
 
-  const { public_id } = req.query;
-  const timestamp = Math.round(new Date().getTime() / 1000);
-  const upload_preset = process.env.HAROLDS_SIGNED_CLOUDINARY_PRESET;
+  const { public_id, isGallery } = req.query;
+  const upload_preset = isGallery? process.env.HAROLDS_SIGNED_CLOUDINARY_PRESET_GALLERY : process.env.HAROLDS_SIGNED_CLOUDINARY_PRESET;
 
-  const signature = cloudinary.utils.api_sign_request(
-    {
+  console.log(upload_preset);
+
+  const timestamp = Math.round(new Date().getTime() / 1000);
+  const info2Sign = public_id==='false' ? {
       timestamp: timestamp,
       upload_preset,
+    } :   
+    { timestamp: timestamp,
+      upload_preset,
       public_id
-    },
+    };
+
+    console.log(info2Sign)
+
+  const signature = cloudinary.utils.api_sign_request(
+    info2Sign,
     cloudinary.config().api_secret
   );
 
