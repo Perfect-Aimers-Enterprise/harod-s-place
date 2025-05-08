@@ -13,8 +13,8 @@
 
 
 </head>
-<body class="bg-gray-100">
-  <div class="flex flex-col h-screen">
+<body class="bg-gray-100 min-h-screen">
+  <div class="flex flex-col ">
     <!-- Sidebar -->
     <div class="w-1/6 md:w-1/5 bg-gray-800 text-white flex flex-col fixed h-full overflow-y-scroll">
       <div class="p-4 md:text-2xl font-bold text-center border-b border-gray-700">Admin Panel</div>
@@ -173,7 +173,92 @@
         <h2 class="text-xl font-bold mb-4">Manage Menu Products</h2>
       
         <!-- Upload Product Form -->
-        <form id="menuProductForm" enctype="multipart/form-data" class="space-y-4 border-b pb-6 mb-6">
+        <!-- <form id="menuProductForm" enctype="multipart/form-data" class="space-y-4 border-b pb-6 mb-6">
+          <div>
+            <label for="menuProductName" class="block text-sm font-medium text-gray-700">Product Name</label>
+            <input
+              type="text"
+              id="menuProductName"
+              name="menuProductName"
+              class="mt-1 p-2 block w-full border border-gray-300 rounded"
+              placeholder="Enter product name"
+            />
+          </div>
+      
+          <div>
+            <label for="menuDescription" class="block text-sm font-medium text-gray-700">Description</label>
+            <textarea
+            required
+              id="menuDescription"
+              name="menuDescription"
+              class="mt-1 p-2 block w-full border border-gray-300 rounded"
+              rows="3"
+              placeholder="Enter product description"
+            ></textarea>
+          </div>
+      
+          <div id="priceSection">
+            <label for="menuPrice" class="block text-sm font-medium text-gray-700">Price (₦)</label>
+            <input
+              type="number"
+              id="menuPrice"
+              name="menuPrice"
+              class="mt-1 p-2 block w-full border border-gray-300 rounded"
+              placeholder="Enter product price"
+            />
+          </div>
+
+        <div id="variationsContainer" class="hidden">
+          <h3 class="text-lg font-semibold mb-4">Add Product Variations</h3>
+          <div class="variation-group">
+            <div class="flex space-x-4 mb-4">
+              <input
+                type="text"
+                name="variationSize[]"
+                class="mt-1 p-2 block w-1/2 border border-gray-300 rounded"
+                placeholder="Enter variation size (e.g., 1L)"
+              />
+              <input
+                type="number"
+                name="variationPrice[]"
+                class="mt-1 p-2 block w-1/2 border border-gray-300 rounded"
+                placeholder="Enter price"
+              />
+            </div>
+          </div>
+
+          <button type="button" id="addVariationBtn" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 w-full">
+            Add Variation
+          </button>
+        </div>
+
+        
+
+        <button type="button" id="showVariationBtn" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 w-full">
+          Show Variation
+        </button>
+      
+          <div>
+            <label for="menuImage" class="block text-sm font-medium text-gray-700">Product Image</label>
+            <input
+            required
+              type="file"
+              id="menuImage"
+              name="menuImage"
+              class="mt-1 block w-full text-sm text-gray-500 file:py-2 file:px-4 file:rounded file:border-0 file:text-white file:bg-orange-500 hover:file:bg-orange-600"
+            />
+          </div>
+      
+          <button
+          id="menuUploadBtn"
+            type="submit"
+            class="mt-4 bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 w-full"
+          >   
+              Upload Product 
+          </button>
+
+        </form> -->
+        <form id="menuProductForm" class="space-y-4 border-b pb-6 mb-6">
           <div>
             <label for="menuProductName" class="block text-sm font-medium text-gray-700">Product Name</label>
             <input
@@ -260,31 +345,42 @@
 
         </form>
       
-        <!-- Product List -->
-        <h3 class="text-lg font-semibold mb-4">Existing Products</h3>
-        <div id="menuProductList" class="space-y-4">
-          <!-- Example Product Card -->
-          <div class="flex items-center justify-between border rounded-lg shadow-md p-4">
-            <div class="flex items-center space-x-4">
-              <img src="../image/chickenSuya.jpg" alt="Chicken Suya" class="w-16 h-16 object-cover rounded">
-              <div>
-                <h4 class="font-semibold">Chicken Suya</h4>
-                <p class="text-sm text-gray-600">₦3,000</p>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Existing Products</h3>
+          <div class="hidden flex justify-center items-center no_item_uploaded">
+            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">No menu products have been uploaded
+            </p>
+          </div>
+          <div class=" hidden flex justify-center items-center unable_2_fetch">
+            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">Unable to fetch menu products at the moment
+            </p>
+          </div>
+          <!-- Product List -->
+          <div id="menuProductList" class="space-y-4 hidden">
+            <!-- Example Product Card -->
+            <div class="flex items-center justify-between border rounded-lg shadow-md p-4 hidden">
+              <div class="flex items-center space-x-4">
+                <img src="../image/chickenSuya.jpg" alt="Chicken Suya" class="w-16 h-16 object-cover rounded">
+                <div>
+                  <h4 class="font-semibold">Chicken Suya</h4>
+                  <p class="text-sm text-gray-600">₦3,000</p>
+                </div>
+              </div>
+              <div class="flex space-x-2">
+                <button class="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600">
+                  <p class="hidden md:block">Edit</p>
+                  <i class="fas fa-pencil-alt md:hidden"></i>
+                </button>
+                <button class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600">
+                  <p class="hidden md:block">Delete</p>
+                  <i class="fas fa-trash md:hidden"></i>
+                </button>
               </div>
             </div>
-            <div class="flex space-x-2">
-              <button class="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600">
-                <p class="hidden md:block">Edit</p>
-                <i class="fas fa-pencil-alt md:hidden"></i>
-              </button>
-              <button class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600">
-                <p class="hidden md:block">Delete</p>
-                <i class="fas fa-trash md:hidden"></i>
-              </button>
-            </div>
+        
+            <!-- Repeat for more products -->
           </div>
-      
-          <!-- Repeat for more products -->
+
         </div>
       </div>      
     </section>
@@ -295,7 +391,17 @@
       <div class="bg-white shadow-lg rounded-lg p-6">
         <h2 class="text-xl font-bold mb-4">Bakery Order Management</h2>
 
-        <div id="bakeOrderList" class="space-y-4">
+          <div class=" hidden flex justify-center items-center no_item_uploaded">
+            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">No bakery order have been placed
+            </p>
+          </div>
+          
+          <div class=" hidden flex justify-center items-center unable_2_fetch">
+            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">Unable to fetch bakery order at the moment
+            </p>
+          </div>
+
+        <div id="bakeOrderList" class="space-y-4 hidden">
           <!-- Example Product Card -->
           <div  id="bakeOderListId" class="text-[12px] md:text-[14px] border rounded-lg shadow-md p-4 mt-[10px]">
             <div class="border rounded-lg shadow-md p-4">
@@ -393,56 +499,78 @@
           </button> 
         </form>
 
-        <!-- Booked Lounge Listings -->
-        <h3 class="text-lg font-semibold mb-4">Lounge Booking Request</h3>
-        <div id="loungeBookingList" class="space-y-4">
-          <!-- Example Product Card -->
-          <div  id="loungBookingPopulateId" class="text-[12px] md:text-[14px] border rounded-lg shadow-md p-4">
-            <div class="border rounded-lg shadow-md p-4">
-                <div class="flex items-center justify-between">
-                  <div class="">
-                      <h4 class="font-semibold">Godsave Kawurem</h4>
-                      <p class="text-sm text-gray-600">VIP ₦3,000</p>
-                  </div>
-      
-                  <div class="">
-                    <div>
-                      <a class="text-blue-500 underline" href="tel:+2349135913460">09135913460</a>
-                    </div>
-                    <div>
-                      <a class="text-blue-500 underline" href="tel:+2349135913460">07066658404</a>
-                    </div>
-                    <div>
-                      <a class="text-orange-600 underline" href="mailto:perfectaimersenterprise@gmail.com">perfectaimersenterprise@gmail.com</a>
-                    </div>
-                  </div>
-      
-                  <div>
-                    <p>Bounty Event</p>
-                    <p>Party</p>
-                    <p>59</p>
-                  </div>
-              </div>
-
-              <div class="text-center text-[10px] md:text-[12px]">
-                <p>Event Message Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea explicabo minima libero neque molestias ex nesciunt quas saepe ipsam molestiae!</p>
-              </div>
-            </div>
-            
+        <div class="content_holder">
+          <!-- Booked Lounge Listings -->
+          <h3 class="text-lg font-semibold mb-4">Lounge Booking Request</h3>
+          <div class=" hidden flex justify-center items-center no_item_uploaded">
+            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">No booking requests have been made
+            </p>
           </div>
-      
-          <!-- Repeat for more products -->
+          
+          <div class=" hidden flex justify-center items-center unable_2_fetch">
+            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">Unable to fetch booking requests at the moment
+            </p>
+          </div>
+          <div id="loungeBookingList" class="space-y-4 hidden">
+            <!-- Example Product Card -->
+            <div  id="loungBookingPopulateId" class="text-[12px] md:text-[14px] border rounded-lg shadow-md p-4">
+              <div class="border rounded-lg shadow-md p-4">
+                  <div class="flex items-center justify-between">
+                    <div class="">
+                        <h4 class="font-semibold">Godsave Kawurem</h4>
+                        <p class="text-sm text-gray-600">VIP ₦3,000</p>
+                    </div>
+        
+                    <div class="">
+                      <div>
+                        <a class="text-blue-500 underline" href="tel:+2349135913460">09135913460</a>
+                      </div>
+                      <div>
+                        <a class="text-blue-500 underline" href="tel:+2349135913460">07066658404</a>
+                      </div>
+                      <div>
+                        <a class="text-orange-600 underline" href="mailto:perfectaimersenterprise@gmail.com">perfectaimersenterprise@gmail.com</a>
+                      </div>
+                    </div>
+        
+                    <div>
+                      <p>Bounty Event</p>
+                      <p>Party</p>
+                      <p>59</p>
+                    </div>
+                </div>
+  
+                <div class="text-center text-[10px] md:text-[12px]">
+                  <p>Event Message Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea explicabo minima libero neque molestias ex nesciunt quas saepe ipsam molestiae!</p>
+                </div>
+              </div>
+              
+            </div>
+        
+            <!-- Repeat for more products -->
+          </div>
+
         </div>
       </div>      
     </section>
 
     <!-- Orders Management Section  -->
      <section class="flex-1 p-6 space-y-6 ml-[20%] content hidden orderManagementContent">
-      <div class="bg-white shadow-lg rounded-lg p-6">
+      <div class="bg-white shadow-lg rounded-lg p-6 content_holder">
         <h2 class="text-xl font-bold mb-4">Manage Orders</h2>
       
+          <div class=" hidden flex justify-center items-center no_item_uploaded">
+            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">No orders have been placed
+            </p>
+          </div>
+          
+          <div class=" hidden flex justify-center items-center unable_2_fetch">
+            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">Unable to fetch orders at the moment
+            </p>
+          </div>
+
         <!-- Orders List -->
-        <div id="adminOrdersList" class="space-y-4">
+        <div id="adminOrdersList" class="space-y-4 hidden">
           <!-- Example Order Card -->
           <div class="border rounded-lg shadow-md p-4">
             <div class="flex items-center justify-between">
@@ -496,9 +624,19 @@
         <!-- ViewAll Message  -->
         <div id="viewAllUserMessage" class="bg-white shadow-lg rounded-lg p-6">
           <h2 class="text-xl font-bold mb-4">User Messages</h2>
+
+          <div class=" hidden flex justify-center items-center no_item_uploaded">
+            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">No user messsages
+            </p>
+          </div>
+          
+          <div class=" hidden flex justify-center items-center unable_2_fetch">
+            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">Unable to fetch user messages at the moment
+            </p>
+          </div>
         
           <!-- Messages List -->
-          <div id="messagesList" class="space-y-4">
+          <div id="messagesList" class="space-y-4 hidden">
             <!-- Example Message -->
             <div class="border rounded-lg shadow-md p-4 cursor-pointer" onclick="openMessagePopup('John Doe', 'Need Help', 'I am having issues with my order...', '+234 812 345 6789', 'johndoe@example.com')">
               <div class="flex justify-between items-center">
@@ -671,9 +809,18 @@
       </form>
 
       <!-- Gallery List -->
-      <div>
+      <div class=" content_holder">
         <h3 class="text-lg font-semibold mb-4">Gallery List</h3>
-        <div id="galleryListDiv" class="space-y-4">
+          <div class=" hidden flex justify-center items-center no_item_uploaded">
+            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">No gallery media has been uploaded
+            </p>
+          </div>
+          
+          <div class=" hidden flex justify-center items-center unable_2_fetch">
+            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">Unable to fetch the gallery media at the moment
+            </p>
+          </div>
+        <div id="galleryListDiv" class="space-y-4 hidden">
           <!-- Example Product Card -->
           <div class="flex items-center justify-between border rounded-lg shadow-md p-4">
             <div id="galleryDisplayDiv" class="flex items-center space-x-4">
@@ -754,7 +901,51 @@
         <h2 class="text-xl font-bold mb-4">Manage Daily Menu</h2>
       
         <!-- Upload Product Form -->
-        <form id="dailyMenuForm" enctype="multipart/form-data" class="space-y-4 border-b pb-6 mb-6">
+        <!-- <form id="dailyMenuForm" enctype="multipart/form-data" class="space-y-4 border-b pb-6 mb-6">
+
+          <div>
+            <label for="menuTitle" class="block text-sm font-medium text-gray-700">Daily Menu Title</label>
+            <input
+            required
+              type="text"
+              id="menuTitle"
+              name="menuTitle"
+              class="mt-1 p-2 block w-full border border-gray-300 rounded"
+              placeholder="Enter daily menu title"
+            />
+          </div>
+      
+          <div id="dailyMenuPrice">
+            <label for="price2" class="block text-sm font-medium text-gray-700">Price (₦)</label>
+            <input
+              required
+              type="number"
+              id="price2"
+              name="price"
+              class="mt-1 p-2 block w-full border border-gray-300 rounded"
+              placeholder="Enter product price"
+            />
+          </div>
+      
+          <div>
+            <label for="menuImage2" class="block text-sm font-medium text-gray-700">Daily Menu Image</label>
+            <input
+              required
+              type="file"
+              id="menuImage2"
+              name="menuImage"
+              class="mt-1 block w-full text-sm text-gray-500 file:py-2 file:px-4 file:rounded file:border-0 file:text-white file:bg-orange-500 hover:file:bg-orange-600"
+            />
+          </div>
+      
+          <button
+            type="submit"
+            class="mt-4 bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 w-full upload"
+          >
+            Upload Product
+          </button>
+        </form> -->
+        <form id="dailyMenuForm" class="space-y-4 border-b pb-6 mb-6">
           <div>
             <label for="menuTitle" class="block text-sm font-medium text-gray-700">Daily Menu Title</label>
             <input
@@ -798,32 +989,44 @@
           </button>
         </form>
       
-        <!-- Product List -->
-        <h3 class="text-lg font-semibold mb-4">Existing Daily Menu</h3>
-        <div id="dailyMenuProductList" class="space-y-4">
-          <!-- Example Product Card -->
-          <div class="flex items-center justify-between border rounded-lg shadow-md p-4">
-            <div class="flex items-center space-x-4">
-              <img src="../image/chickenSuya.jpg" alt="Chicken Suya" class="w-16 h-16 object-cover rounded">
-              <div>
-                <h4 class="font-semibold">Chicken Suya</h4>
-                <p class="text-sm text-gray-600">₦3,000</p>
+        <div class="content_holder">
+          <h3 class="text-lg font-semibold mb-4">Existing Daily Menu</h3>
+          <div class=" hidden flex justify-center items-center no_products_uploaded">
+            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">No menu products have been uploaded
+            </p>
+          </div>
+          
+          <div class=" hidden flex justify-center items-center unable_2_fetch">
+            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">Unable to fetch menu products at the moment
+            </p>
+          </div>
+          <!-- Product List -->
+          <div id="dailyMenuProductList" class=" hidden space-y-4">
+            <!-- Example Product Card -->
+            <div class="flex items-center justify-between border rounded-lg shadow-md p-4">
+              <div class="flex items-center space-x-4">
+                <img src="../image/chickenSuya.jpg" alt="Chicken Suya" class="w-16 h-16 object-cover rounded">
+                <div>
+                  <h4 class="font-semibold">Chicken Suya</h4>
+                  <p class="text-sm text-gray-600">₦3,000</p>
+                </div>
+              </div>
+  
+              <div class="flex space-x-2">
+                <button class="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600">
+                  <p class="hidden md:block">Edit</p>
+                  <i class="fas fa-pencil-alt md:hidden"></i>
+                </button>
+                <button class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600">
+                  <p class="hidden md:block">Delete</p>
+                  <i class="fas fa-trash md:hidden"></i>
+                </button>
               </div>
             </div>
-
-            <div class="flex space-x-2">
-              <button class="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600">
-                <p class="hidden md:block">Edit</p>
-                <i class="fas fa-pencil-alt md:hidden"></i>
-              </button>
-              <button class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600">
-                <p class="hidden md:block">Delete</p>
-                <i class="fas fa-trash md:hidden"></i>
-              </button>
-            </div>
+        
+            <!-- Repeat for more products -->
           </div>
-      
-          <!-- Repeat for more products -->
+
         </div>
       </div>      
     </section>
@@ -949,12 +1152,12 @@
    </section>
 
              <div id="alert_menu_upload_success" class=" d-flex align-items-center alert alert-success alert-dismissible fade show m-0 beyond_top" role="alert">
-            <div>Product upload successful</div> 
+            <div class=" text-center">Product upload successful</div> 
             <button type="button" class="btn-close border p-2" aria-label="Close"></button>
         </div>
 
           <div id="alert_menu_upload_failure" class="d-flex align-items-center alert alert-danger alert-dismissible fade show m-0 beyond_top" role="alert">
-            <div>Unable to upload product</div> 
+            <div class=' text-center'>Unable to upload product</div> 
             <button type="button" class="btn-close border p-2" aria-label="Close"></button>
         </div>
 

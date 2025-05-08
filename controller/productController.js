@@ -64,13 +64,20 @@ const deleteMenuProduct = async (req, res) => {
         const { id:menuProductId } = req.params
         const menuProduct = await productModel.findOne({_id:menuProductId})
         
-        const oldImagePublicId = menuProduct.menuImage.split('/').pop().split('.')[0];
-        await cloudinary.uploader.destroy(`menuImages/${oldImagePublicId}`);
+        const imagePublicId = menuProduct.menuImage.split('/')[menuProduct.menuImage.split('/').length-2] + '/' +  menuProduct.menuImage.split('/').pop().split('.')[0];
+        
+        console.log(menuProduct.menuImage)
+        console.log(imagePublicId)
+        
+        await cloudinary.uploader.destroy(imagePublicId, {
+            invalidate: true,
+        })
 
         await productModel.deleteOne({_id:menuProductId});
 
         res.status(201).send('Product Successfully Deleted')
     } catch (error) {
+        console.log(error);
         res.status(500).json(error)
     }
 }
@@ -90,14 +97,10 @@ const updateMenuProduct = async (req, res) => {
             return res.status(404).json({ message: "Product not found!" });
         }
 
-        if(menuProduct) {
-            const oldImagePublicId = menuProduct.menuImage.split('/').pop().split('.')[0];
-            await cloudinary.uploader.destroy(`menuImages/${oldImagePublicId}`);
-        }
-
         res.status(201).json(menuProduct)
     } catch (error) {
-        res.status(500).json(error)
+        console.log(error)
+        res.status(500).json(error);
     }
 }
 

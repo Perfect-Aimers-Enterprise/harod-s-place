@@ -1146,6 +1146,19 @@ html {
   padding-bottom: 0.5rem;
 }
 
+.hero {
+  display: grid;
+  width: 100%;
+  place-items: center;
+  background-size: cover;
+  background-position: center;
+}
+
+.hero > * {
+  grid-column-start: 1;
+  grid-row-start: 1;
+}
+
 .hero-overlay {
   grid-column-start: 1;
   grid-row-start: 1;
@@ -3279,10 +3292,6 @@ html {
   height: 20rem;
 }
 
-.h-\[180px\] {
-  height: 180px;
-}
-
 .h-\[200px\] {
   height: 200px;
 }
@@ -3311,24 +3320,16 @@ html {
   height: 50vh;
 }
 
-.h-full {
-  height: 100%;
-}
-
-.h-screen {
-  height: 100vh;
-}
-
 .h-\[600px\] {
   height: 600px;
 }
 
-.max-h-64 {
-  max-height: 16rem;
+.h-full {
+  height: 100%;
 }
 
-.min-h-\[500px\] {
-  min-height: 500px;
+.max-h-64 {
+  max-height: 16rem;
 }
 
 .min-h-screen {
@@ -4079,6 +4080,10 @@ html {
   line-height: 2.5rem;
 }
 
+.text-\[1\.8rem\] {
+  font-size: 1.8rem;
+}
+
 .text-\[10px\] {
   font-size: 10px;
 }
@@ -4129,14 +4134,6 @@ html {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
-}
-
-.text-\[1\.8em\] {
-  font-size: 1.8em;
-}
-
-.text-\[1\.8rem\] {
-  font-size: 1.8rem;
 }
 
 .font-bold {
@@ -4287,6 +4284,11 @@ html {
 .text-yellow-500 {
   --tw-text-opacity: 1;
   color: rgb(234 179 8 / var(--tw-text-opacity, 1));
+}
+
+.text-secondary {
+  --tw-text-opacity: 1;
+  color: var(--fallback-s,oklch(var(--s)/var(--tw-text-opacity, 1)));
 }
 
 .underline {
@@ -4574,14 +4576,6 @@ input, option, textarea, select {
   .max-md\:hidden {
     display: none;
   }
-
-  .max-md\:text-\[1\.6em\] {
-    font-size: 1.6em;
-  }
-
-  .max-md\:text-\[1\.2em\] {
-    font-size: 1.2em;
-  }
 }
 
 @media not all and (min-width: 640px) {
@@ -4602,18 +4596,8 @@ input, option, textarea, select {
     padding-top: 1.2rem;
   }
 
-  .max-sm\:text-\[1\.3em\] {
-    font-size: 1.3em;
-  }
-
   .max-sm\:text-\[1\.3rem\] {
     font-size: 1.3rem;
-  }
-}
-
-@media (min-width: 390px) {
-  .xs\:h-\[340px\] {
-    height: 340px;
   }
 }
 
@@ -4636,6 +4620,15 @@ input, option, textarea, select {
 
   .sm\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sm\:text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  .sm\:text-\[2rem\] {
+    font-size: 2rem;
   }
 }
 
@@ -4807,13 +4800,28 @@ input, option, textarea, select {
     padding-right: 4rem;
   }
 
-  .lg\:px-\[1\.5rem\] {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-
   .lg\:text-\[16px\] {
     font-size: 16px;
+  }
+
+  .lg\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+  .lg\:text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  .lg\:text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+
+  .lg\:text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
   }
 }
 

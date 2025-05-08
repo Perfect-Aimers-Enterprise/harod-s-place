@@ -31,54 +31,65 @@ const menuProductFormUrl = `${config.apiUrl}/harolds/product/createMenuProduct`
 // const menuProductFormUrl = '/harolds/product/createMenuProduct'
 // const getMenuProductFuncUrl = '/harolds/product/getMenuProducts'
 
-const menuProductForm = document.getElementById('menuProductForm')
+// const menuProductForm = document.getElementById('menuProductForm')
 const menuProductList = document.getElementById('menuProductList')
 
-menuProductForm.addEventListener('submit', async (e) => {
-    e.preventDefault()
-    let menuProductTarget = e.target
+// menuProductForm.addEventListener('submit', async (e) => {
+//     e.preventDefault()
+//     let menuProductTarget = e.target
 
-    const formData = new FormData(menuProductTarget)
-    const menuUploadBtn = document.getElementById('menuUploadBtn')
+//     const formData = new FormData(menuProductTarget)
+//     const menuUploadBtn = document.getElementById('menuUploadBtn')
 
 
-    formData.forEach((value, key) => {
-    });
+//     formData.forEach((value, key) => {
+//     });
     
-    try {
+//     try {
 
-        putButtonInLoadingState(menuUploadBtn)
+//         putButtonInLoadingState(menuUploadBtn)
 
-        const createMenuProduct = await fetch(`${config.apiUrl}/harolds/product/createMenuProduct`, {
-            method: 'POST',
-            body: formData
-        })        
+//         const createMenuProduct = await fetch(`${config.apiUrl}/harolds/product/createMenuProduct`, {
+//             method: 'POST',
+//             body: formData
+//         })        
 
-        if (createMenuProduct.ok) {
-          showAlertOrder(alertSuccess, "Product Uploaded Successfully")
+//         if (createMenuProduct.ok) {
+//           showAlertOrder(alertSuccess, "Product Uploaded Successfully")
           
-          getMenuProductFunc(); // Refresh product list
-        } else {
-          throw new Error('Unable to upload product')
-        }
+//           getMenuProductFunc(); // Refresh product list
+//         } else {
+//           throw new Error('Unable to upload product')
+//         }
 
-        const data = await createMenuProduct.json()        
-    } catch (error) {
-        showAlertOrder(alertFailure, 'Unable to Upload Product');        
-    }
-    finally{
-      removeBtnFromLoadingState(menuUploadBtn, 'Upload Product')
+//         const data = await createMenuProduct.json()        
+//     } catch (error) {
+//         showAlertOrder(alertFailure, 'Unable to Upload Product');        
+//     }
+//     finally{
+//       removeBtnFromLoadingState(menuUploadBtn, 'Upload Product')
 
-    }
-})
+//     }
+// })
 
 // getMenuProducts
 // getMenuProducts
 const getMenuProductFunc = async (e) => {
+  try {
     const getMenuProductsResponse = await fetch(getMenuProductFuncUrl);
 
     const data = await getMenuProductsResponse.json();
     menuProductList.innerHTML = '';
+
+    if (data.length==0) {
+    menuProductList.classList.add('hidden')
+    menuProductList.parentElement.querySelector('.unable_2_fetch').classList.add('hidden')
+    return menuProductList.parentElement.querySelector('.no_item_uploaded').classList.remove('hidden');
+    }
+
+    menuProductList.classList.remove('hidden')
+    menuProductList.parentElement.querySelector('.no_item_uploaded').classList.add('hidden')
+    menuProductList.parentElement.querySelector('.unable_2_fetch').classList.add('hidden')
 
     data.forEach((eachData) => {
       const menuProductId = eachData._id;
@@ -151,7 +162,12 @@ const getMenuProductFunc = async (e) => {
     });
 
     attachEditEventListeners();
-    
+  }
+  catch(err){
+    menuProductList.classList.add('hidden')
+    menuProductList.parentElement.querySelector('.no_item_uploaded').classList.add('hidden')
+    menuProductList.parentElement.querySelector('.unable_2_fetch').classList.remove('hidden')
+  }
 };
 
 
@@ -378,86 +394,105 @@ const adminOrdersList = document.getElementById('adminOrdersList')
 const fetchAllOrders = async () => {
   adminOrdersList.innerHTML = '';
 
-    const response = await fetch(`${config.apiUrl}/harolds/adminGetOrder/adminGetAllProceedOrder`);
+    try{
 
-    const data = await response.json();
-    const spreadData = data.orderProceed;
-
-    spreadData.forEach((eachData) => {
-      const menuOrderId = eachData._id;
-
-      // Format the createdAt date
-      const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        const options = {
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: true, // For AM/PM format
-          day: 'numeric',
-          month: 'short',
-          year: 'numeric',
+      const response = await fetch(`${config.apiUrl}/harolds/adminGetOrder/adminGetAllProceedOrder`);
+  
+      const data = await response.json();
+      const spreadData = data.orderProceed;
+  
+      if (data.spreadData.length==0) {
+      adminOrdersList.classList.add('hidden')
+      adminOrdersList.closest('.content_holder').querySelector('.unable_2_fetch').classList.add('hidden')
+      return adminOrdersList.closest('.content_holder').querySelector('.no_item_uploaded').classList.remove('hidden');
+      }
+  
+      adminOrdersList.classList.remove('hidden')
+      adminOrdersList.closest('.content_holder').querySelector('.no_item_uploaded').classList.add('hidden')
+      adminOrdersList.closest('.content_holder').querySelector('.unable_2_fetch').classList.add('hidden')
+  
+      spreadData.forEach((eachData) => {
+        const menuOrderId = eachData._id;
+  
+        // Format the createdAt date
+        const formatDate = (dateString) => {
+          const date = new Date(dateString);
+          const options = {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true, // For AM/PM format
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+          };
+          return date.toLocaleString('en-US', options);
         };
-        return date.toLocaleString('en-US', options);
-      };
-
-      const ordersDisplay = `
-        <div class="border rounded-lg shadow-md p-4 ordersIdClass" data-id="${menuOrderId}">
-          <div class="flex items-center justify-between">
-            <!-- Product Info -->
-            <div class="flex items-center space-x-4">
-              <img src="${eachData.menuProductOrderImage}" alt="${eachData.menuProductOrderName}" class="w-16 h-16 object-cover rounded">
-              <div>
-                <h4 class="font-semibold">${eachData.menuProductOrderName}</h4>
-                <p class="text-sm text-gray-600">₦${eachData.menuProductOrderPrice}</p>
+  
+        const ordersDisplay = `
+          <div class="border rounded-lg shadow-md p-4 ordersIdClass" data-id="${menuOrderId}">
+            <div class="flex items-center justify-between">
+              <!-- Product Info -->
+              <div class="flex items-center space-x-4">
+                <img src="${eachData.menuProductOrderImage}" alt="${eachData.menuProductOrderName}" class="w-16 h-16 object-cover rounded">
+                <div>
+                  <h4 class="font-semibold">${eachData.menuProductOrderName}</h4>
+                  <p class="text-sm text-gray-600">₦${eachData.menuProductOrderPrice}</p>
+                </div>
+              </div>
+              <!-- Order Time -->
+              <div class="text-sm text-gray-500">
+                <p>Ordered At:</p>
+                <p>${formatDate(eachData.createdAt)}</p>
               </div>
             </div>
-            <!-- Order Time -->
-            <div class="text-sm text-gray-500">
-              <p>Ordered At:</p>
-              <p>${formatDate(eachData.createdAt)}</p>
+  
+            <!-- Client Info -->
+            <div class="mt-4 space-y-2">
+              <p><strong>Client Name:</strong> ${eachData.userName}</p>
+              <p><strong>Email:</strong> ${eachData.userEmail}</p>
+              <p><strong>Phone:</strong> ${eachData.userPhone}</p>
+              <p><strong>Order Tel:</strong> ${eachData.menuProductOrderContact}</p>
+  
+  
+              <p><strong>Address:</strong> ${eachData.menuProductOrderAddress}</p>
+              <p><strong>Quantity:</strong> ${eachData.menuProductOrderQuantity}</p>
+              <p><strong>Total Price:</strong> ₦${eachData.menuTotalProductOrderPrice}</p>
+            </div>
+  
+            <!-- Actions -->
+            <div class="mt-4 md:flex md:space-x-4 space-y-1 md:space-y-0">
+              <button class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 w-full cancleOrderBtn">
+                Cancel Order
+              </button>
+              
+              <button id="confirmOrderBtn" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 w-full">
+                Confirm/Delivered
+              </button>
             </div>
           </div>
-
-          <!-- Client Info -->
-          <div class="mt-4 space-y-2">
-            <p><strong>Client Name:</strong> ${eachData.userName}</p>
-            <p><strong>Email:</strong> ${eachData.userEmail}</p>
-            <p><strong>Phone:</strong> ${eachData.userPhone}</p>
-            <p><strong>Order Tel:</strong> ${eachData.menuProductOrderContact}</p>
-
-
-            <p><strong>Address:</strong> ${eachData.menuProductOrderAddress}</p>
-            <p><strong>Quantity:</strong> ${eachData.menuProductOrderQuantity}</p>
-            <p><strong>Total Price:</strong> ₦${eachData.menuTotalProductOrderPrice}</p>
-          </div>
-
-          <!-- Actions -->
-          <div class="mt-4 md:flex md:space-x-4 space-y-1 md:space-y-0">
-            <button class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 w-full cancleOrderBtn">
-              Cancel Order
-            </button>
-            
-            <button id="confirmOrderBtn" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 w-full">
-              Confirm/Delivered
-            </button>
-          </div>
-        </div>
-      `;
-
-      adminOrdersList.innerHTML += ordersDisplay;
-      const confirmOrderBtn = document.getElementById('confirmOrderBtn');
-      confirmOrderBtn.addEventListener('click', (e) => {
-        const confirmMenuOrderId = e.target.closest('.ordersIdClass').dataset.id;
-        confirmUserOrders(confirmMenuOrderId);
+        `;
+  
+        adminOrdersList.innerHTML += ordersDisplay;
+        const confirmOrderBtn = document.getElementById('confirmOrderBtn');
+        confirmOrderBtn.addEventListener('click', (e) => {
+          const confirmMenuOrderId = e.target.closest('.ordersIdClass').dataset.id;
+          confirmUserOrders(confirmMenuOrderId);
+        });
       });
-    });
-
-    document.querySelectorAll('.cancleOrderBtn').forEach((button) => {
-      button.addEventListener('click', (e) => {
-        const deleteMenuOrderId = e.target.closest('.ordersIdClass').dataset.id;
-        cancleUserOrders(deleteMenuOrderId, cancelBtn);
+  
+      document.querySelectorAll('.cancleOrderBtn').forEach((button) => {
+        button.addEventListener('click', (e) => {
+          const deleteMenuOrderId = e.target.closest('.ordersIdClass').dataset.id;
+          cancleUserOrders(deleteMenuOrderId, cancelBtn);
+        });
       });
-    });
+    }
+
+    catch(err){
+    adminOrdersList.classList.add('hidden')
+    adminOrdersList.closest('.content_holder').querySelector('.no_item_uploaded').classList.add('hidden')
+    adminOrdersList.closest('.content_holder').querySelector('.unable_2_fetch').classList.remove('hidden')
+    }
 
 
   
@@ -474,15 +509,13 @@ const cancleUserOrders = async (menuOrderId, cancelOrderBtn) => {
       }
     })
     
-
-    const data = await response.json()
     fetchAllOrders();
     if(!response.ok) throw new Error('Unable to Cancel User Order');
 
     showAlertOrder(alertSuccess, 'User Order Cancelled Succssfully!')
     
   } catch (error) {
-    showAlertOrder(alertFailure, 'Unable to Cancel User Order')
+    console.error(err);
     
   }
   finally{
@@ -570,14 +603,25 @@ weeklyGrowthElem.className = `text-2xl font-bold ${
 
 
 const getAllUserMessageFunc = async () => {  
+  const messagesList = document.getElementById('messagesList');
+  messagesList.innerHTML = '';
+  try{
     const response = await fetch(`${config.apiUrl}/harolds/message/getAllUserMessage`);
 
     const data = await response.json();
 
-    const messagesList = document.getElementById('messagesList');
 
     // Clear the message list
-    messagesList.innerHTML = '';
+
+      if (data.length==0) {
+      messagesList.classList.add('hidden')
+      messagesList.parentElement.querySelector('.unable_2_fetch').classList.add('hidden')
+      return messagesList.parentElement.querySelector('.no_item_uploaded').classList.remove('hidden');
+      }
+
+      messagesList.classList.remove('hidden')
+      messagesList.parentElement.querySelector('.no_item_uploaded').classList.add('hidden')
+      messagesList.parentElement.querySelector('.unable_2_fetch').classList.add('hidden')
 
     // Helper function to format the date
     const formatDate = (timestamp) => {
@@ -616,6 +660,13 @@ const getAllUserMessageFunc = async () => {
         getSingleUserMessageFunc(messageId);
       });
     });
+  }
+
+  catch(err){
+    messagesList.classList.add('hidden')
+    messagesList.parentElement.querySelector('.no_item_uploaded').classList.add('hidden')
+    messagesList.parentElement.querySelector('.unable_2_fetch').classList.remove('hidden')
+  }
 };
 
 
@@ -755,21 +806,22 @@ addVariationBtn.addEventListener("click", () => {
 
 // Attach event listeners to forms
 
-document.getElementById("heroImageForm").addEventListener("submit",   (e) =>  { handleFormSubmit(e, "/haroldsLanding/updateHeroImageSchema", e.target.querySelector('button[type="submit"]'), 'PUT')});
+// For Creation of Menu Products
+document.getElementById('menuProductForm').addEventListener('submit', (e) =>  { handleFormSubmit(e, "/harolds/product/createMenuProduct", e.target.querySelector('button[type="submit"]'), 'POST', 'Product upload successful', 'Unable to upload product', false)})
 
-document.getElementById("flyer1Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer1Schema", e.target.querySelector('button[type="submit"]'), 'PUT'));
+// For Creation of Daily Menu Products
+document.getElementById('dailyMenuForm').addEventListener('submit', (e) =>  { handleFormSubmit(e, "/dailyMenuDisplay/createDailyMenu", e.target.querySelector('button[type="submit"]'), 'POST', 'Product upload successful', 'Unable to upload product', false)})
 
-document.getElementById("flyer2Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer2Schema", e.target.querySelector('button[type="submit"]'), "PUT"));
+document.getElementById("heroImageForm").addEventListener("submit",   (e) =>  { handleFormSubmit(e, "/haroldsLanding/updateHeroImageSchema", e.target.querySelector('button[type="submit"]'), 'Hero image upload successful', 'Unable to upload hero image. Try again later', 'PUT')});
+
+document.getElementById("flyer1Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer1Schema", e.target.querySelector('button[type="submit"]'), 'Flyer Upload Successful', 'Unable to upload flyer. Try again Later', 'PUT'));
+
+document.getElementById("flyer2Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer2Schema", e.target.querySelector('button[type="submit"]'), 'Flyer Upload Successful', 'Unable to upload flyer. Try again Later', "PUT"));
 
 
 // For Gallery Uploads Form
-document.getElementById("galleryForm").addEventListener("submit", (e) => handleFormSubmit(e, "/galleryDisplay/createGallery", e.target.querySelector('button[type="submit"]'), "POST", true));
+document.getElementById("galleryForm").addEventListener("submit", (e) => handleFormSubmit(e, "/galleryDisplay/createGallery", e.target.querySelector('button[type="submit"]'), "POST", 'Media upload successful', 'Unable to upload media', false, fetchGallery));
 
-// For Menu Items Form
-document.getElementById("flyer2Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer2Schema", e.target.querySelector('button[type="submit"]'), "PUT"));
-
-// For Daily Menu Items Form
-document.getElementById("flyer2Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer2Schema", e.target.querySelector('button[type="submit"]'), "PUT"));
 
 
 async function handleCreateFormSubmit(event, endpoint) {
@@ -836,6 +888,7 @@ async function handleCreateFormSubmit(event, endpoint) {
 
 
 async function fetchGallery() {
+  const container = document.getElementById("galleryListDiv"); // Select the container for gallery items
   try {
     const response = await fetch(`${config.apiUrl}/galleryDisplay/getGallery`); // Fetch the gallery data
     if (!response.ok) {
@@ -846,8 +899,19 @@ async function fetchGallery() {
     console.log(response, data);
     
 
-    const container = document.getElementById("galleryListDiv"); // Select the container for gallery items
     container.innerHTML = ''
+    console.log(data);
+
+    if (data.length==0) {
+      container.classList.add('hidden')
+      container.closest('.content_holder').querySelector('.unable_2_fetch').classList.add('hidden')
+      return container.closest('.content_holder').querySelector('.no_item_uploaded').classList.remove('hidden');
+    }
+
+    container.classList.remove('hidden')
+    container.closest('.content_holder').querySelector('.no_item_uploaded').classList.add('hidden')
+    container.closest('.content_holder').querySelector('.unable_2_fetch').classList.add('hidden')
+
     data.forEach((item) => {
       let content;
 
@@ -947,7 +1011,10 @@ async function fetchGallery() {
       
     });
   } catch (err) {
-    showAlert(alertFailure, "Unable to Fatch Gallery"); // Alert the error
+        console.error(err);
+        container.classList.add('hidden')
+        container.closest('.content_holder').querySelector('.no_item_uploaded').classList.add('hidden')
+        container.closest('.content_holder').querySelector('.unable_2_fetch').classList.remove('hidden')
   }
 }
 
@@ -973,46 +1040,60 @@ async function deleteGalleryFunc(galleryDeleteId) {
 // Function to create a new daily menu
   const dailyMenuForm = document.getElementById('dailyMenuForm')
 
-  dailyMenuForm.addEventListener('submit', async (e) => {
-    e.preventDefault()
-    let menuProductTarget = e.target;
-    const dailyMenuSubmitBtn = dailyMenuForm.querySelector('button.upload')
+  // dailyMenuForm.addEventListener('submit', async (e) => {
+  //   e.preventDefault()
+  //   let menuProductTarget = e.target;
+  //   const dailyMenuSubmitBtn = dailyMenuForm.querySelector('button.upload')
 
-    const formData = new FormData(menuProductTarget)
-    try {
+  //   const formData = new FormData(menuProductTarget)
+  //   try {
 
-        putButtonInLoadingState(dailyMenuSubmitBtn)
-        const response = await fetch(`${config.apiUrl}/dailyMenuDisplay/createDailyMenu`, {
-            method: "POST",
-            body: formData, // FormData should contain the image and price
-        });
+  //       putButtonInLoadingState(dailyMenuSubmitBtn)
+  //       const response = await fetch(`${config.apiUrl}/dailyMenuDisplay/createDailyMenu`, {
+  //           method: "POST",
+  //           body: formData, // FormData should contain the image and price
+  //       });
 
-        if (!response.ok) {
-          throw new Error("Unable to Add to Daily Menu")
-        }
-        // const data = await response.json();
-        // console.log("Menu Created:", data);
-        showAlertOrder(alertSuccess, 'Daily Menu Added Successfully');
+  //       if (!response.ok) {
+  //         throw new Error("Unable to Add to Daily Menu")
+  //       }
+  //       // const data = await response.json();
+  //       // console.log("Menu Created:", data);
+  //       showAlertOrder(alertSuccess, 'Daily Menu Added Successfully');
         
-      } catch (error) {
-        console.error("Error creating daily menu:", error);
-        showAlertOrder(alertFailure, 'Daily Menu Added Successfully');
+  //     } catch (error) {
+  //       console.error("Error creating daily menu:", error);
+  //       showAlertOrder(alertFailure, 'Daily Menu Added Successfully');
 
-    }
-    finally{
-      removeBtnFromLoadingState(dailyMenuSubmitBtn, 'Upload Product')
-    }
-  })
+  //   }
+  //   finally{
+  //     removeBtnFromLoadingState(dailyMenuSubmitBtn, 'Upload Product')
+  //   }
+  // })
 
 // Function to get all daily menus
+
+
 async function getAllDailyMenus() {
 
   const dailyMenuProductList = document.getElementById('dailyMenuProductList')
+  try{
 
         const response = await fetch(`${config.apiUrl}/dailyMenuDisplay/allDailyMenu`);
         const data = await response.json();
 
         dailyMenuProductList.innerHTML = ''
+
+        if (data.length==0) {
+          dailyMenuProductList.classList.add('hidden')
+          dailyMenuProductList.closest('.content_holder').querySelector('.unable_2_fetch').classList.add('hidden')
+          return dailyMenuProductList.closest('.content_holder').querySelector('.no_products_uploaded').classList.remove('hidden');
+        }
+
+        dailyMenuProductList.classList.remove('hidden')
+        dailyMenuProductList.closest('.content_holder').querySelector('.no_products_uploaded').classList.add('hidden')
+        dailyMenuProductList.closest('.content_holder').querySelector('.unable_2_fetch').classList.add('hidden')
+
         data.forEach((eachData) => {
 
           const eachDailyMenuId = eachData._id
@@ -1062,6 +1143,15 @@ async function getAllDailyMenus() {
           
 
         })
+      }
+
+      catch(err){
+        console.error(err);
+        dailyMenuProductList.classList.add('hidden')
+        dailyMenuProductList.closest('.content_holder').querySelector('.no_products_uploaded').classList.add('hidden')
+        dailyMenuProductList.closest('.content_holder').querySelector('.unable_2_fetch').classList.remove('hidden')
+
+      }
 }
 
 // Function to get a single daily menu by ID
@@ -1182,7 +1272,10 @@ async function deleteDailyMenu(deleteEachData) {
 const bakeOrderList = document.getElementById('bakeOrderList')
 
 const fetchAllUserBakeryBookings = async () => {
+
   bakeOrderList.innerHTML = ''
+  try{
+
     const response = await fetch(`${config.apiUrl}/harolds/getAllBakery`)
     const data = await response.json()
 
@@ -1190,6 +1283,16 @@ const fetchAllUserBakeryBookings = async () => {
     console.log('AllUserBakeryBookings', data);
 
     // const dataForech = data.AllUserBakeryBookings 
+
+      if (data.length==0) {
+      bakeOrderList.classList.add('hidden')
+      bakeOrderList.parentElement.querySelector('.unable_2_fetch').classList.add('hidden')
+      return bakeOrderList.parentElement.querySelector('.no_item_uploaded').classList.remove('hidden');
+      }
+
+      bakeOrderList.classList.remove('hidden')
+      bakeOrderList.parentElement.querySelector('.no_products_uploaded').classList.add('hidden')
+      bakeOrderList.parentElement.querySelector('.unable_2_fetch').classList.add('hidden')
 
     data.forEach((eachData) => {
       const timePosted = formatTimeAgo(new Date(eachData.createdAt))
@@ -1234,6 +1337,12 @@ const fetchAllUserBakeryBookings = async () => {
 
       bakeOrderList.innerHTML += populateBakeryList
     })
+  }
+  catch(err){
+    bakeOrderList.classList.add('hidden')
+    bakeOrderList.parentElement.querySelector('.no_item_uploaded').classList.add('hidden')
+    bakeOrderList.parentElement.querySelector('.unable_2_fetch').classList.remove('hidden')
+  }
     
     
 
@@ -1266,7 +1375,7 @@ const formatTimeAgo = (timestamp) => {
 
 function showAlertOrder(alert, alertText){
   alert.classList.remove('show1');
-  alert.firstChild.innerHTML = alertText;
+  alert.firstElementChild.innerHTML = alertText;
   const btnClose = alert.querySelector('.btn-close');
   btnClose.addEventListener('click', ()=>{
     alert.classList.add('show');
@@ -1296,7 +1405,7 @@ const removeBtnFromLoadingState = (btn, btn_text)=>{
 
 // Function For Uploading Media to Cloudinary
 
-const getMediaUploadSignature = async(form, isGallery)=>{
+const getMediaUploadSignature = async(form, overwrite)=>{
   const role = form.media.dataset.role || false;
   const file = form.media.files[0];
   const allowedTypes = ['image/', 'video/'];
@@ -1304,7 +1413,7 @@ const getMediaUploadSignature = async(form, isGallery)=>{
   // file
   if(!allowedTypes.find(type=>file.type.includes(type))) throw new Error("Only Videos and Images are Allowed");
   
-    const uploadURLRes = await fetch(`${config.apiUrl}/haroldsLanding/getUploadSignature/?public_id=${role}&isGallery=${isGallery}`);
+    const uploadURLRes = await fetch(`${config.apiUrl}/haroldsLanding/getUploadSignature/?public_id=${role}&overwrite=${overwrite}`);
 
     console.log(uploadURLRes);
   
@@ -1344,7 +1453,7 @@ const getMediaUploadSignature = async(form, isGallery)=>{
 
 }
 
-const handleFormSubmit = async (e, APIEndpoint, submitBtn, API_method, isGallery=false)=>{
+const handleFormSubmit = async (e, APIEndpoint, submitBtn, API_method, success_msg, err_msg, overwrite=true, reloadFunction=null)=>{
   e.preventDefault();
   const form = e.target;
 
@@ -1352,7 +1461,7 @@ const handleFormSubmit = async (e, APIEndpoint, submitBtn, API_method, isGallery
   try {
 
     putButtonInLoadingState(submitBtn);
-    const mediaURL = await getMediaUploadSignature(form, isGallery);
+    const mediaURL = await getMediaUploadSignature(form, overwrite);
     console.log(mediaURL);
     // formData.append('mediaURL', mediaURL);
     // console.log(formData)
@@ -1386,18 +1495,18 @@ const handleFormSubmit = async (e, APIEndpoint, submitBtn, API_method, isGallery
       }
     });
 
-    console.log("hello")
 
     if(!response.ok) throw new Error("Unable to Upload Image")
     form.reset();
-    showAlertOrder(alertSuccess, "Uploaded Successfully");
+    showAlertOrder(alertSuccess, success_msg);
+    if(reloadFunction) await reloadFunction();
   } catch (error) {
     console.log(error)
-    if(error.message.includes("File size too large")) return showAlertOrder(alertFailure, "Image is too Large. Please upload an image smaller than 5MB");
+    if(error.message.includes("File size too large")) return showAlertOrder(alertFailure, "File is too Large. Please upload an image smaller than 5MB or a video smaller than 100MB");
 
     else if(error.message.includes("Only Videos and Images are Allowed")) return showAlertOrder(alertFailure, "Only videos and images are allowed");
 
-    showAlertOrder(alertFailure, "Unable to upload. Please try again.");
+    showAlertOrder(alertFailure, err_msg);
   }
     finally{
       removeBtnFromLoadingState(submitBtn, initialBtnText)

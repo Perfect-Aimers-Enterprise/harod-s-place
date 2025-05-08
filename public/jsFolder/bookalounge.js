@@ -126,6 +126,15 @@ const adminGetUserBookingFunc = async () => {
 
         const getLoungeBookingsData = data.getLoungeBookings
         
+        if (data.getLoungeBookings==0) {
+          loungBookingPopulateId.parentElement.classList.add('hidden')
+          loungBookingPopulateId.closest('.content_holder').querySelector('.unable_2_fetch').classList.add('hidden')
+          return loungBookingPopulateId.closest('.content_holder').querySelector('.no_item_uploaded').classList.remove('hidden');
+        }
+
+        loungBookingPopulateId.parentElement.classList.remove('hidden')
+        loungBookingPopulateId.closest('.content_holder').querySelector('.no_item_uploaded').classList.add('hidden')
+        loungBookingPopulateId.closest('.content_holder').querySelector('.unable_2_fetch').classList.add('hidden')
         
 
         getLoungeBookingsData.forEach((eachData) => {
@@ -171,7 +180,9 @@ const adminGetUserBookingFunc = async () => {
         })
         
     } catch (error) {
-        showAlertLounge(alertFailure, 'Unable to Fetch Booked Lounges')        
+    loungBookingPopulateId.parentElement.classList.add('hidden')
+    loungBookingPopulateId.closest('.content_holder').querySelector('.no_item_uploaded').classList.add('hidden')
+    loungBookingPopulateId.closest('.content_holder').querySelector('.unable_2_fetch').classList.remove('hidden')       
     }
 }
 

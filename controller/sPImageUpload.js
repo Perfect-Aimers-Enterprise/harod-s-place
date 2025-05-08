@@ -9,8 +9,8 @@ cloudinary.config({
 
 const generateCloudinaryUploadSignature = (req, res) => {
 
-  const { public_id, isGallery } = req.query;
-  const upload_preset = isGallery? process.env.HAROLDS_SIGNED_CLOUDINARY_PRESET_GALLERY : process.env.HAROLDS_SIGNED_CLOUDINARY_PRESET;
+  const { public_id, overwrite } = req.query;
+  const upload_preset = overwrite==='true'? process.env.HAROLDS_SIGNED_CLOUDINARY_PRESET_OVERWRITE : process.env.HAROLDS_SIGNED_CLOUDINARY_PRESET;
 
   console.log(upload_preset);
 

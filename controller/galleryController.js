@@ -1,5 +1,4 @@
 const gallery = require('../model/gallery')
-const path = require('path');
 const fs = require('fs');
 const cloudinary = require('cloudinary').v2;
 
@@ -44,14 +43,23 @@ const deleteGallery = async (req, res) => {
 
         const {id: deleteGalleryId} = req.params
         const galleryVar = await gallery.findOne({_id: deleteGalleryId})
+
+        const mediaPublicId = galleryVar.galleryMedia.split('/')[galleryVar.galleryMedia.split('/').length-2] + '/' +  galleryVar.galleryMedia.split('/').pop().split('.')[0];
+
+        console.log(galleryVar.galleryMedia)
+        console.log(mediaPublicId)
         
-        const oldImagePublicId = galleryVar.galleryMedia.split('/').pop().split('.')[0];
-        await cloudinary.uploader.destroy(`GalleryVideo/${oldImagePublicId}`);
+        await cloudinary.uploader.destroy(mediaPublicId, {
+            invalidate: true,
+            resource_type: galleryVar.galleryType,
+        }
+    );
         await gallery.findOneDelete({_id: deleteGalleryId})
 
-        res.status(200).json(galleryVar)
+        res.status(200).json({msg:'Gallery Image Deleted Successfully'})
     } catch (error) {
         res.status(500).json(error)
+        console.log(error)
     }
 }
 
