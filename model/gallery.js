@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const gallerySchema = new mongoose.Schema({
 
+    media_public_id: {type: String},
     galleryTitle: {type: String, required: true},
     galleryMedia: {type: String, required: true},
     galleryType: {

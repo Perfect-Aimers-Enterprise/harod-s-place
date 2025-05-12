@@ -17,6 +17,8 @@ const storage = multer.diskStorage({
 
 const menuStorage = multer({ storage }).single('menuImage')
 
+const hold = '#5f9ea0';
+
 // Handle moving the file after upload
 const handleFileUpload = (req, res, next) => {
     if (process.env.VERCEL) {

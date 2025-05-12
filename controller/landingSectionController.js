@@ -47,18 +47,20 @@ const uploadHeroImageSchema = async (req, res) => {
     try {
         console.log("Hello, uploading Hero Image Schema");
         console.log(req.body);
-        const { heroImageName, heroImageDes, mediaURL } = req.body;
+        const { heroImageName, heroImageDes, mediaURL, public_id } = req.body;
 
         const existingHeroImage = await HeroImage.findOne();
         if (existingHeroImage) {
             console.log(existingHeroImage);
             // Delete old image from Cloudinary
-            const oldImagePublicId = existingHeroImage.heroImage.split('/').pop().split('.')[0];
-            // await cloudinary.uploader.destroy(`${oldImagePublicId}`);
+            const oldImagePublicId = existingHeroImage.media_public_id;
+            await cloudinary.uploader.destroy(`${oldImagePublicId}`, {
+                invalidate: true
+            });
             console.log('Deleting old image from Cloudinary:');
             const updatedHeroImage = await HeroImage.findByIdAndUpdate(
                 existingHeroImage._id,
-                { heroImageName,  heroImage: mediaURL },
+                { heroImageName,  heroImage: mediaURL, media_public_id: public_id },
                 { new: true, runValidators: true }
             );
             console.log('Updated Hero Image:');
@@ -68,7 +70,8 @@ const uploadHeroImageSchema = async (req, res) => {
             const newHeroImage = await HeroImage.create({
                 heroImageName,
                 heroImageDes,
-                heroImage: mediaURL
+                heroImage: mediaURL,
+                media_public_id: public_id
             });
             console.log('New Hero Image:');
             return res.status(201).json({ newHeroImage, message: 'Hero image created successfully!' });
@@ -93,7 +96,7 @@ const getHeroImage = async (req, res) => {
 // Menu Image Controller
 const createMenuImage = async (req, res) => {
     try {
-        const { menuLandingName, menuLandingDes, mediaURL } = req.body;
+        const { menuLandingName, menuLandingDes, mediaURL, public_id } = req.body;
         const menuLandingImageUrl = mediaURL;
 
         const existingMenuImages = await MenuLanding.find();
@@ -104,7 +107,8 @@ const createMenuImage = async (req, res) => {
         const newMenuImage = await MenuLanding.create({
             menuLandingName,
             menuLandingDes,
-            menuLandingImage: menuLandingImageUrl
+            menuLandingImage: menuLandingImageUrl,
+            media_public_id: public_id
         });
         res.status(201).json({ newMenuImage, message: 'Menu image uploaded successfully!' });
     } catch (error) {
@@ -112,24 +116,24 @@ const createMenuImage = async (req, res) => {
     }
 };
 
-const uploadMenuImageSchema = async (req, res) => {
-    try {
+// const uploadMenuImageSchema = async (req, res) => {
+//     try {
 
-        const { id: menuImageId } = req.params
-        const { menuLandingName, menuLandingDes, mediaURL } = req.body
-        menuLandingImageUrl = mediaURL
+//         const { id: menuImageId } = req.params
+//         const { menuLandingName, menuLandingDes, mediaURL } = req.body
+//         menuLandingImageUrl = mediaURL
 
-        const menuImageSchema = await MenuLanding.findOneAndUpdate(
-            { _id: menuImageId },
-            { menuLandingName, menuLandingDes, menuLandingImage: menuLandingImageUrl },
-            { new: true, runValidators: true }
-        )
+//         const menuImageSchema = await MenuLanding.findOneAndUpdate(
+//             { _id: menuImageId },
+//             { menuLandingName, menuLandingDes, menuLandingImage: menuLandingImageUrl },
+//             { new: true, runValidators: true }
+//         )
 
-        res.status(201).json({ menuImageSchema, message: 'menuLandingPage Uploaded Successfullyl' })
-    } catch (error) {
-        res.status(500).json({msg:"Internal Server Error"})
-    }
-}
+//         res.status(201).json({ menuImageSchema, message: 'menuLandingPage Uploaded Successfullyl' })
+//     } catch (error) {
+//         res.status(500).json({msg:"Internal Server Error"})
+//     }
+// }
 
 const getAllMenuImage = async (req, res) => {
     try {
@@ -156,16 +160,17 @@ const getSingleMenuImage = async (req, res) => {
 // Flyer 1 Image Controller (Only 1 flyer)
 const uploadFlyer1Schema = async (req, res) => {
     try {
-        const { flyer1Title, mediaURL } = req.body;
+        const { flyer1Title, mediaURL, public_id } = req.body;
         const flyer1ImageUrl = mediaURL;
 
         const existingFlyer1 = await Flyer1.findOne();
         if (existingFlyer1) {
 
             // Delete old image from Cloudinary
-            const oldImagePublicId = existingFlyer1.flyer1Image.split('/').pop().split('.')[0];
-            console.log(oldImagePublicId)
-            // await cloudinary.uploader.destroy(`landingpages/${oldImagePublicId}`);
+            const oldImagePublicId = existingFlyer1.media_public_id
+            await cloudinary.uploader.destroy(`landingpages/${oldImagePublicId}`, {
+                invalidate: true
+            });
 
             const updatedFlyer1 = await Flyer1.findByIdAndUpdate(
                 existingFlyer1._id,
@@ -207,8 +212,10 @@ const uploadFlyer2Schema = async (req, res) => {
 
         if (existingFlyer2) {
             // Delete old image from Cloudinary
-            const oldImagePublicId = existingFlyer2.flyer2Image.split('/').pop().split('.')[0];
-            // await cloudinary.uploader.destroy(`landingpages/${oldImagePublicId}`);
+            const oldImagePublicId = existingFlyer2.media_public_id;
+            await cloudinary.uploader.destroy(`landingpages/${oldImagePublicId}`, {
+                invalidate: true
+            });
             const updatedFlyer2 = await Flyer2.findByIdAndUpdate(
                 existingFlyer2._id,
                 { flyer2Title, flyer2Image: flyer2ImageUrl },
@@ -244,7 +251,6 @@ module.exports = {
     uploadHeroImageSchema,
     getHeroImage,
     createMenuImage,
-    uploadMenuImageSchema,
     getAllMenuImage,
     getSingleMenuImage,
     uploadFlyer1Schema,

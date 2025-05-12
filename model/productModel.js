@@ -5,6 +5,7 @@ const productSchema = new mongoose.Schema({
     menuDescription: {type: String},
     menuPrice: {type: Number},
     menuImage: {type: String},
+    media_public_id: {type: String},
     variations: [
         {
             size: { type: String}, // Size (e.g., 1L, 2L)

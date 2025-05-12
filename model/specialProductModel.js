@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 const specialProductSchema = new mongoose.Schema({
+    media_public_id: {type: String},
     specialProductName: {type: String},
     specialDescription: {type: String},
     specialPrice: {type: Number},

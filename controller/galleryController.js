@@ -7,7 +7,7 @@ const createGallery = async (req, res) => {
 
         console.log("Creating the gallery...")
 
-        const { galleryTitle, galleryType, mediaURL  } = req.body
+        const { galleryTitle, galleryType, mediaURL, public_id:media_public_id  } = req.body
 
         const galleryUrl = mediaURL;
 
@@ -18,7 +18,7 @@ const createGallery = async (req, res) => {
             return res.status(400).json({ error: "Incomplete credentials" });
         }
 
-        const createGalleryVar = await gallery.create({galleryTitle, galleryType, galleryMedia: galleryUrl})
+        const createGalleryVar = await gallery.create({galleryTitle, galleryType, galleryMedia: galleryUrl, media_public_id})
 
 
         res.status(201).json({createGalleryVar})
@@ -44,7 +44,7 @@ const deleteGallery = async (req, res) => {
         const {id: deleteGalleryId} = req.params
         const galleryVar = await gallery.findOne({_id: deleteGalleryId})
 
-        const mediaPublicId = galleryVar.galleryMedia.split('/')[galleryVar.galleryMedia.split('/').length-2] + '/' +  galleryVar.galleryMedia.split('/').pop().split('.')[0];
+        const mediaPublicId = galleryVar.media_public_id;
 
         console.log(galleryVar.galleryMedia)
         console.log(mediaPublicId)
@@ -54,7 +54,7 @@ const deleteGallery = async (req, res) => {
             resource_type: galleryVar.galleryType,
         }
     );
-        await gallery.findOneDelete({_id: deleteGalleryId})
+        await gallery.findByIdAndDelete(deleteGalleryId)
 
         res.status(200).json({msg:'Gallery Image Deleted Successfully'})
     } catch (error) {

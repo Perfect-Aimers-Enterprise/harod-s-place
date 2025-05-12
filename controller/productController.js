@@ -1,27 +1,55 @@
 const productModel = require('../model/productModel')
 const cloudinary = require('cloudinary').v2;
 
-const createMenuProduct = async (req, res) => {
-    console.log("Hello")
-    try {
-        console.log(req.file);
+// const createMenuProduct = async (req, res) => {
+//     console.log("Hello")
+//     try {
+//         const { menuProductName, menuDescription, menuPrice, variationSize, variationPrice } = req.body
+//         // menuImageUrl = req.file.filename
+//         if(!req.file){
+//             throw new Error ('No Image was uploaded')
+//         }
+//         menuImageUrl = req.file.path
+//          // Create a new menu product
+//          const menuProduct = await productModel.create({
+//             menuProductName,
+//             menuDescription,
+//             menuPrice,
+//             menuImage: menuImageUrl,
+//             variations: variationSize.map((size, index) => ({
+//                 size: size,
+//                 price: variationPrice[index]
+//             }))
+//         });
+        
 
-        const { menuProductName, menuDescription, menuPrice, variationSize, variationPrice } = req.body
+//         if (!menuProduct) {
+//             return res.status(404).json({message: 'Please fill up all required field'})
+//         }
+
+//         res.status(201).json({menuProduct, message: 'Product uploaded Successfully'})
+//     } catch (error) {
+//         res.status(500).json({error, message: 'something went wrong'})
+//     }
+// }
+
+
+const createMenuProduct = async (req, res) => {
+    console.log("Creating menu product")
+    try {
+        const { menuProductName, menuDescription, menuPrice, variationSize, variationPrice, mediaURL: menuImageUrl, public_id: media_public_id } = req.body
         // menuImageUrl = req.file.filename
-        if(!req.file){
-            throw new Error ('No Image was uploaded')
-        }
-        menuImageUrl = req.file.path
          // Create a new menu product
          const menuProduct = await productModel.create({
             menuProductName,
             menuDescription,
             menuPrice,
             menuImage: menuImageUrl,
-            variations: variationSize.map((size, index) => ({
+            media_public_id,
+            variations: variationSize? variationSize.map((size, index) => ({
                 size: size,
                 price: variationPrice[index]
-            }))
+            })) : null
         });
         
 
@@ -31,6 +59,7 @@ const createMenuProduct = async (req, res) => {
 
         res.status(201).json({menuProduct, message: 'Product uploaded Successfully'})
     } catch (error) {
+        console.log(error)
         res.status(500).json({error, message: 'something went wrong'})
     }
 }
@@ -61,12 +90,12 @@ const getSingleMenuProduct = async (req, res) => {
 
 const deleteMenuProduct = async (req, res) => {
     try {
+        console.log('Trying to delete')
         const { id:menuProductId } = req.params
         const menuProduct = await productModel.findOne({_id:menuProductId})
         
-        const imagePublicId = menuProduct.menuImage.split('/')[menuProduct.menuImage.split('/').length-2] + '/' +  menuProduct.menuImage.split('/').pop().split('.')[0];
-        
-        console.log(menuProduct.menuImage)
+        const imagePublicId = menuProduct.media_public_id;
+        console.log(menuProduct)
         console.log(imagePublicId)
         
         await cloudinary.uploader.destroy(imagePublicId, {

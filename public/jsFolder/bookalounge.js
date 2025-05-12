@@ -116,7 +116,8 @@ const updateLoungeBookingFunc = async () => {
 const loungBookingPopulateId = document.getElementById('loungBookingPopulateId')
 
 const adminGetUserBookingFunc = async () => {
-    loungBookingPopulateId.innerHTML = ''
+    loungBookingPopulateId.innerHTML = '';
+    loungBookingPopulateId.parentElement.parentElement.querySelector('.loader').classList.remove('hidden')   
     try {
         const response = await fetch(`${configg.apiUrl}/haroldsUser/getUserBookedLounge`)
 
@@ -183,6 +184,9 @@ const adminGetUserBookingFunc = async () => {
     loungBookingPopulateId.parentElement.classList.add('hidden')
     loungBookingPopulateId.closest('.content_holder').querySelector('.no_item_uploaded').classList.add('hidden')
     loungBookingPopulateId.closest('.content_holder').querySelector('.unable_2_fetch').classList.remove('hidden')       
+    }
+    finally{
+        loungBookingPopulateId.parentElement.parentElement.querySelector('.loader').classList.add('hidden') 
     }
 }
 

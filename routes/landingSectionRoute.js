@@ -5,7 +5,7 @@ const {
     uploadHeroImageSchema,
     getHeroImage,
     createMenuImage,
-    uploadMenuImageSchema,
+    // uploadMenuImageSchema,
     uploadFlyer1Schema,
     uploadFlyer2Schema,
     getFlyer1Schema,
@@ -25,7 +25,7 @@ router.get('/getHeroImage', getHeroImage)
 router.get('/getAllMenuImage', getAllMenuImage)
 router.get('/getSingleMenuImage/:id', getSingleMenuImage)
 router.post('/createMenuImage', uploadMenuImage, createMenuImage)
-router.put('/uploadMenuImageSchema/:id', uploadMenuImage, uploadMenuImageSchema)
+// router.put('/uploadMenuImageSchema/:id', uploadMenuImage, uploadMenuImageSchema)
 router.put('/uploadFlyer1Schema', uploadFlyer1, uploadFlyer1Schema)
 router.get('/getFlyer1Schema', getFlyer1Schema)
 

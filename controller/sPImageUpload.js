@@ -9,20 +9,17 @@ cloudinary.config({
 
 const generateCloudinaryUploadSignature = (req, res) => {
 
-  const { public_id, overwrite } = req.query;
-  const upload_preset = overwrite==='true'? process.env.HAROLDS_SIGNED_CLOUDINARY_PRESET_OVERWRITE : process.env.HAROLDS_SIGNED_CLOUDINARY_PRESET;
+  const { folder } = req.query;
+  const upload_preset = folder==='gallery'? process.env.HAROLDS_SIGNED_CLOUDINARY_PRESET_GALLERY : process.env.HAROLDS_SIGNED_CLOUDINARY_PRESET;
 
   console.log(upload_preset);
 
   const timestamp = Math.round(new Date().getTime() / 1000);
-  const info2Sign = public_id==='false' ? {
+  const info2Sign = {
       timestamp: timestamp,
       upload_preset,
-    } :   
-    { timestamp: timestamp,
-      upload_preset,
-      public_id
-    };
+    }  
+
 
     console.log(info2Sign)
 
@@ -38,7 +35,6 @@ const generateCloudinaryUploadSignature = (req, res) => {
     cloudName: cloudinary.config().cloud_name,
     apiKey: cloudinary.config().api_key,
     upload_preset,
-    public_id
   });
 };
 

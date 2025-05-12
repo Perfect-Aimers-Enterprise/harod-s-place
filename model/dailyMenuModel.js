@@ -12,7 +12,8 @@ const dailyMenuSchema = new mongoose.Schema({
     menuImage: {
         type: String,
         required: true
-    }
+    },
+    media_public_id: {type: String}
 }, { timestamps: true });
 
 

@@ -4084,6 +4084,11 @@ input, option, textarea, select {
   opacity: 0.5;
 }
 
+  .w-\[130px\] {
+    width: 130px;
+  }
+
+  
 @media (min-width: 640px) {
   .sm\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -4096,6 +4101,16 @@ input, option, textarea, select {
 
   .sm\:text-\[2rem\] {
     font-size: 2rem;
+  }
+
+  .sm\:text-lg {
+    font-size: 1.125rem /* 18px */;
+    line-height: 1.75rem /* 28px */;
+  } 
+
+  .sm\:text-xl {
+    font-size: 1.25rem /* 20px */;
+    line-height: 1.75rem /* 28px */;
   }
 }
 
@@ -4296,3 +4311,24 @@ input, option, textarea, select {
 }
   
 
+@media not all and (min-width: 768px) {
+  .max-md\:mt-5 {
+    margin-top: 1.25rem;
+  }
+
+  .max-md\:hidden {
+    display: none;
+  }
+
+  .max-md\:w-\[100px\] {
+    width: 100px;
+  }
+}
+
+
+@media not all and (min-width: 640px) {
+    .max-sm\:text-xl {
+        font-size: 1.25rem /* 20px */;
+        line-height: 1.75rem /* 28px */;
+    }
+}

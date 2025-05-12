@@ -3380,6 +3380,10 @@ html {
   width: 24rem;
 }
 
+.w-\[130px\] {
+  width: 130px;
+}
+
 .w-\[20\%\] {
   width: 20%;
 }
@@ -4276,6 +4280,11 @@ html {
   color: rgb(153 27 27 / var(--tw-text-opacity, 1));
 }
 
+.text-secondary {
+  --tw-text-opacity: 1;
+  color: var(--fallback-s,oklch(var(--s)/var(--tw-text-opacity, 1)));
+}
+
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
@@ -4284,11 +4293,6 @@ html {
 .text-yellow-500 {
   --tw-text-opacity: 1;
   color: rgb(234 179 8 / var(--tw-text-opacity, 1));
-}
-
-.text-secondary {
-  --tw-text-opacity: 1;
-  color: var(--fallback-s,oklch(var(--s)/var(--tw-text-opacity, 1)));
 }
 
 .underline {
@@ -4576,6 +4580,10 @@ input, option, textarea, select {
   .max-md\:hidden {
     display: none;
   }
+
+  .max-md\:w-\[100px\] {
+    width: 100px;
+  }
 }
 
 @media not all and (min-width: 640px) {
@@ -4598,6 +4606,11 @@ input, option, textarea, select {
 
   .max-sm\:text-\[1\.3rem\] {
     font-size: 1.3rem;
+  }
+
+  .max-sm\:text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
   }
 }
 
@@ -4622,13 +4635,14 @@ input, option, textarea, select {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .sm\:text-sm {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+  .sm\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
   }
 
-  .sm\:text-\[2rem\] {
-    font-size: 2rem;
+  .sm\:text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
   }
 }
 
@@ -4800,28 +4814,13 @@ input, option, textarea, select {
     padding-right: 4rem;
   }
 
-  .lg\:text-\[16px\] {
-    font-size: 16px;
-  }
-
-  .lg\:text-lg {
-    font-size: 1.125rem;
-    line-height: 1.75rem;
-  }
-
-  .lg\:text-xl {
-    font-size: 1.25rem;
-    line-height: 1.75rem;
-  }
-
-  .lg\:text-3xl {
-    font-size: 1.875rem;
-    line-height: 2.25rem;
-  }
-
   .lg\:text-2xl {
     font-size: 1.5rem;
     line-height: 2rem;
+  }
+
+  .lg\:text-\[16px\] {
+    font-size: 16px;
   }
 }
 

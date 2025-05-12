@@ -76,6 +76,7 @@ const menuProductList = document.getElementById('menuProductList')
 // getMenuProducts
 const getMenuProductFunc = async (e) => {
   try {
+    menuProductList.parentElement.querySelector('.loader').classList.remove('hidden')
     const getMenuProductsResponse = await fetch(getMenuProductFuncUrl);
 
     const data = await getMenuProductsResponse.json();
@@ -91,6 +92,7 @@ const getMenuProductFunc = async (e) => {
     menuProductList.parentElement.querySelector('.no_item_uploaded').classList.add('hidden')
     menuProductList.parentElement.querySelector('.unable_2_fetch').classList.add('hidden')
 
+    
     data.forEach((eachData) => {
       const menuProductId = eachData._id;
       let productContent = '';
@@ -98,6 +100,7 @@ const getMenuProductFunc = async (e) => {
       // Check if product has price or variations
       if (eachData.menuPrice && (!eachData.variations || eachData.variations.length === 0 || isAllVariationsInvalid(eachData.variations))) {
         // Display product with price
+        /*
         productContent = `
           <div class="flex items-center justify-between border rounded-lg shadow-md p-4 menuProductEach" data-id="${menuProductId}">
             <div class="flex items-center space-x-4">
@@ -119,7 +122,30 @@ const getMenuProductFunc = async (e) => {
             </div>
           </div>
         `;
-      } else if (eachData.variations && eachData.variations.length > 0) {
+        */
+        productContent = `
+          <div class="flex items-center justify-between border rounded-lg shadow-md p-4 menuProductEach" data-id="${menuProductId}">
+            <div class="flex items-center space-x-4">
+              <img src="${eachData.menuImage}" alt="${eachData.menuProductName}" class="w-16 h-16 object-cover rounded">
+              <div>
+                <h4 class="font-semibold">${eachData.menuProductName}</h4>
+                <p class="text-sm text-gray-600">₦${eachData.menuPrice}</p>
+              </div>
+            </div>
+            <div class="flex space-x-2">
+              <button class="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600 editButton" data-id="${menuProductId}">
+                <p class="hidden md:block">Edit</p>
+                <i class="fas fa-pencil-alt md:hidden"></i>
+              </button>
+              <button class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 deleteButton" data-id="${menuProductId}">
+                <p class="hidden md:block">Delete</p>
+                <i class="fas fa-trash md:hidden"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      } 
+      else if (eachData.variations && eachData.variations.length > 0) {
 
         
         // Display product with variations
@@ -157,16 +183,22 @@ const getMenuProductFunc = async (e) => {
         `;
       }
 
+      console.log(eachData.menuImage);
+
       // Append the product content to the product list
       menuProductList.innerHTML += productContent;
     });
 
     attachEditEventListeners();
+    
   }
   catch(err){
     menuProductList.classList.add('hidden')
     menuProductList.parentElement.querySelector('.no_item_uploaded').classList.add('hidden')
     menuProductList.parentElement.querySelector('.unable_2_fetch').classList.remove('hidden')
+  }
+  finally{
+    menuProductList.parentElement.querySelector('.loader').classList.add('hidden')
   }
 };
 
@@ -393,7 +425,7 @@ const adminOrdersList = document.getElementById('adminOrdersList')
 
 const fetchAllOrders = async () => {
   adminOrdersList.innerHTML = '';
-
+  adminOrdersList.parentElement.querySelector('.loader').classList.remove('hidden')
     try{
 
       const response = await fetch(`${config.apiUrl}/harolds/adminGetOrder/adminGetAllProceedOrder`);
@@ -492,6 +524,10 @@ const fetchAllOrders = async () => {
     adminOrdersList.classList.add('hidden')
     adminOrdersList.closest('.content_holder').querySelector('.no_item_uploaded').classList.add('hidden')
     adminOrdersList.closest('.content_holder').querySelector('.unable_2_fetch').classList.remove('hidden')
+    }
+
+    finally{
+        adminOrdersList.parentElement.querySelector('.loader').classList.add('hidden')
     }
 
 
@@ -605,6 +641,7 @@ weeklyGrowthElem.className = `text-2xl font-bold ${
 const getAllUserMessageFunc = async () => {  
   const messagesList = document.getElementById('messagesList');
   messagesList.innerHTML = '';
+  messagesList.parentElement.querySelector('.loader').classList.remove('hidden')
   try{
     const response = await fetch(`${config.apiUrl}/harolds/message/getAllUserMessage`);
 
@@ -667,6 +704,9 @@ const getAllUserMessageFunc = async () => {
     messagesList.parentElement.querySelector('.no_item_uploaded').classList.add('hidden')
     messagesList.parentElement.querySelector('.unable_2_fetch').classList.remove('hidden')
   }
+  finally{
+      messagesList.parentElement.querySelector('.loader').classList.add('hidden')
+  }
 };
 
 
@@ -708,61 +748,74 @@ const addVariationBtn = document.getElementById("addVariationBtn");
 const variationsContainer = document.getElementById("variationsContainer");
 const priceSection = document.getElementById('priceSection');
 const showVariationBtn = document.getElementById('showVariationBtn')
+const closeVariationsBtn = document.getElementById('closeVariationsBtn')
   // let variationAdded = true;
 
   // Toggle between Price or Variation form
-  function toggleVariationOption() {
-    if (variationsContainer.classList.contains('hidden')) {
-      priceSection.classList.add('hidden');
-      showVariationBtn.textContent = 'Close Variation'
-      showVariationBtn.classList.add('bg-red-500')
-      showVariationBtn.classList.remove('bg-blue-500')
-      variationsContainer.classList.remove('hidden');
-      addVariationBtn.classList.remove('hidden');
+  // function toggleVariationOption() {
+  //   if (variationsContainer.classList.contains('hidden')) {
+  //     priceSection.classList.add('hidden');
+  //     showVariationBtn.textContent = 'Close Variation'
+  //     showVariationBtn.classList.add('bg-red-500')
+  //     showVariationBtn.classList.remove('bg-blue-500')
+  //     // variationsContainer.classList.remove('hidden');
+  //     // addVariationBtn.classList.remove('hidden');
 
       
-    } else {
-      priceSection.classList.remove('hidden');
-      showVariationBtn.classList.remove('hidden')
-      showVariationBtn.classList.remove('bg-red-500')
-      showVariationBtn.classList.add('bg-blue-500')
-      showVariationBtn.textContent = 'Show Variation'
-      variationsContainer.classList.add('hidden');
-      addVariationBtn.classList.add('hidden');
-    }
-  }
+  //   } else {
+  //     priceSection.classList.remove('hidden');
+  //     showVariationBtn.classList.remove('hidden')
+  //     showVariationBtn.classList.remove('bg-red-500')
+  //     showVariationBtn.classList.add('bg-blue-500')
+  //     showVariationBtn.textContent = 'Show Variation'
+  //     // variationsContainer.classList.add('hidden');
+  //     // addVariationBtn.classList.add('hidden');
+  //   }
+  // }
 
   // Add Variation Button Clicked
-  showVariationBtn.addEventListener('click', () => {
-    // variationAdded = false;
-    toggleVariationOption();
-  });
+  // addVariationBtn.addEventListener('click', () => {
+  //   // variationAdded = false;
+  //   toggleVariationOption();
+  // });
+
+
 
 
 addVariationBtn.addEventListener("click", () => {
+
+  priceSection.querySelector('input').value='';
+  priceSection.classList.add('hidden');
+  closeVariationsBtn.classList.remove('hidden')
   const newVariation = document.createElement("div");
   newVariation.classList.add("flex", "space-x-4", "mb-4");
 
   newVariation.innerHTML = `
     <input
-      required
+      data-is-array="true"
       type="text"
-      name="variationSize[]"
+      name="variationSize"
       class="mt-1 p-2 block w-1/2 border border-gray-300 rounded"
       placeholder="Enter variation size (e.g., 1L)"
     />
     <input
-      required
+      data-is-array="true"
       type="number"
-      name="variationPrice[]"
+      name="variationPrice"
       class="mt-1 p-2 block w-1/2 border border-gray-300 rounded"
       placeholder="Enter price"
     />
   `;
   
-  variationsContainer.appendChild(newVariation);
+  document.getElementById('variationsContainer').appendChild(newVariation);
 });
 
+closeVariationsBtn.addEventListener('click', ()=>{
+  priceSection.classList.remove('hidden');
+  variationsContainer.innerHTML = '';
+  closeVariationsBtn.classList.add('hidden')
+
+})
 
 
 // Generic function to handle form submissions
@@ -807,20 +860,20 @@ addVariationBtn.addEventListener("click", () => {
 // Attach event listeners to forms
 
 // For Creation of Menu Products
-document.getElementById('menuProductForm').addEventListener('submit', (e) =>  { handleFormSubmit(e, "/harolds/product/createMenuProduct", e.target.querySelector('button[type="submit"]'), 'POST', 'Product upload successful', 'Unable to upload product', false)})
+document.getElementById('menuProductForm').addEventListener('submit', (e) =>  { handleFormSubmit(e, "/harolds/product/createMenuProduct", e.target.querySelector('button[type="submit"]'), 'POST', 'Product upload successful', 'Unable to upload product', false, getMenuProductFunc)})
 
 // For Creation of Daily Menu Products
-document.getElementById('dailyMenuForm').addEventListener('submit', (e) =>  { handleFormSubmit(e, "/dailyMenuDisplay/createDailyMenu", e.target.querySelector('button[type="submit"]'), 'POST', 'Product upload successful', 'Unable to upload product', false)})
+document.getElementById('dailyMenuForm').addEventListener('submit', (e) =>  { handleFormSubmit(e, "/dailyMenuDisplay/createDailyMenu", e.target.querySelector('button[type="submit"]'), 'POST', 'Product upload successful', 'Unable to upload product', false, getAllDailyMenus)})
 
-document.getElementById("heroImageForm").addEventListener("submit",   (e) =>  { handleFormSubmit(e, "/haroldsLanding/updateHeroImageSchema", e.target.querySelector('button[type="submit"]'), 'Hero image upload successful', 'Unable to upload hero image. Try again later', 'PUT')});
+document.getElementById("heroImageForm").addEventListener("submit",   (e) =>  { handleFormSubmit(e, "/haroldsLanding/updateHeroImageSchema", e.target.querySelector('button[type="submit"]'), "PUT", 'Hero image upload successful', 'Unable to upload hero image. Try again later')});
 
-document.getElementById("flyer1Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer1Schema", e.target.querySelector('button[type="submit"]'), 'Flyer Upload Successful', 'Unable to upload flyer. Try again Later', 'PUT'));
+document.getElementById("flyer1Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer1Schema", e.target.querySelector('button[type="submit"]'), 'PUT', 'Flyer Upload Successful', 'Unable to upload flyer. Try again Later'));
 
-document.getElementById("flyer2Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer2Schema", e.target.querySelector('button[type="submit"]'), 'Flyer Upload Successful', 'Unable to upload flyer. Try again Later', "PUT"));
+document.getElementById("flyer2Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer2Schema", e.target.querySelector('button[type="submit"]'), 'PUT', 'Flyer Upload Successful', 'Unable to upload flyer. Try again Later'));
 
 
 // For Gallery Uploads Form
-document.getElementById("galleryForm").addEventListener("submit", (e) => handleFormSubmit(e, "/galleryDisplay/createGallery", e.target.querySelector('button[type="submit"]'), "POST", 'Media upload successful', 'Unable to upload media', false, fetchGallery));
+document.getElementById("galleryForm").addEventListener("submit", (e) => handleFormSubmit(e, "/galleryDisplay/createGallery", e.target.querySelector('button[type="submit"]'), "POST", 'Media upload successful', 'Unable to upload media', 'gallery', fetchGallery));
 
 
 
@@ -890,6 +943,7 @@ async function handleCreateFormSubmit(event, endpoint) {
 async function fetchGallery() {
   const container = document.getElementById("galleryListDiv"); // Select the container for gallery items
   try {
+    container.parentElement.querySelector('.loader').classList.remove('hidden')
     const response = await fetch(`${config.apiUrl}/galleryDisplay/getGallery`); // Fetch the gallery data
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -1016,6 +1070,9 @@ async function fetchGallery() {
         container.closest('.content_holder').querySelector('.no_item_uploaded').classList.add('hidden')
         container.closest('.content_holder').querySelector('.unable_2_fetch').classList.remove('hidden')
   }
+  finally{
+    container.parentElement.querySelector('.loader').classList.add('hidden')
+  }
 }
 
 // Call the function to fetch and display the gallery
@@ -1078,7 +1135,7 @@ async function getAllDailyMenus() {
 
   const dailyMenuProductList = document.getElementById('dailyMenuProductList')
   try{
-
+        dailyMenuProductList.parentElement.querySelector('.loader').classList.remove('hidden')
         const response = await fetch(`${config.apiUrl}/dailyMenuDisplay/allDailyMenu`);
         const data = await response.json();
 
@@ -1152,6 +1209,9 @@ async function getAllDailyMenus() {
         dailyMenuProductList.closest('.content_holder').querySelector('.unable_2_fetch').classList.remove('hidden')
 
       }
+    finally{
+      dailyMenuProductList.parentElement.querySelector('.loader').classList.add('hidden')
+    }
 }
 
 // Function to get a single daily menu by ID
@@ -1273,14 +1333,12 @@ const bakeOrderList = document.getElementById('bakeOrderList')
 
 const fetchAllUserBakeryBookings = async () => {
 
-  bakeOrderList.innerHTML = ''
+  bakeOrderList.innerHTML = '';
+  bakeOrderList.parentElement.querySelector('.loader').classList.remove('hidden')
   try{
 
     const response = await fetch(`${config.apiUrl}/harolds/getAllBakery`)
     const data = await response.json()
-
-    console.log('AllUserBakeryBookings', response);
-    console.log('AllUserBakeryBookings', data);
 
     // const dataForech = data.AllUserBakeryBookings 
 
@@ -1342,6 +1400,9 @@ const fetchAllUserBakeryBookings = async () => {
     bakeOrderList.classList.add('hidden')
     bakeOrderList.parentElement.querySelector('.no_item_uploaded').classList.add('hidden')
     bakeOrderList.parentElement.querySelector('.unable_2_fetch').classList.remove('hidden')
+  }
+  finally{
+    bakeOrderList.parentElement.querySelector('.loader').classList.add('hidden')
   }
     
     
@@ -1405,15 +1466,15 @@ const removeBtnFromLoadingState = (btn, btn_text)=>{
 
 // Function For Uploading Media to Cloudinary
 
-const getMediaUploadSignature = async(form, overwrite)=>{
-  const role = form.media.dataset.role || false;
+const getMediaUploadSignature = async(form, folder)=>{
+  console.log(form.media)
   const file = form.media.files[0];
   const allowedTypes = ['image/', 'video/'];
 
   // file
   if(!allowedTypes.find(type=>file.type.includes(type))) throw new Error("Only Videos and Images are Allowed");
   
-    const uploadURLRes = await fetch(`${config.apiUrl}/haroldsLanding/getUploadSignature/?public_id=${role}&overwrite=${overwrite}`);
+    const uploadURLRes = await fetch(`${config.apiUrl}/haroldsLanding/getUploadSignature/?folder=${folder}`);
 
     console.log(uploadURLRes);
   
@@ -1427,7 +1488,6 @@ const getMediaUploadSignature = async(form, overwrite)=>{
     cloudName,
     apiKey,
     upload_preset,
-    public_id 
   } = await uploadURLRes.json();
 
 
@@ -1438,22 +1498,21 @@ const getMediaUploadSignature = async(form, overwrite)=>{
   formData.append('api_key', apiKey);
   formData.append('upload_preset', upload_preset);
 
-  if(role) formData.append('public_id', public_id);
 
-    const uploadRES = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, {
-      method: 'POST',
-      body: formData
-    }) 
-    console.log(uploadRES);
-    if(!uploadRES.ok) throw new Error("Unable to Upload File");
-    console.log(uploadRES);
-    const uploadData = await uploadRES.json();
-    console.log(uploadData)
-    return uploadData.url
+  const uploadRES = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, {
+    method: 'POST',
+    body: formData
+  }) 
+  console.log(uploadRES);
+  if(!uploadRES.ok) throw new Error("Unable to Upload File");
+  console.log(uploadRES);
+  const uploadData = await uploadRES.json();
+  console.log(uploadData)
+  return { mediaURL:uploadData.url, public_id:uploadData.public_id }
 
 }
 
-const handleFormSubmit = async (e, APIEndpoint, submitBtn, API_method, success_msg, err_msg, overwrite=true, reloadFunction=null)=>{
+const handleFormSubmit = async (e, APIEndpoint, submitBtn, API_method, success_msg, err_msg, folder=null, reloadFunction=null)=>{
   e.preventDefault();
   const form = e.target;
 
@@ -1461,19 +1520,31 @@ const handleFormSubmit = async (e, APIEndpoint, submitBtn, API_method, success_m
   try {
 
     putButtonInLoadingState(submitBtn);
-    const mediaURL = await getMediaUploadSignature(form, overwrite);
+    const { mediaURL, public_id } = await getMediaUploadSignature(form, folder);
     console.log(mediaURL);
     // formData.append('mediaURL', mediaURL);
     // console.log(formData)
     const formData = {
       mediaURL,
+      public_id
 
     }
+
 
     const HTMLFormData = new FormData(form);
     HTMLFormData.delete('media');
     HTMLFormData.forEach((value, key)=>{
-      if(formData[key]){
+      if(value=='') return;
+      const isArray = form.querySelector(`[name="${key}"]`).dataset.isArray;
+      if(isArray){
+        if (Array.isArray(formData[key])) {
+          formData[key].push(value);
+        }
+        else {
+          formData[key] = [ value ];
+        }
+      }
+      else if(formData[key]){
         if (Array.isArray(formData[key])) {
           formData[key].push(value);
         }

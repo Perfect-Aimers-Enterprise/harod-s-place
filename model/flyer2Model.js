@@ -2,7 +2,8 @@ const mongoose = require('mongoose')
 
 const flyer2Schema = new mongoose.Schema({
     flyer2Title: {type: String},
-    flyer2Image: {type: String}
+    flyer2Image: {type: String},
+    media_public_id: {type: String}
 })
 
 

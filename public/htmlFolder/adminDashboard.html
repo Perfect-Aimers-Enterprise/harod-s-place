@@ -293,35 +293,63 @@
             />
           </div>
 
+          <button type="button" id="addVariationBtn" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 w-full">
+            Add Product Variation
+          </button>
+          
           <!-- Variations Section -->
-        <div id="variationsContainer" class="hidden">
+        <!-- <div id="variationsContainer" class="hidden">
           <h3 class="text-lg font-semibold mb-4">Add Product Variations</h3>
+
           <div class="variation-group">
             <div class="flex space-x-4 mb-4">
               <input
+                data-is-array="true"
                 type="text"
-                name="variationSize[]"
+                name="variationSize"
                 class="mt-1 p-2 block w-1/2 border border-gray-300 rounded"
                 placeholder="Enter variation size (e.g., 1L)"
               />
               <input
+                data-is-array="true"
                 type="number"
-                name="variationPrice[]"
+                name="variationPrice"
                 class="mt-1 p-2 block w-1/2 border border-gray-300 rounded"
                 placeholder="Enter price"
               />
             </div>
           </div>
 
-          <button type="button" id="addVariationBtn" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 w-full">
-            Add Variation
-          </button>
+        </div> -->
+
+        <div id="variationsContainer">
+          <!-- <h3 class="text-lg font-semibold mb-4">Add Product Variations</h3> -->
+
+            <!-- <div class="flex space-x-4 mb-4">
+              <input
+                data-is-array="true"
+                type="text"
+                name="variationSize"
+                class="mt-1 p-2 block w-1/2 border border-gray-300 rounded"
+                placeholder="Enter variation size (e.g., 1L)"
+              />
+              <input
+                data-is-array="true"
+                type="number"
+                name="variationPrice"
+                class="mt-1 p-2 block w-1/2 border border-gray-300 rounded"
+                placeholder="Enter price"
+              />
+            </div> -->
         </div>
 
         
 
-        <button type="button" id="showVariationBtn" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 w-full">
+        <!-- <button type="button" id="showVariationBtn" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 w-full">
           Show Variation
+        </button> -->
+        <button type="button" id="closeVariationsBtn" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 w-full hidden">
+          Close Variations
         </button>
       
           <div>
@@ -330,7 +358,7 @@
             required
               type="file"
               id="menuImage"
-              name="menuImage"
+              name="media"
               class="mt-1 block w-full text-sm text-gray-500 file:py-2 file:px-4 file:rounded file:border-0 file:text-white file:bg-orange-500 hover:file:bg-orange-600"
             />
           </div>
@@ -348,13 +376,15 @@
         <div>
           <h3 class="text-lg font-semibold mb-4">Existing Products</h3>
           <div class="hidden flex justify-center items-center no_item_uploaded">
-            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">No menu products have been uploaded
+            <p class=" italic text-2xl max-sm:text-xl text-secondary text-center ">No menu products have been uploaded
             </p>
           </div>
           <div class=" hidden flex justify-center items-center unable_2_fetch">
-            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">Unable to fetch menu products at the moment
+            <p class=" italic text-2xl max-sm:text-xl text-secondary text-center text-center">Unable to fetch menu products at the moment
             </p>
           </div>
+
+          <div class="loader mx-auto max-md:w-[100px] w-[130px]"> <img src="../image/loaders/admin_loader.svg" alt="loader" srcset=""></div>          
           <!-- Product List -->
           <div id="menuProductList" class="space-y-4 hidden">
             <!-- Example Product Card -->
@@ -392,14 +422,16 @@
         <h2 class="text-xl font-bold mb-4">Bakery Order Management</h2>
 
           <div class=" hidden flex justify-center items-center no_item_uploaded">
-            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">No bakery order have been placed
+            <p class=" italic text-2xl max-sm:text-xl text-secondary text-center ">No bakery order have been placed
             </p>
           </div>
           
           <div class=" hidden flex justify-center items-center unable_2_fetch">
-            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">Unable to fetch bakery order at the moment
+            <p class=" italic text-2xl max-sm:text-xl text-secondary text-center text-center">Unable to fetch bakery order at the moment
             </p>
           </div>
+
+          <div class="loader mx-auto max-md:w-[100px] w-[130px]"> <img src="../image/loaders/admin_loader.svg" alt="loader" srcset=""></div>          
 
         <div id="bakeOrderList" class="space-y-4 hidden">
           <!-- Example Product Card -->
@@ -503,14 +535,16 @@
           <!-- Booked Lounge Listings -->
           <h3 class="text-lg font-semibold mb-4">Lounge Booking Request</h3>
           <div class=" hidden flex justify-center items-center no_item_uploaded">
-            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">No booking requests have been made
+            <p class=" italic text-2xl max-sm:text-xl text-secondary text-center ">No booking requests have been made
             </p>
           </div>
           
           <div class=" hidden flex justify-center items-center unable_2_fetch">
-            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">Unable to fetch booking requests at the moment
+            <p class=" italic text-2xl max-sm:text-xl text-secondary text-center">Unable to fetch booking requests at the moment
             </p>
           </div>
+
+          <div class="loader hidden mx-auto max-md:w-[100px] w-[130px]"> <img src="../image/loaders/admin_loader.svg" alt="loader" srcset=""></div>          
           <div id="loungeBookingList" class="space-y-4 hidden">
             <!-- Example Product Card -->
             <div  id="loungBookingPopulateId" class="text-[12px] md:text-[14px] border rounded-lg shadow-md p-4">
@@ -560,14 +594,16 @@
         <h2 class="text-xl font-bold mb-4">Manage Orders</h2>
       
           <div class=" hidden flex justify-center items-center no_item_uploaded">
-            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">No orders have been placed
+            <p class=" italic text-2xl max-sm:text-xl text-secondary text-center">No orders have been placed
             </p>
           </div>
           
           <div class=" hidden flex justify-center items-center unable_2_fetch">
-            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">Unable to fetch orders at the moment
+            <p class=" italic text-2xl max-sm:text-xl text-secondary text-center text-center">Unable to fetch orders at the moment
             </p>
           </div>
+
+          <div class="loader hidden mx-auto max-md:w-[100px] w-[130px]"> <img src="../image/loaders/admin_loader.svg" alt="loader" srcset=""></div>          
 
         <!-- Orders List -->
         <div id="adminOrdersList" class="space-y-4 hidden">
@@ -626,14 +662,17 @@
           <h2 class="text-xl font-bold mb-4">User Messages</h2>
 
           <div class=" hidden flex justify-center items-center no_item_uploaded">
-            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">No user messsages
+            <p class=" italic text-2xl max-sm:text-xl text-secondary text-center ">No user messsages
             </p>
           </div>
           
           <div class=" hidden flex justify-center items-center unable_2_fetch">
-            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">Unable to fetch user messages at the moment
+            <p class=" italic text-2xl max-sm:text-xl text-secondary text-center">Unable to fetch user messages at the moment
             </p>
           </div>
+
+          <div class="loader mx-auto max-md:w-[100px] w-[130px]"> <img src="../image/loaders/admin_loader.svg" alt="loader" srcset=""></div>          
+          
         
           <!-- Messages List -->
           <div id="messagesList" class="space-y-4 hidden">
@@ -812,14 +851,16 @@
       <div class=" content_holder">
         <h3 class="text-lg font-semibold mb-4">Gallery List</h3>
           <div class=" hidden flex justify-center items-center no_item_uploaded">
-            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">No gallery media has been uploaded
+            <p class=" italic lg:text-2xl max-sm:text-xl text-secondary text-center">No gallery media has been uploaded
             </p>
           </div>
           
           <div class=" hidden flex justify-center items-center unable_2_fetch">
-            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">Unable to fetch the gallery media at the moment
+            <p class=" italic text-2xl max-sm:text-xl text-secondary text-center">Unable to fetch the gallery media at the moment
             </p>
           </div>
+
+          <div class="loader mx-auto max-md:w-[100px] w-[130px]"> <img src="../image/loaders/admin_loader.svg" alt="loader" srcset=""></div>          
         <div id="galleryListDiv" class="space-y-4 hidden">
           <!-- Example Product Card -->
           <div class="flex items-center justify-between border rounded-lg shadow-md p-4">
@@ -976,7 +1017,7 @@
               required
               type="file"
               id="menuImage2"
-              name="menuImage"
+              name="media"
               class="mt-1 block w-full text-sm text-gray-500 file:py-2 file:px-4 file:rounded file:border-0 file:text-white file:bg-orange-500 hover:file:bg-orange-600"
             />
           </div>
@@ -992,14 +1033,16 @@
         <div class="content_holder">
           <h3 class="text-lg font-semibold mb-4">Existing Daily Menu</h3>
           <div class=" hidden flex justify-center items-center no_products_uploaded">
-            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">No menu products have been uploaded
+            <p class=" italic text-2xl max-sm:text-xl text-secondary text-center ">No menu products have been uploaded
             </p>
           </div>
           
           <div class=" hidden flex justify-center items-center unable_2_fetch">
-            <p class=" italic lg:text-2xl sm:text-sm text-secondary ">Unable to fetch menu products at the moment
+            <p class=" italic text-2xl max-sm:text-xl text-secondary text-center text-center">Unable to fetch menu products at the moment
             </p>
           </div>
+
+          <div class="loader mx-auto max-md:w-[100px] w-[130px]"> <img src="../image/loaders/admin_loader.svg" alt="loader" srcset=""></div>          
           <!-- Product List -->
           <div id="dailyMenuProductList" class=" hidden space-y-4">
             <!-- Example Product Card -->
