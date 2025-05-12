@@ -75,6 +75,9 @@ const menuProductList = document.getElementById('menuProductList')
 // getMenuProducts
 // getMenuProducts
 const getMenuProductFunc = async (e) => {
+
+  menuProductList.classList.add('hidden')
+
   try {
     menuProductList.parentElement.querySelector('.loader').classList.remove('hidden')
     const getMenuProductsResponse = await fetch(getMenuProductFuncUrl);
@@ -256,7 +259,7 @@ const fetchSingleProductFunc = async (menuProductId, button) => {
           <div><i class="fas fa-times"></i></div>
             <p>close</p>
           </div>
-      <h2 class="text-xl font-bold mb-4 text-center mt-[10px]">Edit Menu Products</h2>
+      <h2 class="text-xl font-bold mb-4 text-center mt-[10px]">Edit Menu Product</h2>
 
       <form id="editMenuProductForm"  class="space-y-4 border-b pb-6 mb-6 text-black">
                 <div class="eachEditMenuProductDiv">
@@ -313,10 +316,11 @@ const fetchSingleProductFunc = async (menuProductId, button) => {
       menuPopUpSection.classList.add('hidden')
     })
 
-    // Edit Listener Section 
-    const editMenuProductForm = document.getElementById('editMenuProductForm', button)
+    // Edit Listener Form Section 
+    const editMenuProductForm = document.getElementById('editMenuProductForm')
     editMenuProductForm.addEventListener('submit', async (e) => {
       e.preventDefault()
+      const button = e.target.querySelector('[type="submit"]')
       const menuName = document.getElementById('menuName').value;
       const menuProductDescription = document.getElementById('menuProductDescription').value;
       const menuProductPrice = document.getElementById('menuProductPrice').value;  
@@ -329,21 +333,21 @@ const fetchSingleProductFunc = async (menuProductId, button) => {
       };
     
       
-      try{
+        try{
 
-        putButtonInLoadingState(button)
+          putButtonInLoadingState(button)
 
-        await updateMenuProductFunc(menuProductId, formData);
-        menuPopUpSection.classList.add('hidden');
-        showAlertOrder(alertSuccess, "Product Edited Successfully");
+          await updateMenuProductFunc(menuProductId, formData);
+          menuPopUpSection.classList.add('hidden');
+          showAlertOrder(alertSuccess, "Product Edited Successfully");
 
-    }
-      catch(err){
-          showAlertOrder(alertFailure, 'Unable to Edit Product')
       }
-      finally{
-        removeBtnFromLoadingState(button, 'Upload Product')
-      }
+        catch(err){
+            showAlertOrder(alertFailure, 'Unable to Edit Product')
+        }
+        finally{
+          removeBtnFromLoadingState(button, 'Upload Product')
+        }
     })
 
   } catch (error) {
@@ -433,7 +437,7 @@ const fetchAllOrders = async () => {
       const data = await response.json();
       const spreadData = data.orderProceed;
   
-      if (data.spreadData.length==0) {
+      if (spreadData.length==0) {
       adminOrdersList.classList.add('hidden')
       adminOrdersList.closest('.content_holder').querySelector('.unable_2_fetch').classList.add('hidden')
       return adminOrdersList.closest('.content_holder').querySelector('.no_item_uploaded').classList.remove('hidden');
@@ -942,6 +946,7 @@ async function handleCreateFormSubmit(event, endpoint) {
 
 async function fetchGallery() {
   const container = document.getElementById("galleryListDiv"); // Select the container for gallery items
+  container.classList.add('hidden')
   try {
     container.parentElement.querySelector('.loader').classList.remove('hidden')
     const response = await fetch(`${config.apiUrl}/galleryDisplay/getGallery`); // Fetch the gallery data
@@ -1059,7 +1064,7 @@ async function fetchGallery() {
       deleteGallery.forEach((eachDelete) => {
         eachDelete.addEventListener('click', (e) => {
           const galleryDeleteId = e.target.closest('#galleryIdDiv').dataset.id
-          deleteGalleryFunc(galleryDeleteId)
+          deleteGalleryFunc(galleryDeleteId, eachDelete)
         })
       })
       
@@ -1077,17 +1082,23 @@ async function fetchGallery() {
 
 // Call the function to fetch and display the gallery
 
-async function deleteGalleryFunc(galleryDeleteId) {
+async function deleteGalleryFunc(galleryDeleteId, btn) {
+
+  const initialBtnText = btn.innerHTML
+  putButtonInLoadingState(btn)
   try {
     const response = await fetch(`${config.apiUrl}/galleryDisplay/deleteGallery/${galleryDeleteId}`, {
       method: 'DELETE'
     })
-
-    alert('Item deleted successfully')
+    if(!response.ok) throw new Error ("Unable to delete Media")
     fetchGallery()
+    showAlertOrder(alertSuccess, 'Item Deleted Successfully')
   } catch (error) {
-    console.log(error);
-    
+    console.error(error);
+    showAlertOrder(alertFailure, 'Unable to Delete Item')
+  }
+  finally{
+    removeBtnFromLoadingState(btn, initialBtnText)
   }
 }
 
@@ -1133,7 +1144,9 @@ async function deleteGalleryFunc(galleryDeleteId) {
 
 async function getAllDailyMenus() {
 
-  const dailyMenuProductList = document.getElementById('dailyMenuProductList')
+  const dailyMenuProductList = document.getElementById('dailyMenuProductList');
+  dailyMenuProductList.classList.add('hidden')
+
   try{
         dailyMenuProductList.parentElement.querySelector('.loader').classList.remove('hidden')
         const response = await fetch(`${config.apiUrl}/dailyMenuDisplay/allDailyMenu`);
@@ -1186,7 +1199,7 @@ async function getAllDailyMenus() {
           deleteDailydisplayDivv.forEach((eachDataDelete) => {
             eachDataDelete.addEventListener('click', (e) => {
               const deleteEachData = e.target.closest('#dailydisplayDivv').dataset.id;
-              deleteDailyMenu(deleteEachData)
+              deleteDailyMenu(deleteEachData, eachDataDelete)
             })
           })
           
@@ -1194,7 +1207,7 @@ async function getAllDailyMenus() {
           updateDailydisplayDivv.forEach((eachDataEdit) => {
             eachDataEdit.addEventListener('click', (e) => {
               const editEachData = e.target.closest('#dailydisplayDivv').dataset.id
-              getSingleDailyMenu(editEachData)
+              getSingleDailyMenu(editEachData, eachDataEdit)
             })
           })
           
@@ -1215,12 +1228,13 @@ async function getAllDailyMenus() {
 }
 
 // Function to get a single daily menu by ID
-async function getSingleDailyMenu(editEachData) {
+async function getSingleDailyMenu(editEachData, btn) {
   const dailyMenuPopUpSection = document.getElementById('dailyMenuPopUpSection')
-  dailyMenuPopUpSection.classList.remove('hidden')
 
   const dailyMenuPopUpDiv = document.getElementById('dailyMenuPopUpDiv')
   dailyMenuPopUpDiv.innerHTML = ''
+  const initialBtnText = btn.innerHTML;
+  putButtonInLoadingState(btn)
     try {
         const response = await fetch(`${config.apiUrl}/dailyMenuDisplay/eachDailyMenu/${editEachData}`);
         const data = await response.json();
@@ -1232,7 +1246,7 @@ async function getSingleDailyMenu(editEachData) {
           <p>close</p>
         </div>
 
-        <h2 class="text-xl font-bold mb-4 text-center mt-[10px]">Edit Menu Products</h2>
+        <h2 class="text-xl font-bold mb-4 text-center mt-[10px]">Edit Daily Menu Product</h2>
   
         <form id="editDailyMenuForm" enctype="multipart/form-data" class="space-y-4 border-b pb-6 mb-6 text-black">
           <div class="eachEditMenuProductDiv">
@@ -1279,7 +1293,9 @@ async function getSingleDailyMenu(editEachData) {
         </form>
         `
 
-      dailyMenuPopUpDiv.innerHTML = populateSingleDailyMenu
+      dailyMenuPopUpDiv.innerHTML = populateSingleDailyMenu;
+      dailyMenuPopUpSection.classList.remove('hidden')
+
 
         const closeMenuPopUp = document.getElementById('closeDailyMenuPopUp')
         closeMenuPopUp.addEventListener('click', () => {
@@ -1291,15 +1307,21 @@ async function getSingleDailyMenu(editEachData) {
           e.preventDefault()
           let menuProductTarget = e.target
           const formData = new FormData(menuProductTarget)
-          updateDailyMenu(editEachData, formData)
+          updateDailyMenu(editEachData, formData, e.target.querySelector('[type="submit"]'))
         })
     } catch (error) {
         console.error("Error fetching daily menu:", error);
+        showAlert(alertFailure, 'Unable to Fetch Item Details')
     }
+      finally{
+        removeBtnFromLoadingState(btn, initialBtnText)
+      }
 }
 
 // Function to update a daily menu by ID
-async function updateDailyMenu(editEachData, formData) {
+async function updateDailyMenu(editEachData, formData, btn) {
+  const initialBtnText = btn.innerHTML;
+  putButtonInLoadingState(btn)
     try {
         const response = await fetch(`${config.apiUrl}/dailyMenuDisplay/updateDailyMenu/${editEachData}`, {
             method: "PATCH",
@@ -1309,24 +1331,36 @@ async function updateDailyMenu(editEachData, formData) {
         console.log("Menu Updated:", data);
         alert('Item updated successfully')
         getAllDailyMenus()
-    } catch (error) {
+        showAlertOrder(alertSuccess, 'Item Updated')
+      } catch (error) {
         console.error("Error updating daily menu:", error);
+        showAlertOrder(alertFailure, 'Unable to Update Item')
+    }
+    finally{
+      removeBtnFromLoadingState(btn, initialBtnText)
     }
 }
 
 // Function to delete a daily menu by ID
-async function deleteDailyMenu(deleteEachData) {
+async function deleteDailyMenu(deleteEachData, btn) {
+  const initialBtnText = btn.innerHTML;
+  putButtonInLoadingState(btn);
     try {
         const response = await fetch(`${config.apiUrl}/dailyMenuDisplay/deleteDailyMenu/${deleteEachData}`, {
             method: "DELETE",
         });
-        const data = await response.json();
+        if(!response.ok) throw new Error ('Unable to Delete Product')
         console.log("Menu Deleted:", data);
         alert('Daily Menu Item Deleted Successfully')
         getAllDailyMenus()
-    } catch (error) {
+        showAlertOrder(alertSuccess, "Item Deleted")
+      } catch (error) {
         console.error("Error deleting daily menu:", error);
+        showAlertOrder(alertFailure, "Unable to Delete Item")
     }
+      finally{
+        removeBtnFromLoadingState(btn, initialBtnText)
+      }
 }
 
 const bakeOrderList = document.getElementById('bakeOrderList')
@@ -1341,15 +1375,17 @@ const fetchAllUserBakeryBookings = async () => {
     const data = await response.json()
 
     // const dataForech = data.AllUserBakeryBookings 
-
-      if (data.length==0) {
+      console.log(data);
+      if (data.length===0) {
+        console.log("There is no data")
       bakeOrderList.classList.add('hidden')
       bakeOrderList.parentElement.querySelector('.unable_2_fetch').classList.add('hidden')
       return bakeOrderList.parentElement.querySelector('.no_item_uploaded').classList.remove('hidden');
       }
 
       bakeOrderList.classList.remove('hidden')
-      bakeOrderList.parentElement.querySelector('.no_products_uploaded').classList.add('hidden')
+      console.log(bakeOrderList.classList);
+      bakeOrderList.parentElement.querySelector('.no_item_uploaded').classList.add('hidden')
       bakeOrderList.parentElement.querySelector('.unable_2_fetch').classList.add('hidden')
 
     data.forEach((eachData) => {
