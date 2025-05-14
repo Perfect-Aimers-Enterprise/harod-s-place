@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../fontawesome/css/all.min.css"/>
+  <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../src/admin.css">
     <link rel="shortcut icon" href="../image/perpetualTasteImg/logo.png" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -354,12 +355,21 @@
       
           <div>
             <label for="menuImage" class="block text-sm font-medium text-gray-700">Product Image</label>
+
+            <div class=" hidden selected_file mb-3 mt-2" >
+              <img src="" class=" object-cover hidden" alt="Menu Image">  
+          <video controls class="object-cover rounded hidden">
+            <source src="" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+            </div>
+
             <input
             required
               type="file"
               id="menuImage"
               name="media"
-              class="mt-1 block w-full text-sm text-gray-500 file:py-2 file:px-4 file:rounded file:border-0 file:text-white file:bg-orange-500 hover:file:bg-orange-600"
+              class="mt-1 block w-full text-sm text-gray-500 file:py-2 file:px-4 file:rounded file:border-0 file:text-white file:bg-orange-500 hover:file:bg-orange-600" onchange="displaySelectedFile(event)"
             />
           </div>
       
@@ -376,7 +386,7 @@
         <div>
           <h3 class="text-lg font-semibold mb-4">Existing Products</h3>
           <div class="hidden flex justify-center items-center no_item_uploaded">
-            <p class=" italic text-2xl max-sm:text-xl text-secondary text-center ">No menu products have been uploaded
+            <p class=" italic text-2xl max-sm:text-xl text-secondary text-center ">No menu products has been uploaded
             </p>
           </div>
           <div class=" hidden flex justify-center items-center unable_2_fetch">
@@ -739,7 +749,17 @@
         </div>
         <div>
           <label for="heroImage" class="block text-sm font-medium">Upload Image</label>
-          <input type="file" id="heroImage" name="media" class="w-full p-2" accept='image/*' required data-role='heroImage'>
+
+          <div class=" hidden selected_file mb-3 mt-2" >
+            <img src="" class=" object-cover hidden" alt="Hero Image">  
+        <video controls class="object-cover rounded hidden">
+          <source src="" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+
+          </div>
+
+          <input type="file" id="heroImage" name="media" class="w-full p-2" accept='image/*' required data-role='heroImage' onchange="displaySelectedFile(event)">
         </div>
         <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Update Hero Image</button>
       </form> 
@@ -759,6 +779,31 @@
         </div>
         <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Update Hero Image</button>
       </form> -->
+    
+      <div id="current_hero_image">
+        <h3 class=' fs-5 font-bold mb-3 uppercase text-center'>Uploaded Hero Image</h3>
+        <div class=" uploaded_flyer text-center hidden">
+          <div class="img_holder mx-auto">
+            <img src="../image/flyer1/flyer1Image_1737567769200_173556327.jpg" alt="Chicken Suya" class=" object-contain rounded block mx-auto">
+            <p class=" text-center fs-5">Chicken Pepper Soup</p>
+            <button  type='submit' class=" bg-red-500 hover:bg-red-700 text-white px-3 py-1 font-semibold rounded-lg mt-3 uppercase" onclick=deleteFlyer1(event)>Delete</button>
+          </div>
+        </div>
+        
+        <div class=" hidden flex justify-center items-center no_flyer_uploaded">
+          <p class=" italic text-2xl max-sm:text-xl text-secondary text-center">No Hero Image has been Uploaded
+          </p>
+        </div>
+
+        <div class=" hidden flex justify-center items-center unable2Fetch">
+          <p class=" italic text-2xl max-sm:text-xl text-secondary text-center">Unable to display 2nd flyer at the moment
+          </p>
+        </div>
+
+        <div class=" hidden loader mx-auto max-md:w-[100px] w-[130px]"> <img src="../image/loaders/admin_loader.svg" alt="loader" srcset=""></div>  
+
+      </div>
+
     </section>
 
     <!-- Upload Flyer 1 -->
@@ -771,10 +816,45 @@
         </div>
         <div>
           <label for="flyer1Image" class="block text-sm font-medium">Upload Image</label>
-          <input type="file" id="flyer1Image" name="media" class="w-full p-2" accept='image/png, image/*' required data-role='flyer1Image'>
+
+          <div class=" hidden selected_file mb-3 mt-2" >
+            <img src="" class=" object-cover hidden" alt="Flyer 1 Image">  
+        <video controls class="object-cover rounded hidden">
+          <source src="" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+
+          </div>
+          <input type="file" id="flyer1Image" name="media" class="w-full p-2" accept='image/png, image/*' required data-role='flyer1Image' onchange="displaySelectedFile(event)">
         </div>
         <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Upload Flyer 1</button>
       </form>
+
+      <div id="current_flyer_1">
+        <h3 class=' fs-5 font-bold mb-3 uppercase text-center'>Uploaded 2nd Flyer Image</h3>
+        <div class=" uploaded_flyer text-center hidden">
+          <div class="img_holder mx-auto">
+            <img src="../image/flyer1/flyer1Image_1737567769200_173556327.jpg" alt="Chicken Suya" class=" object-contain rounded block mx-auto">
+            <p class=" text-center fs-5">Chicken Pepper Soup</p>
+            <button  type='submit' class=" bg-red-500 hover:bg-red-700 text-white px-3 py-1 font-semibold rounded-lg mt-3 uppercase" onclick=deleteFlyer1(event)>Delete</button>
+          </div>
+        </div>
+        
+        <div class=" hidden flex justify-center items-center no_flyer_uploaded">
+          <p class=" italic text-2xl max-sm:text-xl text-secondary text-center">No Image has been Uploaded
+          </p>
+        </div>
+
+        <div class=" hidden flex justify-center items-center unable2Fetch">
+          <p class=" italic text-2xl max-sm:text-xl text-secondary text-center">Unable to display 2nd flyer at the moment
+          </p>
+        </div>
+
+        <div class=" hidden loader mx-auto max-md:w-[100px] w-[130px]"> <img src="../image/loaders/admin_loader.svg" alt="loader" srcset=""></div>  
+
+      </div>
+
+
     </section>
 
     <!-- <section class="flex-1 p-6 space-y-6 ml-[20%] content hidden">
@@ -802,10 +882,46 @@
         </div>
         <div>
           <label for="flyer2Image" class="block text-sm font-medium">Upload Image</label>
-          <input type="file" id="flyer2Image" name="media" class="w-full p-2" accept='image/*' required data-role='flyer2Image'>
+
+          <div class=" hidden selected_file mb-3 mt-2" >
+            <img src="" class=" object-cover hidden" alt="Flyer 2 Image">  
+        <video controls class="object-cover rounded hidden">
+          <source src="" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+
+          </div>
+
+          <input type="file" id="flyer2Image" name="media" class="w-full p-2" accept='image/*' required data-role='flyer2Image' onchange="displaySelectedFile(event)">
         </div>
         <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Upload Flyer 2</button>
       </form>
+
+      <div id="current_flyer_2">
+        <h3 class=' fs-5 font-bold mb-3 uppercase text-center'>Uploaded 2nd Flyer Image</h3>
+        <div class=" uploaded_flyer text-center hidden">
+          <div class="img_holder mx-auto">
+            <img src="../image/flyer1/flyer1Image_1737567769200_173556327.jpg" alt="Chicken Suya" class=" object-contain rounded block mx-auto">
+            <p class=" text-center fs-5">Chicken Pepper Soup</p>
+            <button  type='submit' class=" bg-red-500 hover:bg-red-700 text-white px-3 py-1 font-semibold rounded-lg mt-3 uppercase" onclick=deleteFlyer2(event)>Delete</button>
+          </div>
+        </div>
+        
+        <div class=" hidden flex justify-center items-center no_flyer_uploaded">
+          <p class=" italic text-2xl max-sm:text-xl text-secondary text-center">No Image has been Uploaded
+          </p>
+        </div>
+
+        <div class=" hidden flex justify-center items-center unable2Fetch">
+          <p class=" italic text-2xl max-sm:text-xl text-secondary text-center">Unable to display 2nd flyer at the moment
+          </p>
+        </div>
+
+        <div class=" hidden loader mx-auto max-md:w-[100px] w-[130px]"> <img src="../image/loaders/admin_loader.svg" alt="loader" srcset=""></div>  
+
+      </div>
+
+
     </section>
 
     <!-- <section class="flex-1 p-6 space-y-6 ml-[20%] content hidden">
@@ -832,17 +948,27 @@
           <input required type="text" id="galleryTitle" name="galleryTitle" class="w-full p-2 border rounded" required>
         </div>
 
-        <div>
+        <!-- <div>
           <label for="galleryType" class="block text-sm font-medium">GalleryType</label>
           <select name="galleryType" id="galleryType" required>
             <option value="image">Image</option>
             <option value="video">Video</option>
           </select>
-        </div>
+        </div> -->
 
         <div>
           <label for="galleryMedia" class="block text-sm font-medium">Select File</label>
-          <input type="file" id="galleryMedia" name="media" accept="image/*,video/* " required>
+
+          <div class=" hidden selected_file mb-3 mt-2" >
+            <img src="" class=" object-cover hidden" alt="Gallery Image">  
+        <video controls class="object-cover rounded hidden">
+          <source src="" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+
+          </div>
+
+          <input type="file" id="galleryMedia" name="media" accept="image/*,video/* " onchange='displaySelectedFile(event)' required>
         </div>
         <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded upload">Upload Gallery</button>
       </form>
@@ -860,11 +986,14 @@
             </p>
           </div>
 
-          <div class="loader mx-auto max-md:w-[100px] w-[130px]"> <img src="../image/loaders/admin_loader.svg" alt="loader" srcset=""></div>          
-        <div id="galleryListDiv" class="space-y-4 hidden">
+          <div class=" hidden loader mx-auto max-md:w-[100px] w-[130px]"> <img src="../image/loaders/admin_loader.svg" alt="loader" srcset=""></div>          
+        <div id="galleryListDiv" class="space-y-4 ">
           <!-- Example Product Card -->
-          <div class="flex items-center justify-between border rounded-lg shadow-md p-4">
-            <div id="galleryDisplayDiv" class="flex items-center space-x-4">
+          <div class=" relative flex items-center justify-between border rounded-lg shadow-md p-4 hidden">
+
+            <button type="button" onclick="viewGalleryOverlay(event)" title="Click to view" class=" w-full absolute z-1 h-full left-0 hover:bg-slate-950-op-1"></button>
+
+            <div class="flex items-center space-x-4">
               <img src="../image/chickenSuya.jpg" alt="Chicken Suya" class="w-16 h-16 object-cover rounded">
             </div>
 
@@ -877,9 +1006,24 @@
             <div class="flex space-x-2">
               <button class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600">
                 <p class="hidden md:block">Delete</p>
-                <i class="fas fa-pencil-alt md:hidden"></i>
+                <i class=" fas fa-trash md:hidden"></i>
               </button>
             </div>
+
+            <div class=" w-screen h-screen fixed left-0 top-0 z-2 galleryOverlay flex items-center justify-center">
+              <div class='px-6 py-4'>
+                <div class=" flex justify-end"><button class=" active:text-orange-500 text-neutral-50 fs-4 hover:text-neutral-300" title=" Close Display" type="button" onclick="closeGalleryOverlay(event)" ><i class="fas fa-xmark"></i></button></div>
+                
+                <img src="../image/flyer1/flyer1Image_1737567769200_173556327.jpg" alt="Chicken Suya" class=" object-contain rounded block mx-auto">
+
+                <video controls class="object-cover rounded mx-auto">
+                  <source src=" ../videos/Avatar_Element_Animation_by_our_artist@redjar__Avatar_Element_Animation_by_our_artist@redjar__...see_more(1080p).mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+                  <p class=" pt-3 fw-medium fs-4 text-center text-white uppercase">Chicken Suya</p>
+              </div>
+            </div>
+
           </div>
       
           <!-- Repeat for more products -->
@@ -1013,12 +1157,16 @@
       
           <div>
             <label for="menuImage2" class="block text-sm font-medium text-gray-700">Daily Menu Image</label>
+            <div class="hidden selected_file mb-3 mt-2" >
+              <img src="../image/flyer1/flyer1Image_1737567769200_173556327.jpg" class=" object-cover " alt="Menu Image">
+            </div>
             <input
               required
               type="file"
               id="menuImage2"
               name="media"
               class="mt-1 block w-full text-sm text-gray-500 file:py-2 file:px-4 file:rounded file:border-0 file:text-white file:bg-orange-500 hover:file:bg-orange-600"
+              onchange="displaySelectedFile(event)"
             />
           </div>
       
@@ -1033,7 +1181,7 @@
         <div class="content_holder">
           <h3 class="text-lg font-semibold mb-4">Existing Daily Menu</h3>
           <div class=" hidden flex justify-center items-center no_products_uploaded">
-            <p class=" italic text-2xl max-sm:text-xl text-secondary text-center ">No menu products have been uploaded
+            <p class=" italic text-2xl max-sm:text-xl text-secondary text-center ">No menu products has been uploaded
             </p>
           </div>
           
@@ -1277,9 +1425,11 @@
     updateChart(currentMonth, currentYear);
   </script>
   <script src="../jsFolder/order.js"></script>
+  <!-- <script src="../jsFolder/displayUniqueImages.js"></script> -->
   <!-- <script src="../jsFolder/specialOrder.js"></script> -->
   <!-- <script src="../jsFolder/userMessage.js"></script> -->
   <script src="../jsFolder/bookalounge.js"></script>
+  <script src="../jsFolder/onclickFunctions.js"></script>
   <!-- <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script> -->
 </body>
 </html>

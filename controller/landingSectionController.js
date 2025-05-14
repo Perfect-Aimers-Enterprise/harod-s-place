@@ -168,7 +168,7 @@ const uploadFlyer1Schema = async (req, res) => {
 
             // Delete old image from Cloudinary
             const oldImagePublicId = existingFlyer1.media_public_id
-            await cloudinary.uploader.destroy(`landingpages/${oldImagePublicId}`, {
+            await cloudinary.uploader.destroy(oldImagePublicId, {
                 invalidate: true
             });
 
@@ -213,7 +213,7 @@ const uploadFlyer2Schema = async (req, res) => {
         if (existingFlyer2) {
             // Delete old image from Cloudinary
             const oldImagePublicId = existingFlyer2.media_public_id;
-            await cloudinary.uploader.destroy(`landingpages/${oldImagePublicId}`, {
+            await cloudinary.uploader.destroy(oldImagePublicId, {
                 invalidate: true
             });
             const updatedFlyer2 = await Flyer2.findByIdAndUpdate(
@@ -247,6 +247,34 @@ const getFlyer2Schema = async (req, res) => {
     }
 }
 
+const deleteFlyer1Schema = async (req, res) => {
+    try {
+        const flyerId = req.params.id;
+        const getFlyer1Var = await Flyer1.findById(flyerId);
+        const flyer_image_public_id = getFlyer1Var.media_public_id;
+        await cloudinary.uploader.destroy(flyer_image_public_id, {
+            invalidate: true
+        });        
+        res.status(201).json({msg:"Flyer 1 delete successfully"})
+    } catch (error) {
+        res.status(500).json({ error, message: 'Unable to delete flyer 1' })
+    }
+}
+
+const deleteFlyer2Schema = async (req, res) => {
+    try {
+        const flyerId = req.params.id;
+        const getFlyer2Var = await Flyer2.findById(flyerId);
+        const flyer_image_public_id = getFlyer2Var.media_public_id;
+        await cloudinary.uploader.destroy(flyer_image_public_id, {
+            invalidate: true
+        });        
+        res.status(201).json({msg:"Flyer 2 delete successfully"})
+    } catch (error) {
+        res.status(500).json({ error, message: 'Unable to delete flyer 2' })
+    }
+}
+
 module.exports = {
     uploadHeroImageSchema,
     getHeroImage,
@@ -256,5 +284,7 @@ module.exports = {
     uploadFlyer1Schema,
     uploadFlyer2Schema,
     getFlyer1Schema,
-    getFlyer2Schema
+    getFlyer2Schema,
+    deleteFlyer1Schema,
+    deleteFlyer2Schema
 };

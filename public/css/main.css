@@ -12635,3 +12635,92 @@ div.alert button.btn-close {
 }
 
 /*# sourceMappingURL=main.css.map */
+
+.galleryOverlay{
+  clip-path: circle(0% at 50% 50%);
+  background-color: color(srgb-linear 0.01 0.01 0.01 / 0.58);
+  transition: 0.6s clip-path ease-out;
+}
+
+.galleryOverlay.view{
+  clip-path: circle(150% at 50% 50%);
+}
+
+.galleryOverlay button{
+  translate: 15px -2px;
+}
+
+
+.galleryOverlay img, .galleryOverlay video{
+  max-height: 83%;
+  /* max-width: 650px; */
+}
+
+
+/* @media (max-width:768px) {
+  .galleryOverlay>div{
+    width: 23rem;
+  }
+
+}
+
+@media (min-width:768px) {
+  .galleryOverlay>div{
+    width: 27rem;
+  }
+
+}
+
+@media (min-width:1024px) {
+  .galleryOverlay>div{
+    width: 31rem;
+  }
+  
+} */
+
+.galleryOverlay>div{
+  width: 70%;
+  height: 95%;
+  max-width: 600px;
+}
+
+.selected_file{
+  width: 45%;
+  max-width: 420px;
+  min-width: 200px;
+  min-height: 200px;
+}
+
+.selected_file img, .selected_file video{
+  height: 100%;
+  width: 100%;
+
+}
+
+@media (max-width:768px){
+  .selected_file{
+    height: 12rem;
+
+  }
+}
+
+@media (min-width:768px){
+  .selected_file{
+    height: 15rem;
+
+  }
+}
+
+@media (min-width:920px){
+  .selected_file{
+    height: 19rem;
+
+  }
+}
+
+.uploaded_flyer .img_holder, .uploaded_hero .img_holder{
+  max-width: 300px;
+  width: 100%;
+
+
+}

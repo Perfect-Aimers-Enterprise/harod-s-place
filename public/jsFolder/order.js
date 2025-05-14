@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     getAllUserMessageFunc()
     // getAdminMenuLandingFunc()
     // getAllSpecialImagesFunc()
-    fetchGallery();
+    // fetchGallery();
     getAllDailyMenus()
     fetchAllUserBakeryBookings()
 })
@@ -586,13 +586,8 @@ const confirmUserOrders = async (menuOrderId) => {
 }
 
 const fetTotalOrderIncome = async () => {
-    const response = await fetch(`${config.apiUrl}/harolds/adminGetOrder/adminGetAllConfirmedOrdersPrice`)
-
-    console.log('Total Price',response);
-    
+    const response = await fetch(`${config.apiUrl}/harolds/adminGetOrder/adminGetAllConfirmedOrdersPrice`)    
     const data = await response.json()
-    console.log('total Price Data', data.totalPrice);
-
     const analyticTotalPrice = data.totalPrice
     
     const analyTicEarning = document.getElementById('analyTicEarning')
@@ -612,7 +607,6 @@ const countRegisteredUsers = async () => {
     const response = await fetch(`${config.apiUrl}/harolds/api/getRegisteredUser`)    
 
     const data = await response.json()
-    console.log('reg users count', data);
     document.getElementById('regUserCount').textContent = data.count
 
 }
@@ -620,9 +614,7 @@ const countRegisteredUsers = async () => {
 const getWeeklyGrowthFunc = async () => {
     const response = await fetch(`${config.apiUrl}/harolds/adminGetOrder/getWeeklyGrowth`)
 
-    const data = await response.json()
-    console.log('adminChart',data);
-    
+    const data = await response.json()    
     const { growthPercentage } = data;
 
         // Update the growth percentage in the UI
@@ -959,8 +951,6 @@ async function fetchGallery() {
     
 
     container.innerHTML = ''
-    console.log(data);
-
     if (data.length==0) {
       container.classList.add('hidden')
       container.closest('.content_holder').querySelector('.unable_2_fetch').classList.add('hidden')
@@ -1002,16 +992,15 @@ async function fetchGallery() {
 
       const timePosted = timeAgo(item.createdAt);
 
-      const deleteId = item._id
-
-      console.log('deleted Id', deleteId);
-      
+      const deleteId = item._id      
 
       if (item.galleryType === "image") {
 
         content = `
-          <div id="galleryIdDiv" class="flex items-center justify-between border rounded-lg shadow-md p-4" data-id="${deleteId}">
-            <div id="galleryDisplayDiv" class="flex items-center space-x-4">
+          <div class="flex items-center justify-between border rounded-lg shadow-md p-4 relative" data-id="${deleteId}">
+          <button type="button" onclick="viewGalleryOverlay(event)" title="Click to view" class=" w-full absolute z-1 h-full left-0 hover:bg-slate-950-op-1"></button>
+
+            <div class="flex items-center space-x-4">
               <img src="${item.galleryMedia}" alt="${item.galleryTitle}" class="w-16 h-16 object-cover rounded">
             </div>
 
@@ -1027,43 +1016,67 @@ async function fetchGallery() {
                 <i class="fas fa-trash md:hidden"></i>
               </button>
             </div>
+
+          <div class=" w-screen h-screen fixed left-0 top-0 z-2 galleryOverlay flex items-center justify-center">
+          <div class='px-6'>
+            <div class=" ""><button class="float-end active:text-orange-500 text-neutral-50 fs-5 hover:text-neutral-300" title=" Close Display" type="button" onclick="closeGalleryOverlay(event)" ><i class="fas fa-xmark"></i></button></div>
+            <img src="${item.galleryMedia}" alt="${item.galleryTitle}" class=" w-full object-cover rounded">
+              <p class=" pt-3 fw-medium fs-4 text-center text-white uppercase">${item.galleryTitle}</p>
+            </div>
+          </div>
+
           </div>
         `
       } else if (item.galleryType === "video") {
         
           content = `
-          <div id="galleryIdDiv" class="flex items-center justify-between border rounded-lg shadow-md p-4" data-id="${deleteId}">
-            <div id="galleryDisplayDiv" class="flex items-center space-x-4">
-              <video controls class="w-16 h-16 object-cover rounded">
-                <source src="${item.galleryMedia}" type="video/mp4">
+          <div class=" galleryIdDiv relative flex items-center justify-between border rounded-lg shadow-md p-4" data-id="${deleteId}">
+
+          <button type="button" onclick="viewGalleryOverlay(event)" title="Click to view" class=" w-full absolute z-1 h-full left-0 hover:bg-slate-950-op-1"></button>
+
+          <div class="flex items-center space-x-4">
+            <video controls class="w-16 h-16 object-cover rounded">
+              <source src="${item.galleryMedia}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+
+          <div>
+            <h4 class="font-semibold">${item.galleryTitle}</h4>
+            <p class="text-sm text-gray-600 font-semibold"><span>Posted: </span>${timePosted}</p>     
+          </div>
+
+          <div class="flex space-x-2">
+            <button class="deleteGallery bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600">
+              <p class="hidden md:block">Delete</p>
+              <i class="fas fa-trash md:hidden"></i>
+            </button>
+          </div>
+
+            <div class=" w-screen h-screen fixed left-0 top-0 z-2 galleryOverlay flex items-center justify-center">
+            <div class='px-6 py-4'>
+              <div class=" flex justify-end"><button class=" active:text-orange-500 text-neutral-50 fs-4 hover:text-neutral-300" title=" Close Display" type="button" onclick="closeGalleryOverlay(event)" ><i class="fas fa-xmark"></i></button></div>
+
+              <video controls class="object-cover rounded mx-auto">
+                <source src=" ${item.galleryMedia}" >
                 Your browser does not support the video tag.
               </video>
-            </div>
-
-            <div>
-              <h4 class="font-semibold">${item.galleryTitle}</h4>
-              <p class="text-sm text-gray-600 font-semibold"><span>Posted: </span>${timePosted}</p>
-              
-            </div>
-
-            <div class="flex space-x-2">
-              <button id="deleteGallery" class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600">
-                <p class="hidden md:block">Delete</p>
-                <i class="fas fa-trash md:hidden"></i>
-              </button>
+                <p class=" pt-3 fw-medium fs-4 text-center text-white uppercase">Chicken Suya</p>
             </div>
           </div>
+
+        </div>
         `
           
       }
 
       container.innerHTML += content
 
-      const deleteGallery = document.querySelectorAll('#deleteGallery')
+      const deleteGallery = document.querySelectorAll('.deleteGallery')
 
       deleteGallery.forEach((eachDelete) => {
         eachDelete.addEventListener('click', (e) => {
-          const galleryDeleteId = e.target.closest('#galleryIdDiv').dataset.id
+          const galleryDeleteId = e.target.closest('.galleryIdDiv').dataset.id
           deleteGalleryFunc(galleryDeleteId, eachDelete)
         })
       })
@@ -1375,7 +1388,6 @@ const fetchAllUserBakeryBookings = async () => {
     const data = await response.json()
 
     // const dataForech = data.AllUserBakeryBookings 
-      console.log(data);
       if (data.length===0) {
         console.log("There is no data")
       bakeOrderList.classList.add('hidden')
@@ -1384,7 +1396,6 @@ const fetchAllUserBakeryBookings = async () => {
       }
 
       bakeOrderList.classList.remove('hidden')
-      console.log(bakeOrderList.classList);
       bakeOrderList.parentElement.querySelector('.no_item_uploaded').classList.add('hidden')
       bakeOrderList.parentElement.querySelector('.unable_2_fetch').classList.add('hidden')
 
@@ -1502,17 +1513,15 @@ const removeBtnFromLoadingState = (btn, btn_text)=>{
 
 // Function For Uploading Media to Cloudinary
 
-const getMediaUploadSignature = async(form, folder)=>{
-  console.log(form.media)
+const getMediaUploadSignature = async(form, folder )=>{
   const file = form.media.files[0];
   const allowedTypes = ['image/', 'video/'];
+  const galleryType = file.type.includes('image')? "image" : "video"; 
 
   // file
   if(!allowedTypes.find(type=>file.type.includes(type))) throw new Error("Only Videos and Images are Allowed");
   
-    const uploadURLRes = await fetch(`${config.apiUrl}/haroldsLanding/getUploadSignature/?folder=${folder}`);
-
-    console.log(uploadURLRes);
+    const uploadURLRes = await fetch(`${config.apiUrl}/haroldsLanding/getUploadSignature/?folder=${folder}&galleryType=${galleryType}`);
   
     if(!uploadURLRes.ok) throw new Error("Unable to Request Upload Signature");
 
@@ -1544,25 +1553,23 @@ const getMediaUploadSignature = async(form, folder)=>{
   console.log(uploadRES);
   const uploadData = await uploadRES.json();
   console.log(uploadData)
-  return { mediaURL:uploadData.url, public_id:uploadData.public_id }
+  return { mediaURL:uploadData.url, public_id:uploadData.public_id, galleryType }
 
 }
 
 const handleFormSubmit = async (e, APIEndpoint, submitBtn, API_method, success_msg, err_msg, folder=null, reloadFunction=null)=>{
   e.preventDefault();
   const form = e.target;
-
   const initialBtnText = submitBtn.innerHTML;
   try {
 
     putButtonInLoadingState(submitBtn);
-    const { mediaURL, public_id } = await getMediaUploadSignature(form, folder);
-    console.log(mediaURL);
-    // formData.append('mediaURL', mediaURL);
-    // console.log(formData)
+    const { mediaURL, public_id, galleryType } = await getMediaUploadSignature(form, folder);
+    console.log(galleryType);
     const formData = {
       mediaURL,
-      public_id
+      public_id,
+      galleryType
 
     }
 
@@ -1608,10 +1615,10 @@ const handleFormSubmit = async (e, APIEndpoint, submitBtn, API_method, success_m
     showAlertOrder(alertSuccess, success_msg);
     if(reloadFunction) await reloadFunction();
   } catch (error) {
-    console.log(error)
+    console.error(error)
     if(error.message.includes("File size too large")) return showAlertOrder(alertFailure, "File is too Large. Please upload an image smaller than 5MB or a video smaller than 100MB");
 
-    else if(error.message.includes("Only Videos and Images are Allowed")) return showAlertOrder(alertFailure, "Only videos and images are allowed");
+    else if(error.message.includes("Only Videos and Images are Allowed")) return showAlertOrder(alertFailure, "Allowed Video and Image Formats: mp4, mov, webm, mkv, flv, 3gp, ogv");
 
     showAlertOrder(alertFailure, err_msg);
   }

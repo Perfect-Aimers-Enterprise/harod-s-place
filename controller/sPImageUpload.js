@@ -9,8 +9,10 @@ cloudinary.config({
 
 const generateCloudinaryUploadSignature = (req, res) => {
 
-  const { folder } = req.query;
-  const upload_preset = folder==='gallery'? process.env.HAROLDS_SIGNED_CLOUDINARY_PRESET_GALLERY : process.env.HAROLDS_SIGNED_CLOUDINARY_PRESET;
+  const { folder, galleryType } = req.query;
+  const upload_preset = (folder!=='gallery')? process.env.HAROLDS_SIGNED_CLOUDINARY_PRESET
+          : (galleryType!=="video")? process.env.HAROLDS_SIGNED_CLOUDINARY_PRESET_GALLERY_IMAGE : process.env.HAROLDS_SIGNED_CLOUDINARY_PRESET_GALLERY_VIDEO;
+
 
   console.log(upload_preset);
 

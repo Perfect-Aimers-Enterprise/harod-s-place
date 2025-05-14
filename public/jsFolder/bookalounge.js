@@ -138,9 +138,7 @@ const adminGetUserBookingFunc = async () => {
         loungBookingPopulateId.closest('.content_holder').querySelector('.unable_2_fetch').classList.add('hidden')
         
 
-        getLoungeBookingsData.forEach((eachData) => {
-            console.log(eachData);
-            
+        getLoungeBookingsData.forEach((eachData) => {            
             const populateEachData = `
                 <div class="border rounded-lg shadow-md p-4 mt-[10px]">
                 <div class="flex items-center justify-between">
