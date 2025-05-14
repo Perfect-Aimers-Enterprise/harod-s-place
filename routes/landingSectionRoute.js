@@ -13,7 +13,8 @@ const {
     getAllMenuImage,
     getSingleMenuImage,
     deleteFlyer1Schema,
-    deleteFlyer2Schema
+    deleteFlyer2Schema,
+    deleteHeroImage
 } = require('../controller/landingSectionController');
 
 const { generateCloudinaryUploadSignature } = require('../controller/sPImageUpload');
@@ -23,6 +24,7 @@ const {uploadHeroImage, uploadMenuImage, uploadFlyer1, uploadFlyer2} = require('
 router.get('/getUploadSignature', generateCloudinaryUploadSignature)
 router.put('/updateHeroImageSchema', uploadHeroImageSchema)
 router.get('/getHeroImage', getHeroImage)
+router.delete('/deleteHeroImage/:id', deleteHeroImage)
 
 router.get('/getAllMenuImage', getAllMenuImage)
 router.get('/getSingleMenuImage/:id', getSingleMenuImage)

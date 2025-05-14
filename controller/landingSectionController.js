@@ -45,40 +45,32 @@ const Flyer2 = require('../model/flyer2Model')
 
 const uploadHeroImageSchema = async (req, res) => {
     try {
-        console.log("Hello, uploading Hero Image Schema");
-        console.log(req.body);
         const { heroImageName, heroImageDes, mediaURL, public_id } = req.body;
 
         const existingHeroImage = await HeroImage.findOne();
         if (existingHeroImage) {
-            console.log(existingHeroImage);
             // Delete old image from Cloudinary
             const oldImagePublicId = existingHeroImage.media_public_id;
             await cloudinary.uploader.destroy(`${oldImagePublicId}`, {
                 invalidate: true
             });
-            console.log('Deleting old image from Cloudinary:');
             const updatedHeroImage = await HeroImage.findByIdAndUpdate(
                 existingHeroImage._id,
-                { heroImageName,  heroImage: mediaURL, media_public_id: public_id },
+                { heroImageName,  heroImage: mediaURL, media_public_id: public_id, heroImageDes },
                 { new: true, runValidators: true }
             );
-            console.log('Updated Hero Image:');
             return res.status(200).json({ updatedHeroImage, message: 'Hero image updated successfully!' });
         } else {
-            console.log('Creating new Hero Image 2');
             const newHeroImage = await HeroImage.create({
                 heroImageName,
                 heroImageDes,
                 heroImage: mediaURL,
                 media_public_id: public_id
             });
-            console.log('New Hero Image:');
             return res.status(201).json({ newHeroImage, message: 'Hero image created successfully!' });
         }
 
     } catch (error) {
-        console.log(error)
         res.status(500).json({ error });
     }
 };
@@ -100,9 +92,9 @@ const createMenuImage = async (req, res) => {
         const menuLandingImageUrl = mediaURL;
 
         const existingMenuImages = await MenuLanding.find();
-        if (existingMenuImages.length >= 4) {
-            return res.status(400).json({ message: 'Maximum of 4 menu images allowed!' });
-        }
+        // if (existingMenuImages.length >= 4) {
+        //     return res.status(400).json({ message: 'Maximum of 4 menu images allowed!' });
+        // }
 
         const newMenuImage = await MenuLanding.create({
             menuLandingName,
@@ -174,7 +166,7 @@ const uploadFlyer1Schema = async (req, res) => {
 
             const updatedFlyer1 = await Flyer1.findByIdAndUpdate(
                 existingFlyer1._id,
-                { flyer1Title, flyer1Image: flyer1ImageUrl },
+                { flyer1Title, flyer1Image: flyer1ImageUrl, media_public_id:public_id },
                 { new: true, runValidators: true }
             );
             return res.status(200).json({ updatedFlyer1, message: 'Flyer1 updated successfully!' });
@@ -202,7 +194,7 @@ const getFlyer1Schema = async (req, res) => {
 // Flyer 2 Image Controller (Only 1 flyer)
 const uploadFlyer2Schema = async (req, res) => {
     try {
-        const { flyer2Title, mediaURL } = req.body;
+        const { flyer2Title, mediaURL, public_id } = req.body;
         const flyer2ImageUrl = mediaURL;
 
         console.log('uploadFlyerSchema');
@@ -218,7 +210,7 @@ const uploadFlyer2Schema = async (req, res) => {
             });
             const updatedFlyer2 = await Flyer2.findByIdAndUpdate(
                 existingFlyer2._id,
-                { flyer2Title, flyer2Image: flyer2ImageUrl },
+                { flyer2Title, flyer2Image: flyer2ImageUrl, media_public_id:public_id },
                 { new: true, runValidators: true }
             );
 
@@ -251,12 +243,14 @@ const deleteFlyer1Schema = async (req, res) => {
     try {
         const flyerId = req.params.id;
         const getFlyer1Var = await Flyer1.findById(flyerId);
+        console.log(getFlyer1Var);
         const flyer_image_public_id = getFlyer1Var.media_public_id;
         await cloudinary.uploader.destroy(flyer_image_public_id, {
             invalidate: true
         });        
         res.status(201).json({msg:"Flyer 1 delete successfully"})
     } catch (error) {
+        console.log(error);
         res.status(500).json({ error, message: 'Unable to delete flyer 1' })
     }
 }
@@ -265,13 +259,30 @@ const deleteFlyer2Schema = async (req, res) => {
     try {
         const flyerId = req.params.id;
         const getFlyer2Var = await Flyer2.findById(flyerId);
+        console.log(getFlyer2Schema)
         const flyer_image_public_id = getFlyer2Var.media_public_id;
         await cloudinary.uploader.destroy(flyer_image_public_id, {
             invalidate: true
         });        
         res.status(201).json({msg:"Flyer 2 delete successfully"})
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error, message: 'Unable to delete flyer 2' })
+    }
+}
+
+const deleteHeroImage = async (req, res) => {
+    try {
+        const HeroImageId = req.params.id;
+        const HeroImageVar = await HeroImage.findById(HeroImageId);
+        const hero_image_public_id = HeroImageVar.media_public_id;
+        await cloudinary.uploader.destroy(hero_image_public_id, {
+            invalidate: true
+        });        
+        res.status(201).json({msg:"Hero Image delete successfully"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error, msg: 'Unable to delete hero Image' })
     }
 }
 
@@ -286,5 +297,6 @@ module.exports = {
     getFlyer1Schema,
     getFlyer2Schema,
     deleteFlyer1Schema,
-    deleteFlyer2Schema
+    deleteFlyer2Schema,
+    deleteHeroImage
 };

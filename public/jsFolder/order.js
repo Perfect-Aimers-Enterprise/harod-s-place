@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     getAllUserMessageFunc()
     // getAdminMenuLandingFunc()
     // getAllSpecialImagesFunc()
-    // fetchGallery();
+    fetchGallery();
     getAllDailyMenus()
     fetchAllUserBakeryBookings()
 })
@@ -581,7 +581,7 @@ const confirmUserOrders = async (menuOrderId) => {
     fetchAllOrders()
 
   } catch (error) {
-      showAlertOrder(alertFailure, "Unable to Confirm User Order")
+      showAlertOrder(alertFailure, "Unable to Confirm User Order. Try Again Later")
   }
 }
 
@@ -856,20 +856,24 @@ closeVariationsBtn.addEventListener('click', ()=>{
 // Attach event listeners to forms
 
 // For Creation of Menu Products
-document.getElementById('menuProductForm').addEventListener('submit', (e) =>  { handleFormSubmit(e, "/harolds/product/createMenuProduct", e.target.querySelector('button[type="submit"]'), 'POST', 'Product upload successful', 'Unable to upload product', false, getMenuProductFunc)})
+document.getElementById('menuProductForm').addEventListener('submit', (e) =>  { handleFormSubmit(e, "/harolds/product/createMenuProduct", e.target.querySelector('button[type="submit"]'), 'POST', 'Product upload successful', 'Unable to upload product', null, ()=>{MediaUploadCleanUp(document.querySelector('#menuProductForm .selected_file'), getMenuProductFunc)})})
 
 // For Creation of Daily Menu Products
-document.getElementById('dailyMenuForm').addEventListener('submit', (e) =>  { handleFormSubmit(e, "/dailyMenuDisplay/createDailyMenu", e.target.querySelector('button[type="submit"]'), 'POST', 'Product upload successful', 'Unable to upload product', false, getAllDailyMenus)})
+document.getElementById('dailyMenuForm').addEventListener('submit', (e) =>  { handleFormSubmit(e, "/dailyMenuDisplay/createDailyMenu", e.target.querySelector('button[type="submit"]'), 'POST', 'Product upload successful', 'Unable to upload product', null, ()=>{MediaUploadCleanUp(document.querySelector('#dailyMenuForm .selected_file'), getAllDailyMenus)})})
 
-document.getElementById("heroImageForm").addEventListener("submit",   (e) =>  { handleFormSubmit(e, "/haroldsLanding/updateHeroImageSchema", e.target.querySelector('button[type="submit"]'), "PUT", 'Hero image upload successful', 'Unable to upload hero image. Try again later')});
 
-document.getElementById("flyer1Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer1Schema", e.target.querySelector('button[type="submit"]'), 'PUT', 'Flyer Upload Successful', 'Unable to upload flyer. Try again Later'));
+// For Hero Image
+document.getElementById("heroImageForm").addEventListener("submit",   (e) =>  { handleFormSubmit(e, "/haroldsLanding/updateHeroImageSchema", e.target.querySelector('button[type="submit"]'), "PUT", 'Hero image upload successful', 'Unable to upload hero image. Try again later', null, ()=>{MediaUploadCleanUp(document.querySelector('#heroImageForm .selected_file'), getHeroImageDisplay)})});
 
-document.getElementById("flyer2Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer2Schema", e.target.querySelector('button[type="submit"]'), 'PUT', 'Flyer Upload Successful', 'Unable to upload flyer. Try again Later'));
+// For Flyer 1
+document.getElementById("flyer1Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer1Schema", e.target.querySelector('button[type="submit"]'), 'PUT', 'Flyer Upload Successful', 'Unable to upload flyer. Try again Later', null, ()=>{MediaUploadCleanUp(document.querySelector('#flyer1Form .selected_file'), getFlyer1DisplayAdmin)}));
+
+// For Flyer 2
+document.getElementById("flyer2Form").addEventListener("submit", (e) => handleFormSubmit(e, "/haroldsLanding/uploadFlyer2Schema", e.target.querySelector('button[type="submit"]'), 'PUT', 'Flyer Upload Successful', 'Unable to upload flyer. Try again Later', null, ()=>{MediaUploadCleanUp(document.querySelector('#flyer2Form .selected_file'), getFlyer2DisplayAdmin)}));
 
 
 // For Gallery Uploads Form
-document.getElementById("galleryForm").addEventListener("submit", (e) => handleFormSubmit(e, "/galleryDisplay/createGallery", e.target.querySelector('button[type="submit"]'), "POST", 'Media upload successful', 'Unable to upload media', 'gallery', fetchGallery));
+document.getElementById("galleryForm").addEventListener("submit", (e) => handleFormSubmit(e, "/galleryDisplay/createGallery", e.target.querySelector('button[type="submit"]'), "POST", 'Media upload successful', 'Unable to upload media', 'gallery', ()=>{MediaUploadCleanUp(document.querySelector('#galleryForm .selected_file'), fetchGallery)}));
 
 
 
@@ -997,7 +1001,7 @@ async function fetchGallery() {
       if (item.galleryType === "image") {
 
         content = `
-          <div class="flex items-center justify-between border rounded-lg shadow-md p-4 relative" data-id="${deleteId}">
+          <div class="flex items-center justify-between border rounded-lg shadow-md p-4 relative galleryIdDiv" data-id="${deleteId}">
           <button type="button" onclick="viewGalleryOverlay(event)" title="Click to view" class=" w-full absolute z-1 h-full left-0 hover:bg-slate-950-op-1"></button>
 
             <div class="flex items-center space-x-4">
@@ -1011,7 +1015,7 @@ async function fetchGallery() {
             </div>
 
             <div class="flex space-x-2">
-              <button id="deleteGallery" class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600">
+              <button class="deleteGallery bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 relative z-2">
                 <p class="hidden md:block">Delete</p>
                 <i class="fas fa-trash md:hidden"></i>
               </button>
@@ -1047,7 +1051,7 @@ async function fetchGallery() {
           </div>
 
           <div class="flex space-x-2">
-            <button class="deleteGallery bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600">
+            <button class="deleteGallery bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 relative z-2">
               <p class="hidden md:block">Delete</p>
               <i class="fas fa-trash md:hidden"></i>
             </button>
@@ -1108,7 +1112,7 @@ async function deleteGalleryFunc(galleryDeleteId, btn) {
     showAlertOrder(alertSuccess, 'Item Deleted Successfully')
   } catch (error) {
     console.error(error);
-    showAlertOrder(alertFailure, 'Unable to Delete Item')
+    showAlertOrder(alertFailure, 'Unable to Delete Item. Try again Later. Try Again Later')
   }
   finally{
     removeBtnFromLoadingState(btn, initialBtnText)
@@ -1369,7 +1373,7 @@ async function deleteDailyMenu(deleteEachData, btn) {
         showAlertOrder(alertSuccess, "Item Deleted")
       } catch (error) {
         console.error("Error deleting daily menu:", error);
-        showAlertOrder(alertFailure, "Unable to Delete Item")
+        showAlertOrder(alertFailure, "Unable to Delete Item. Try again Later")
     }
       finally{
         removeBtnFromLoadingState(btn, initialBtnText)
@@ -1525,8 +1529,6 @@ const getMediaUploadSignature = async(form, folder )=>{
   
     if(!uploadURLRes.ok) throw new Error("Unable to Request Upload Signature");
 
-
-
     const { 
     timestamp,
     signature,
@@ -1626,4 +1628,26 @@ const handleFormSubmit = async (e, APIEndpoint, submitBtn, API_method, success_m
       removeBtnFromLoadingState(submitBtn, initialBtnText)
 
     }
+}
+
+// '#heroImageForm selected_file' getHeroImageDisplay
+
+const MediaUploadCleanUp = (selectedFileDisplayer, refetch)=>{
+
+  const mediaElement = selectedFileDisplayer.querySelector(':not(.hidden)');
+  let url;
+  switch(mediaElement.tagName){
+    case 'IMG': {
+      url = mediaElement.src;
+      break;
+    }
+    default: {
+      url = mediaElement.querySelector('source').src;
+    }
+  }
+
+  URL.revokeObjectURL(url);
+  selectedFileDisplayer.classList.add('hidden')
+
+  refetch();
 }

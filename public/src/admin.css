@@ -4381,7 +4381,18 @@ input, option, textarea, select {
 }
   
 
+@media not all and (min-width: 640px) {
+    .max-sm\:text-xl {
+        font-size: 1.25rem /* 20px */;
+        line-height: 1.75rem /* 28px */;
+    }
+}
+
 @media not all and (min-width: 768px) {
+  .max-md\:justify-center {
+      justify-content: center;
+  }
+
   .max-md\:mt-5 {
     margin-top: 1.25rem;
   }
@@ -4393,12 +4404,4 @@ input, option, textarea, select {
   .max-md\:w-\[100px\] {
     width: 100px;
   }
-}
-
-
-@media not all and (min-width: 640px) {
-    .max-sm\:text-xl {
-        font-size: 1.25rem /* 20px */;
-        line-height: 1.75rem /* 28px */;
-    }
 }
