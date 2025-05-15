@@ -173,7 +173,8 @@ const uploadFlyer1Schema = async (req, res) => {
         } else {
             const newFlyer1 = await Flyer1.create({
                 flyer1Title,
-                flyer1Image: flyer1ImageUrl
+                flyer1Image: flyer1ImageUrl,
+                media_public_id: public_id
             });
             return res.status(201).json({ newFlyer1, message: 'Flyer1 created successfully!' });
         }
@@ -198,10 +199,9 @@ const uploadFlyer2Schema = async (req, res) => {
         const flyer2ImageUrl = mediaURL;
 
         console.log('uploadFlyerSchema');
+        console.log(req.body);
 
         const existingFlyer2 = await Flyer2.findOne();
-        console.log('Existing Flyer2 Test Schema', existingFlyer2);
-
         if (existingFlyer2) {
             // Delete old image from Cloudinary
             const oldImagePublicId = existingFlyer2.media_public_id;
@@ -220,12 +220,14 @@ const uploadFlyer2Schema = async (req, res) => {
         } else {
             const newFlyer2 = await Flyer2.create({
                 flyer2Title,
-                flyer2Image: flyer2ImageUrl
+                flyer2Image: flyer2ImageUrl,
+                media_public_id: public_id
             });
             return res.status(201).json({ newFlyer2, message: 'Flyer2 created successfully!' });
         }
     } catch (error) {
         res.status(500).json({ error });
+        console.log(error)
     }
 };
 
@@ -247,7 +249,8 @@ const deleteFlyer1Schema = async (req, res) => {
         const flyer_image_public_id = getFlyer1Var.media_public_id;
         await cloudinary.uploader.destroy(flyer_image_public_id, {
             invalidate: true
-        });        
+        }); 
+        await getFlyer1Var.deleteOne();       
         res.status(201).json({msg:"Flyer 1 delete successfully"})
     } catch (error) {
         console.log(error);
@@ -263,7 +266,8 @@ const deleteFlyer2Schema = async (req, res) => {
         const flyer_image_public_id = getFlyer2Var.media_public_id;
         await cloudinary.uploader.destroy(flyer_image_public_id, {
             invalidate: true
-        });        
+        });   
+        await getFlyer2Var.deleteOne()   
         res.status(201).json({msg:"Flyer 2 delete successfully"})
     } catch (error) {
         console.log(error)
@@ -278,7 +282,8 @@ const deleteHeroImage = async (req, res) => {
         const hero_image_public_id = HeroImageVar.media_public_id;
         await cloudinary.uploader.destroy(hero_image_public_id, {
             invalidate: true
-        });        
+        }); 
+        await HeroImageVar.deleteOne();
         res.status(201).json({msg:"Hero Image delete successfully"})
     } catch (error) {
         console.log(error)

@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     getFlyer2DisplayAdmin();
 })
 
+
   
   const getHeroImageDisplay = async () => {
     const heroImageSection = document.querySelector('#current_hero_image .uploaded_hero');
@@ -98,7 +99,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
   }
 
-
   const getFlyer2DisplayAdmin = async () => {
     const flyer2Section = document.querySelector('#current_flyer_2 .uploaded_flyer');
     const loader = flyer2Section.parentElement.querySelector('.loader');
@@ -183,9 +183,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
         method:'DELETE'
       }
       );
-      if(!response.ok) return new error("Unable to Delete Flyer 2");
+      if(!response.ok) return new Error("Unable to Delete Flyer 2");
 
-      button.closest('uploaded_flyer').classList.add('hidden');
+      button.closest('.uploaded_flyer').classList.add('hidden');
       button.closest('#current_flyer_2').querySelector('.no_flyer_uploaded').classList.remove('hidden');
 
       showAlertOrder(alertSuccess, 'Flyer 2 Deleted Successfully');

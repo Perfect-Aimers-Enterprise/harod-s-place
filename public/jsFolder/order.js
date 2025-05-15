@@ -4,6 +4,8 @@ const config = {
     : `${window.location.protocol}//${window.location.hostname}`
 };
 
+
+
     const alertSuccess = document.getElementById('alert_menu_upload_success')
     const alertFailure = document.getElementById('alert_menu_upload_failure')
 
@@ -19,8 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // getAllSpecialImagesFunc()
     fetchGallery();
     getAllDailyMenus()
-    fetchAllUserBakeryBookings()
-})
+    fetchAllUserBakeryBookings();
+  })
 
 // All Api URL Testing
 // 
@@ -1367,8 +1369,6 @@ async function deleteDailyMenu(deleteEachData, btn) {
             method: "DELETE",
         });
         if(!response.ok) throw new Error ('Unable to Delete Product')
-        console.log("Menu Deleted:", data);
-        alert('Daily Menu Item Deleted Successfully')
         getAllDailyMenus()
         showAlertOrder(alertSuccess, "Item Deleted")
       } catch (error) {
@@ -1567,7 +1567,9 @@ const handleFormSubmit = async (e, APIEndpoint, submitBtn, API_method, success_m
 
     putButtonInLoadingState(submitBtn);
     const { mediaURL, public_id, galleryType } = await getMediaUploadSignature(form, folder);
-    console.log(galleryType);
+    // const mediaURL = 'URL'
+    // const public_id = 'id'
+    // const galleryType = 'type'
     const formData = {
       mediaURL,
       public_id,
@@ -1648,6 +1650,7 @@ const MediaUploadCleanUp = (selectedFileDisplayer, refetch)=>{
 
   URL.revokeObjectURL(url);
   selectedFileDisplayer.classList.add('hidden')
-
   refetch();
 }
+
+
