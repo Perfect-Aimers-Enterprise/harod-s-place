@@ -393,7 +393,7 @@ button.themed_btn:active{
 
 .maximizable_menu_section{
   position: fixed;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   z-index: 10;
   top: 0;
@@ -528,4 +528,8 @@ div.toastCon button.btn-close {
 
 div.toastCon button.btn-close:hover{
   color: var(--btn-hover-color);
+}
+
+.w-screen {
+  width: 100vw;
 }

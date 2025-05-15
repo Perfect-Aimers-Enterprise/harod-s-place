@@ -4550,6 +4550,10 @@ input, option, textarea, select {
   opacity: 0.5;
 }
 
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
+
 @media not all and (min-width: 1024px) {
   .max-lg\:mb-0 {
     margin-bottom: 0px;
@@ -4834,3 +4838,4 @@ input, option, textarea, select {
   }
 }
   
+

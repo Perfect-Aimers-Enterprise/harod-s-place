@@ -37,7 +37,7 @@ app.use((req, res, next) => {
 // Serve static files
 // app.use(express.static('public'));
 app.use(cors())
-app.use(express.json())
+// app.use(express.json())
 // app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -97,7 +97,7 @@ const start = async () => {
   }
 }
 
-start()
+// start()
 
 module.exports = async(req, res, next)=>{
   await connectDB(process.env.MONGO_URI);

@@ -1290,17 +1290,6 @@ async function getSingleDailyMenu(editEachData, btn) {
               placeholder="Enter new product price"
             />
           </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Daily Menu Image</label>
-            <input
-              required
-              type="file"
-              name="menuImage"
-              class="mt-1 p-2 block w-full border border-gray-300 rounded"
-              accept="image/*"
-            />
-          </div>
       
           <button
             type="submit"
